@@ -30,7 +30,7 @@ So you can code less typing.
 === Demo files
 
 Some of Demo not yet convert to new patern so please not to tray it, I'll do it 
-if I have some time (may be donation shall be the encourage me) to do it. 
+if I have some time to do it. 
 
 === Auto closing for Code
 
