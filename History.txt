@@ -1,0 +1,7 @@
+= Change Log
+
+Below is a complete listing of changes for each revision of W2TAGS.
+
+== 0.8.0
+
+* Initial public release.

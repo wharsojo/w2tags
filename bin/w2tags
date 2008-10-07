@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+# The command line W2tags parser.
+
+require File.expand_path(
+        File.join(File.dirname(__FILE__),%w[.. lib w2tags]))
+
+def howto_w2tags
+puts <<END
+
+How to WaytoTags:
+~~~~~~~~~~~~~~~~~~~~~~~
+syntax:
+w2tags [*.w2htm] [-a] [-d:*opt*]
+OR
+w2tags [file1,file2,file3] [-b] [-d:*opt*]
+
+example:
+1. w2tags -a             #=> translate all file with ext: w2htm
+2. w2tags *.w2xml -a     #=> translate all file with ext: w2xml
+3. w2tags file1.w2htm    #=> translate a file
+4. w2tags file1.w2htm -b #=> translate a file with no initialize/finalize
+5. w2tags file1.w2htm -d:parser #=> translate with debug parser
+6. w2tags file1.w2htm -d:constanta #=> translate with debug constanta
+7. w2tags file1.w2htm -d:stack #=> translate with debug stack indentation
+
+Enjoy... 
+END
+
+end
+
+arg = ARGV 
+if arg.size>0
+	arg = ['w2htm'] + arg if arg.size==1 && arg[0]=='-a'
+	puts 'ARGV  : '+arg.join(" ")
+	puts arg[1]
+	
+	v = W2Tags::Parser.new
+
+	x = arg.select {|s|s[0,3]=='-d:'}
+	v.dbg[:stack] = (x.size==0)	
+	x.each do |s|
+		v.dbg[:parse]     = true if s=='-d:parser'
+		v.dbg[:stack]     = true if s=='-d:stack'
+		v.dbg[:constanta] = true if s=='-d:constanta'
+		v.dbg[:show_hot]  = true if s=='-d:show_hot'
+	end
+	
+	case arg[1]
+	when '-a' ;v.parse_files(Dir["*.#{arg[0]}*"]) 
+	when '-b' ;v.parse_files(arg[0].split(','),false)
+	else      ;v.parse_files(arg[0].split(','))
+	end
+else
+	howto_w2tags
+end

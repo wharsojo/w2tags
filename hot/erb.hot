@@ -1,0 +1,27 @@
+>>initialize
+
+>>finallize
+,/
+
+>>br
+<br/>
+
+>>hr
+<hr/>
+
+>>_
+!/
+<% $* %>
+
+>>=
+!/
+<%= $* %>
+
+>>_for
+!/
+<% for $* %>
+%end_block
+
+>>end_block
+<</
+<% end %>
