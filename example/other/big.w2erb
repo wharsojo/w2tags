@@ -1,0 +1,137 @@
+-#
+  sample code from pastie 
+  Abridged View: http://pastie.org/285326
+  litle reformat command like 
+  - for => -for #internally will translate to %_for (define inside erb.HOT)
+  
+  command line:
+  w2tags big.w2erb -b
+  
+#rightcol
+  %b Explore
+  %br
+  %br
+  -for tag in @random_food_tags
+    = instance_eval tag
+    %br
+    %br
+  = image_tag "blue_man_arrow_up.png"
+#content
+  %h1= @food_name
+  .charts
+    #tabBoxExample
+      %ul.tabSet
+        %li.tabs.off %a!Overview
+        %li.tabs.off %a!200 calories
+        %li.tabs.off %a!100 grams
+        -for tab in @tabs
+          %li.tabs.off %a=!tab
+      .panelSet
+        .panel
+          = @overview_images
+          %br{style="clear:both"}/
+          %hr
+          #item_text
+            = "<p>#{@component.rich}</p>" unless @component.rich.empty?
+            = "<p>#{@component.abundant}</p>" unless @component.abundant.empty?
+            = "<p>#{@component.plentiful}</p>" unless @component.plentiful.empty?
+            = "<p>#{@component.notable_source}</p>" unless @component.notable_source.empty?
+            = "<p>#{@component.small_amount}</p>" unless @component.small_amount.empty?
+            = "<p>#{@component.minimal_source}</p>" unless @component.minimal_source.empty?
+        .panel
+          %h2= "200 calorie serving (#{@component.grams_200_calories}g)"
+          .calories
+            %h3 &nbsp;
+          %div{style="width: 720px; height: 400px"}
+            = image_tag "/images/daily_values_cool.gif"
+            = @dv_200_calories 
+            = image_tag "/images/daily_values_warm.gif"
+            %br
+            %hr
+            %br
+            = @main_dv_200_calories 
+            %br
+            %hr
+          .clear_fix.two_cols
+            #main_col
+              .carbohydrates/
+              .fats/
+              .sterols/
+              .other/
+            .right_col <!-- spanner -->
+          .left_col
+            .protein_and_amino_acids/
+            .vitamins/
+            .minerals/
+            .energy/
+          %span.footnote.f_l &#x25E6;&#x25E6; indicates indeterminate or no value provided
+        .panel
+          %h2 100 grams
+          .calories
+            %h3= "Total Calories: #{@component.calories_100_grams}"
+          %div{style="width: 720px; height: 400px"}
+            = image_tag "/images/daily_values_cool.gif"
+            = "<img alt=\"Daily Values for Vitamins and Minerals\" src=\"http://chart.apis.google.com/chart?cht=bvs&amp;chd=t:#{(@component.calcium).to_i},0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|0,#{(@component.copper).to_i},0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|0,0,#{(@component.folic_acid).to_i},0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|0,0,0,#{(@component.iron).to_i},0,0,0,0,0,0,0,0,0,0,0,0,0,0|0,0,0,0,#{(@component.magnesium).to_i},0,0,0,0,0,0,0,0,0,0,0,0,0|0,0,0,0,0,#{(@component.niacin).to_i},0,0,0,0,0,0,0,0,0,0,0,0|0,0,0,0,0,0,#{(@component.pantothenic_acid).to_i},0,0,0,0,0,0,0,0,0,0,0|0,0,0,0,0,0,0,#{(@component.phosphorus).to_i},0,0,0,0,0,0,0,0,0,0|0,0,0,0,0,0,0,0,#{(@component.riboflavin).to_i},0,0,0,0,0,0,0,0,0|0,0,0,0,0,0,0,0,0,#{(@component.thiamin).to_i},0,0,0,0,0,0,0,0|0,0,0,0,0,0,0,0,0,0,#{(@component.vitamin_a).to_i},0,0,0,0,0,0,0|0,0,0,0,0,0,0,0,0,0,0,#{(@component.vitamin_b6).to_i},0,0,0,0,0,0|0,0,0,0,0,0,0,0,0,0,0,0,#{(@component.vitamin_b12).to_i},0,0,0,0,0|0,0,0,0,0,0,0,0,0,0,0,0,0,#{(@component.vitamin_c).to_i},0,0,0,0|0,0,0,0,0,0,0,0,0,0,0,0,0,0,#{(@component.vitamin_d).to_i},0,0,0|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,#{(@component.vitamin_e).to_i},0,0|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,#{(@component.zinc).to_i},0|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,#{(@component.potassium).to_i}&amp;chs=480x180&amp;chbh=20&amp;chco=00477d,bfe3ff,80c7ff,24006b,d5bfff,aa80ff,6d006c,ffbfff,ff80fe,b30100,ffc0bf,ff8080,b35a00,ffe0bf,ffc080,b39000,fff3bf,ffe680&amp;chxt=r&amp;chxr=0,0,100,20&amp;chg=0,20,1,5&amp;chdlp=r\"/>"
+            = image_tag "/images/daily_values_warm.gif"
+            %br
+            %hr
+            %br
+            = "<img alt=\"Primary Daily Values\" src=\"http://chart.apis.google.com/chart?cht=bvs&amp;chd=t:#{(@component.saturated_fat).to_i},0,0,0,0,0,0|0,#{(@component.combined_fats).to_i},0,0,0,0,0|0,0,#{(@component.carbohydrates).to_i},0,0,0,0|0,0,0,#{(@component.cholesterol).to_i},0,0,0|0,0,0,0,#{(@component.sodium).to_i},0,0|0,0,0,0,0,#{(@component.protein).to_i},0|0,0,0,0,0,0,#{(@component.fiber).to_i}&amp;chs=400x155&amp;chco=a63f61,ea6868,ffc000,f8ee76,aaaaaa,499148,7cdc7a&amp;chdl=Saturated+Fat|Unsaturated+Fat|Carbohydrates|Cholesterol|Sodium|Protein|Fiber&amp;chxt=r&amp;chxr=0,0,100,20&amp;chg=0,20,1,5&amp;chbh=30&amp;chdlp=r\"/>"
+            %br
+            %hr
+          .clear_fix.two_cols
+            #main_col
+              .carbohydrates/
+              .fats/
+              .sterols/
+              .other/
+                %h3 Other
+                %ul 
+                  %li %a=!@nutrients[6][:water].nil? ? "Water &#x25E6;&#x25E6;" : (sprintf("Water %.1f g", @nutrients[6][:water]))
+                  %li %a=!@nutrients[6][:alcohol].nil? ? "Alcohol &#x25E6;&#x25E6;" : (sprintf("Alcohol %.1f g", @nutrients[6][:alcohol]))
+                  %li %a=!@nutrients[6][:caffeine].nil? ? "Caffeine &#x25E6;&#x25E6;" : (sprintf("Caffeine %.1fmg", @nutrients[6][:caffeine]))
+                  %li %a=!@nutrients[6][:theobromine].nil? ? "Theobromine &#x25E6;&#x25E6;" : (sprintf("Theobromine %.1fmg", @nutrients[6][:theobromine]))
+                  %li %a=!@nutrients[6][:ash].nil? ? "Ash &#x25E6;&#x25E6;" : (sprintf("Ash %.1f g", @nutrients[6][:ash]))
+            .right_col <!-- spanner -->
+          .left_col
+            .protein_and_amino_acids/
+            .vitamins/
+            .minerals/
+            .energy/
+          %span.footnote.f_l &#x25E6;&#x25E6; indicates indeterminate or no value provided
+        - @a = 0
+        -for tab in @tabs
+          .panel
+            %h2= tab, (sprintf " (%.0fg)", 100 * @tab_factors[@a])
+            .calories
+              %h3= (sprintf "Total calories: %.0f", @component.calories_100_grams * @tab_factors[@a])
+            %div{style="width: 720px; height: 400px"}
+              = image_tag "/images/daily_values_cool.gif"
+              = "<img alt=\"Daily Values for Vitamins and Minerals\" src=\"http://chart.apis.google.com/chart?cht=bvs&amp;chd=t:#{(@component.calcium * @tab_factors[@a]).to_i},0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|0,#{(@component.copper * @tab_factors[@a]).to_i},0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|0,0,#{(@component.folic_acid * @tab_factors[@a]).to_i},0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|0,0,0,#{(@component.iron * @tab_factors[@a]).to_i},0,0,0,0,0,0,0,0,0,0,0,0,0,0|0,0,0,0,#{(@component.magnesium * @tab_factors[@a]).to_i},0,0,0,0,0,0,0,0,0,0,0,0,0|0,0,0,0,0,#{(@component.niacin * @tab_factors[@a]).to_i},0,0,0,0,0,0,0,0,0,0,0,0|0,0,0,0,0,0,#{(@component.pantothenic_acid * @tab_factors[@a]).to_i},0,0,0,0,0,0,0,0,0,0,0|0,0,0,0,0,0,0,#{(@component.phosphorus * @tab_factors[@a]).to_i},0,0,0,0,0,0,0,0,0,0|0,0,0,0,0,0,0,0,#{(@component.riboflavin * @tab_factors[@a]).to_i},0,0,0,0,0,0,0,0,0|0,0,0,0,0,0,0,0,0,#{(@component.thiamin * @tab_factors[@a]).to_i},0,0,0,0,0,0,0,0|0,0,0,0,0,0,0,0,0,0,#{(@component.vitamin_a* @tab_factors[@a]).to_i},0,0,0,0,0,0,0|0,0,0,0,0,0,0,0,0,0,0,#{(@component.vitamin_b6 * @tab_factors[@a]).to_i},0,0,0,0,0,0|0,0,0,0,0,0,0,0,0,0,0,0,#{(@component.vitamin_b12 * @tab_factors[@a]).to_i},0,0,0,0,0|0,0,0,0,0,0,0,0,0,0,0,0,0,#{(@component.vitamin_c * @tab_factors[@a]).to_i},0,0,0,0|0,0,0,0,0,0,0,0,0,0,0,0,0,0,#{(@component.vitamin_d * @tab_factors[@a]).to_i},0,0,0|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,#{(@component.vitamin_e * @tab_factors[@a]).to_i},0,0|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,#{(@component.zinc * @tab_factors[@a]).to_i},0|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,#{(@component.potassium * @tab_factors[@a]).to_i}&amp;chs=480x180&amp;chbh=20&amp;chco=00477d,bfe3ff,80c7ff,24006b,d5bfff,aa80ff,6d006c,ffbfff,ff80fe,b30100,ffc0bf,ff8080,b35a00,ffe0bf,ffc080,b39000,fff3bf,ffe680&amp;chxt=r&amp;chxr=0,0,100,20&amp;chg=0,20,1,5&amp;chdlp=r\"/>"
+              = image_tag "/images/daily_values_warm.gif"
+              %br
+              %hr
+              %br
+              = "<img alt=\"Primary Daily Values\" src=\"http://chart.apis.google.com/chart?cht=bvs&amp;chd=t:#{(@component.saturated_fat * @tab_factors[@a]).to_i},0,0,0,0,0,0|0,#{(@component.combined_fats * @tab_factors[@a]).to_i},0,0,0,0,0|0,0,#{(@component.carbohydrates * @tab_factors[@a]).to_i},0,0,0,0|0,0,0,#{(@component.cholesterol * @tab_factors[@a]).to_i},0,0,0|0,0,0,0,#{(@component.sodium * @tab_factors[@a]).to_i},0,0|0,0,0,0,0,#{(@component.protein * @tab_factors[@a]).to_i},0|0,0,0,0,0,0,#{(@component.fiber * @tab_factors[@a]).to_i}&amp;chs=400x155&amp;chco=a63f61,ea6868,ffc000,f8ee76,aaaaaa,499148,7cdc7a&amp;chdl=Saturated+Fat|Unsaturated+Fat|Carbohydrates|Cholesterol|Sodium|Protein|Fiber&amp;chxt=r&amp;chxr=0,0,100,20&amp;chg=0,20,1,5&amp;chbh=30&amp;chdlp=r\"/>"
+              %br
+              %hr
+            .clear_fix.two_cols
+              #main_col
+                .carbohydrates/
+                .fats/
+                .sterols/
+                .other/
+              .right_col <!-- spanner -->
+            .left_col
+              .protein_and_amino_acids/
+              .vitamins/
+              .minerals/
+              .energy/
+            %span.footnote.f_l &#x25E6;&#x25E6; indicates indeterminate or no value provided
+          - @a += 1
+    = javascript_include_tag "tabs"
+  %h2{style="padding-left: 2em"} Explore
+  .search_results{style="padding: 0.5em 2em 1em 1.5em"}
+    -for link in @more_random_links
+      = instance_eval link
+      %br
