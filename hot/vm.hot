@@ -1,14 +1,9 @@
 >>initialize
+!hot!htm
+!hot!jquery
+!hot!vm2
+!hot!vm_crud
+!hot!vm_popup
 
 >>finallize
 ,/
-
->>tlist
-@table{$0 border="1" cellpadding="2" cellspacing="0"}#form_input.box_grid!
-@~@tr!
-
->>img
-@img{src="$siteRoot/Content/img/$0" alt="$1" title="$1"}!/
-
->>input
-@input{name="$1" type="[text$2" value="$3" $*}#$1$0!/

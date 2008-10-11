@@ -1,0 +1,8 @@
+>>_defineWindow
+.popup
+  %opt%.jqmNotice
+    %img.jqmClose{alt="close"  src="$siteRoot/content/img/icon/close_icon.png"}/
+    %img.jqResize{alt="resize" src="$siteRoot/content/img/icon/resize.png"}/
+    .jqDrag.jqmnTitle
+      %h1 $0
+    #$#_size.jqmnContent

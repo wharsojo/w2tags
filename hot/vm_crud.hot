@@ -1,0 +1,34 @@
+>>pagination
+%partials list.page
+%br/
+%br/
+%table.box_grid
+%pagination_end~
+
+>>pagination_end
+<</
+!run!
+%partials list.page
+<br/>
+
+>>_th
+<th class="header" col=$0 sort="#if($col == '$0')$!sort#end">$1<img class="isort" src="$siteRoot/content/img/#if($col == '$0')$isort#else$isortdef#end"/></th>
+
+>>_td
+<td><div class="c$0">$1</div></td>
+
+>>_for_with_no
+#set($no = $records.FirstItem - 1)	
+#foreach($0)
+  #set($no = $no + 1)
+<</
+\#end
+
+>>partials
+#parse("partials/$0.vm")
+
+>>left
+%div{style="float: left;"}
+
+>>_input
+%input:$:#$:{$0}/

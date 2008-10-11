@@ -25,3 +25,87 @@
 >>end_block
 <</
 <% end %>
+
+
+>>html_title 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+  <head>
+    <title>$0</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+>>body
+  </head>
+  <body>
+<</
+  </body> 
+</html>
+
+>>css
+<link rel="stylesheet" href="/stylesheets/$0.css" type="text/css" media="screen" charset="utf-8" />
+
+>>js
+<script type="text/javascript" src="/javascripts/$0.js"></script>
+
+>>jq_ready
+	<script>
+		$(function(){
+<</
+		});
+	</script>
+
+>>img
+<img src="$0" [alt="$1"]/>
+
+>>img=
+<img src="<%= $0 %>" [alt="$1"]/>
+
+>>p_a
+%p
+	%a($*)
+./
+
+>>form
+%form{%name%method="post" [action="/$basepath/$0"]}!
+
+>>_input_
+<label for="form-$:">:capitalize$2:</label><input %name%id="form-$:" type="$0" [value="<%= h(@$1) %>"]/>
+
+>>input
+%_input_%opt%~text;$0;[$:$1
+
+>>pass
+%_input_%opt%~password;$0;[$:$1
+
+>>checkbox
+%_input_%opt%~checkbox;$0;[$:$1
+
+>>submit
+<input %all%type="submit" value="$0" />
+
+>>r_each
+!/
+<% $1.each do |$0| %>
+%end_block
+
+>>for_in
+!/
+<% for $0 in $1 %>
+%end_block
+
+>>not
+- unless $*
+
+>>else
+!/
+<% else %>
+%end_block
+
+>>/
+!/
+<% end %>
+
+>>test
+<test>$0</test>
+
+

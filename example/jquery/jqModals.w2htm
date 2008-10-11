@@ -1,0 +1,26 @@
+!hot!jquery
+    %title Demo jqModal
+    
+    %css common
+    %csq jqModal
+    
+    %js jquery
+    %jq dimensions;center;jqModal;jqDnR
+
+    %$ready
+      %$initWindow
+      %$bindWindow#dlg_filter  #show_dialog_filter
+      %$bindWindow#dlg_filter1 #show_dialog_filter1
+      %$bindWindow#dlg_filter2 #show_dialog_filter2
+    
+  %body 
+  
+    %$defineWindow#dlg_filter  dialog_filter1;This is a MODAL!
+    %$defineWindow#dlg_filter1 dialog_filter1;This is a MODAL1!
+    %$defineWindow#dlg_filter2 dialog_filter1;This is a MODAL2!
+    
+    %a#show_dialog_filter{href="#"}  Open Filter
+    %br/
+    %a#show_dialog_filter1{href="#"} Open Filter
+    %br/
+    %a#show_dialog_filter2{href="#"} Open Filter
