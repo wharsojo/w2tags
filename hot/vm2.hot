@@ -1,9 +1,11 @@
+>>css
+<link rel="stylesheet" href="$siteRoot/Content/css/$0.css" type="text/css" media="screen, projection" />
 
 >>csq
-<link rel="stylesheet" href="$siteRoot/Content/css/jquery.$0.css" type="text/css" media="screen, projection"/>
+<link rel="stylesheet" href="$siteRoot/Content/css/jquery.$0.css" type="text/css" media="screen, projection" />
 
 >>jq
-<script type="text/javascript" src="$siteRoot/Content/js/jquery.$0.js"></script>
+<script type="text/javascript" src="$siteRoot/Content/js/jquery.$0.js" > </script>
 
 >>_capture
 #capturefor($0)
@@ -22,7 +24,7 @@
 \#end
 
 >>_a
-%a%opt%.h{href="#"} Ajax&nbsp;
+%a*opt*.h{href="#"} Ajax&nbsp;
 
 >>_button
 %input#$#.btncrud{type="button" value="$0"}/

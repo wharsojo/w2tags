@@ -9,18 +9,17 @@
 
     %$ready
       %$initWindow
-      %$bindWindow#dlg_filter  #show_dialog_filter
       %$bindWindow#dlg_filter1 #show_dialog_filter1
       %$bindWindow#dlg_filter2 #show_dialog_filter2
+      %$bindWindow#dlg_filter3 #show_dialog_filter3
     
   %body 
   
-    %$defineWindow#dlg_filter  dialog_filter1;This is a MODAL!
-    %$defineWindow#dlg_filter1 dialog_filter1;This is a MODAL1!
-    %$defineWindow#dlg_filter2 dialog_filter1;This is a MODAL2!
+    %$defineWindow#dlg_filter1 dialog_filter1;This is a MODAL-1!
+    %$defineWindow#dlg_filter2 dialog_filter1;This is a MODAL-2!
+    %$defineWindow#dlg_filter3 dialog_filter1;This is a MODAL-3!
     
-    %a#show_dialog_filter{href="#"}  Open Filter
+    %a#show_dialog_filter1{href="#"} Open Filter 1
     %br/
-    %a#show_dialog_filter1{href="#"} Open Filter
-    %br/
-    %a#show_dialog_filter2{href="#"} Open Filter
+    %click#show_dialog_filter2 Open Filter 2
+    %click#show_dialog_filter3 Open Filter 3

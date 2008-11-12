@@ -1,0 +1,12 @@
+>>_capture
+!/
+<% $0 = capture do %>
+-capture_end
+
+>>_capture_end
+<</
+<% end %>
+
+>>_partial
+!/
+<%= partial $0 %>

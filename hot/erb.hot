@@ -3,11 +3,28 @@
 >>finallize
 ,/
 
+>>_merb_table
+!hot!erb_merb
+!hot!erb_table
+!hot!erb_jquery
+
+>>_if
+- if $0
+-end
+
+>>_elsif
+- elsif $0
+-end
+
+>>_else
+- else
+-end
+
 >>br
-<br/>
+<br*attr*/>
 
 >>hr
-<hr/>
+<hr*attr*/>
 
 >>_
 !/
@@ -20,45 +37,24 @@
 >>_for
 !/
 <% for $* %>
-%end_block
+-end
 
->>end_block
+>>_end
 <</
 <% end %>
 
-
 >>html_title 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us" >
   <head>
     <title>$0</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
->>body
-  </head>
-  <body>
-<</
-  </body> 
-</html>
-
->>css
-<link rel="stylesheet" href="/stylesheets/$0.css" type="text/css" media="screen" charset="utf-8" />
-
->>js
-<script type="text/javascript" src="/javascripts/$0.js"></script>
-
->>jq_ready
-	<script>
-		$(function(){
-<</
-		});
-	</script>
-
 >>img
-<img src="$0" [alt="$1"]/>
+<img src="$0" [alt="$1"] />
 
 >>img=
-<img src="<%= $0 %>" [alt="$1"]/>
+<img src="<%= $0 %>" [alt="$1"] />
 
 >>p_a
 %p
@@ -66,32 +62,38 @@
 ./
 
 >>form
-%form{%name%method="post" [action="/$basepath/$0"]}!
+%form{*name*method="post" [action="/$basepath/$0"]}!
 
 >>_input_
-<label for="form-$:">:capitalize$2:</label><input %name%id="form-$:" type="$0" [value="<%= h(@$1) %>"]/>
+<label for="form-$:"> :capitalize$2: </label>
+<input *name*id="form-$:" type="$0" [value="<%= h(@$1) %>"] />
 
 >>input
-%_input_%opt%~text;$0;[$:$1
+%_input_*opt*~text;$0;[$:$1
 
 >>pass
-%_input_%opt%~password;$0;[$:$1
+%_input_*opt*~password;$0;[$:$1
 
 >>checkbox
-%_input_%opt%~checkbox;$0;[$:$1
+%_input_*opt*~checkbox;$0;[$:$1
 
 >>submit
-<input %all%type="submit" value="$0" />
+<input *all*type="submit" value="$0" />
+
+>>_each
+!/
+- $0.each_with_index do |r,i|
+-end
 
 >>r_each
 !/
 <% $1.each do |$0| %>
-%end_block
+-end
 
 >>for_in
 !/
 <% for $0 in $1 %>
-%end_block
+-end
 
 >>not
 - unless $*
@@ -99,7 +101,7 @@
 >>else
 !/
 <% else %>
-%end_block
+-end
 
 >>/
 !/
@@ -107,5 +109,3 @@
 
 >>test
 <test>$0</test>
-
-

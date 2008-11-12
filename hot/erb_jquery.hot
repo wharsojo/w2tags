@@ -1,0 +1,8 @@
+
+>>_jq_ready
+$(function(){
+-jq_ready_end
+
+>>_jq_ready_end
+<</
+});

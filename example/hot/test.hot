@@ -1,0 +1,22 @@
+>>_all_params
+<div>$*</div>
+-magic $*
+$4
+$3
+
+>>_magic
+<magic> :upcase.reverse$4 </magic>
+
+>>_all_default
+-default_var $*
+-inside_var $*
+
+>>_default_var
+%div{ key="|1|$1" } title 1
+%div{ key="|2|$2" } title 2
+%div{ key="|3|$3" } title 3
+
+>>_inside_var
+%div{ |att="$1"|} title 1
+%div{ |att="$2"|} title 2
+%div{ |att="$3"|} title 3

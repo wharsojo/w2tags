@@ -1,0 +1,124 @@
+== HOT Files
+   by Widi Harsojo, wharsojo.wordpress.com
+
+code generate by w2tags are so useable because of the rule translation combine 
+with HOT files, in this section I'll explain some of the feature inside it, so
+you will understand how HOT file is working.
+
+== PARAMETERS VARIABLE
+
+$*, $0 - $9. When you invoke HOT command like this "-all_params one;two;three;four"
+you are invoking HOT command with 4 params ($0,$1,$2,$3), but the transaltion will
+be done like sample below:
+
+  test.hot
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  >>_all_params
+  <div>$*</div>
+  -magic $*
+  $1
+  $0
+
+  >>_magic
+  <magic>$0</magic>
+
+  params.w2erb
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  !hot!test
+  -all_params one;two;three;four
+  
+  params.erb
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  <div>three;four</div>
+  <magic>three</magic>
+  <magic>four</magic>
+  one
+  two
+
+remember passing paramter to HOT doesn't mean that variable must start from
+zero, its only a guide you can have multiple params to pass in corrent order
+see sample after change the HOT but the result still the same
+
+  test.hot
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  >>_all_params
+  <div>$*</div>
+  -magic $*
+  $4
+  $3
+
+  >>_magic
+  <magic>$4</magic>
+
+== PARAMETERS VARIABLE INTERPOLATION
+
+you can do interpolation on variable
+
+  test.hot
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  >>_all_params
+  <div>$*</div>
+  -magic $*
+  $4
+  $3
+
+  >>_magic
+  <magic> :upcase.reverse$4 </magic>
+
+  params.w2erb
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  !hot!test
+  -all_params one;two;three;four
+  
+  params.erb
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  <div>three;four</div>
+  <magic> EERHT </magic>
+  <magic> RUOF </magic>
+  two
+  one
+
+== PARAMETERS VARIABLE DEFAULT OR COMBINE WITH
+
+default mean that is params not supply it will use the default
+
+combine mean that is params not supply it will empty params var inside "| |" 
+but if it supply, param var will be replace and remove char "|" 
+
+  test.hot
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  >>_all_default
+  -default_var $*
+  -inside_var $*
+
+  >>_default_var
+  %div{ key="|1|$1" } title 1
+  %div{ key="|2|$2" } title 2
+  %div{ key="|3|$3" } title 3
+
+  >>_inside_var
+  %div{ |att="$1"|} title 1
+  %div{ |att="$2"|} title 2
+  %div{ |att="$3"|} title 3
+
+  params.w2erb
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  !hot!test
+  -all_default one;two
+  
+  params.erb
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  <div key="one">title 1</div>
+  <div key="two">title 2</div>
+  <div key="3">title 3</div>
+  <div att="one">title 1</div>
+  <div att="two">title 2</div>
+  <div>title 3</div>
+
+== VARIABLE SET IN SOURCE BUT USE ONLY on HOT
+
+* &myvar=value_of_var
+* @myvar=one;two;three
+
+on @myvar, it can set multiple time and it will have uniq value
+to reset the value, use value with prefix with ";"

@@ -1,22 +1,22 @@
 >>js_link
-<script type="text/javascript" src="$siteRoot/Content/js/$0.js"></script>
+<script type="text/javascript" src="$siteRoot/Content/js/$0.js" > </script>
 
 >>jq_link
 %js_link jquery.$0
 
 >>css_link
-<link rel="stylesheet" href="$siteRoot/Content/css/$0.css" type="text/css" media="screen, projection"/>
+<link rel="stylesheet" href="$siteRoot/Content/css/$0.css" type="text/css" media="screen, projection" />
 
 >>csq_link
 %css_link jquery.$0
 
 >>tr_td
 -#
-  command in &opt!%opt% is to set var next tag with current attribute name,id,class
+  command in &opt!*opt* is to set var next tag with current attribute name,id,class
   but calling this patern need to supply any attribute of name,id,class
   ex: %tr_td.lst col1;col2
 %tr
-  &opt!%opt%
+  &opt!*opt*
   ^{$*}
 !/
 !~

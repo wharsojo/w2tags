@@ -8,7 +8,7 @@
   w2tags big.w2erb -b
   
 #rightcol
-  %b Explore
+  %b{style="font:bold"} Explore
   %br
   %br
   -for tag in @random_food_tags
@@ -21,9 +21,9 @@
   .charts
     #tabBoxExample
       %ul.tabSet
-        %li.tabs.off %a!Overview
-        %li.tabs.off %a!200 calories
-        %li.tabs.off %a!100 grams
+        %li.tabs.off %a! Overview
+        %li.tabs.off %a! 200 calories
+        %li.tabs.off %a! 100 grams
         -for tab in @tabs
           %li.tabs.off %a=!tab
       .panelSet

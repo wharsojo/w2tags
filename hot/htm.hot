@@ -1,6 +1,6 @@
 >>initialize
--!<!DOCTYPE html PUBLIC 
--!"-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-! <!DOCTYPE html PUBLIC 
+-! "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" >
 %html{xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr"}
   %head
 !~
@@ -10,10 +10,10 @@
 ,/
 
 >>_css
-<link rel="stylesheet" href=":strip$0.css" type="text/css" media="screen, projection"/>
+<link rel="stylesheet" href=" :strip$0.css" type="text/css" media="screen, projection" />
 
 >>_js
-<script type="text/javascript" src=":strip$0.js"></script>
+<script type="text/javascript" src=" :strip$0.js" > </script>
 
 >>js
 -js $0

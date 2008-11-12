@@ -1,14 +1,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
   <head>
     <title>Demo jqModal</title>
-    <link rel="stylesheet" href="css/common.css" type="text/css" media="screen, projection"/>
-    <link rel="stylesheet" href="jquery.jqModal.css" type="text/css" media="screen, projection"/>
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="jquery.dimensions.js"></script>
-    <script type="text/javascript" src="jquery.center.js"></script>
-    <script type="text/javascript" src="jquery.jqModal.js"></script>
-    <script type="text/javascript" src="jquery.jqDnR.js"></script>
-    <!--need closing tags!-->
+    <link rel="stylesheet" href=" css/common.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href=" css/jquery.jqModal.css" type="text/css" media="screen, projection" />
+    <script type="text/javascript" src=" js/jquery.js" > </script>
+    <script type="text/javascript" src=" js/jquery.dimensions.js" > </script>
+    <script type="text/javascript" src=" js/jquery.center.js" > </script>
+    <script type="text/javascript" src=" js/jquery.jqModal.js" > </script>
+    <script type="text/javascript" src=" js/jquery.jqDnR.js" > </script>
+    <!-- need closing tags! -->
     <script type="text/javascript">
     $(function() {
         function bindWindow(id_win,id_trigger) {
@@ -31,29 +31,19 @@
             }
           });
         }
-        bindWindow("#dlg_filter"," #show_dialog_filter")
         bindWindow("#dlg_filter1","#show_dialog_filter1")
         bindWindow("#dlg_filter2","#show_dialog_filter2")
+        bindWindow("#dlg_filter3","#show_dialog_filter3")
     });
     </script>
   </head>
   <body>
     <div>
-      <div id="dlg_filter" class="jqmNotice">
-        <img class="jqmClose" alt="close" src="icon/close_icon.png"/>
-        <div class="jqmnTitle jqDrag"><h1> dialog_filter1</h1></div>
-        <div class="jqmnContent">
-          This is a MODAL!
-        </div>
-        <img class="jqResize" alt="resize" src="icon/resize.gif"/>
-      </div>
-    </div>
-    <div>
       <div id="dlg_filter1" class="jqmNotice">
         <img class="jqmClose" alt="close" src="icon/close_icon.png"/>
         <div class="jqmnTitle jqDrag"><h1>dialog_filter1</h1></div>
         <div class="jqmnContent">
-          This is a MODAL1!
+          This is a MODAL-1!
         </div>
         <img class="jqResize" alt="resize" src="icon/resize.gif"/>
       </div>
@@ -63,15 +53,24 @@
         <img class="jqmClose" alt="close" src="icon/close_icon.png"/>
         <div class="jqmnTitle jqDrag"><h1>dialog_filter1</h1></div>
         <div class="jqmnContent">
-          This is a MODAL2!
+          This is a MODAL-2!
         </div>
         <img class="jqResize" alt="resize" src="icon/resize.gif"/>
       </div>
     </div>
-    <a id="show_dialog_filter" href="#"> Open Filter</a>
+    <div>
+      <div id="dlg_filter3" class="jqmNotice">
+        <img class="jqmClose" alt="close" src="icon/close_icon.png"/>
+        <div class="jqmnTitle jqDrag"><h1>dialog_filter1</h1></div>
+        <div class="jqmnContent">
+          This is a MODAL-3!
+        </div>
+        <img class="jqResize" alt="resize" src="icon/resize.gif"/>
+      </div>
+    </div>
+    <a id="show_dialog_filter1" href="#">Open Filter 1</a>
     <br/>
-    <a id="show_dialog_filter1" href="#">Open Filter</a>
-    <br/>
-    <a id="show_dialog_filter2" href="#">Open Filter</a>
+    <a id="show_dialog_filter2"  href="#">Open Filter 2</a><br/>
+    <a id="show_dialog_filter3"  href="#">Open Filter 3</a><br/>
   </body>
 </html>

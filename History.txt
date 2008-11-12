@@ -2,6 +2,90 @@
 
 Below is a complete listing of changes for each revision of W2TAGS.
 
+== 0.8.1
+
+=== Add more example 
+
+if you have any example and want to contribute to the world, Please email me to:
+  widi harsojo, wharsojo@gmail.com
+
+=== Debug constanta now print after write ouput
+
+this behaviour is the same for Debuging HOT. 
+  
+Change format of debuging in -d:parser, for HOT will print "<< -H-O-T-"
+
+=== Line empty will be gone 
+
+but if you want to preserve the line, you must put in inside <i>-!</i> block 
+so it will not be parse and if you want remove the indentation ex: 
+need for <b>pre</b>-tags, you must put in inside <i>-!!</i> block 
+
+=== Change Regex for HOT
+
+  1. old: /(%)([!]?[ \t\$\w\-\/:#.%=]+)~([^\n]*)\n()/
+     new: /(%)([!]?[ \t\$\w\-\/:#.%=]+)()~([^\n]*)\n/
+  2. old: /(%)([!]?[ \t\$\w\-\/:#.%=]+)\{([^\}]*)\}([^!=])/
+     new: /(%)([!]?[ \t\$\w\-\/:#.%=]+)\{([^\}]*)\}~([^!=])/
+
+=== Change Regex for shortcut_exec
+
+  old: /(^[\t ]*)-([\w\-\/:#.%=]*) ([^\n]+)\n/
+  new: /(^[\t ]*)-([\w\-\/:#.%=]*) *([^\n]*)\n/
+  
+=== Change Regex for shortcut_equal
+
+  old: /(^[\t ]*)=([\w\-\/:#.%=]*) ([^\n]+)\n/
+  new: /(^[\t ]*)=([\w\-\/:#.%=]*) *([^\n]*)\n/
+
+=== Change Regex for get_hot_simple
+
+  1. old: /^[\t ]*(%)([\$\w:#.=]+\{[^\}]*\}[#.=]?[^! ]* )([^\n]*)\n/
+     new: /^[\t ]*(%)([\$\w\-:#.=]+\{[^\}]*\}[#.=]?[^~! ]* )([^\n]*)\n/
+  2. old: /^[\t ]*(%)([\$\w:#.=]+\{[^\}]*\}[#.=]?[^! ]*)()\n/
+     new: /^[\t ]*(%)([\$\w\-:#.=]+\{[^\}]*\}[#.=]?[^~! ]*)()\n/
+  
+=== Change Variable for name, id, class
+
+when you put command like: 
+
+  %div:name#id.class myhtml
+  
+this command will parse and put-it in those variable below, 
+and this variable is use on HOT
+
+  old: %all% - %opt% - %id% - %name% - %class%
+  new: *all* - *opt* - *id* - *name* - *class*
+
+=== Change Regex for Parameters 
+
+  1. optional      
+     old: Regexp.new('\[([^\$]*)\\'+x+'([^\]]*)\]')     # ex: [..$1..]
+     new: Regexp.new('\|([^$|\n]*)\\'+x+'([^\|\n]*)\|') # ex: |..$1..| 
+  2. default       
+     old: Regexp.new('\[([^\$]*)\\'+x)  # ex: [..$1
+     new: Regexp.new('\|([\w]*)\|\\'+x) # ex: |..|$1
+  3. interpolation 
+     old: Regexp.new(':([\w]+)\\'+x)
+     new: Regexp.new(':([^$]+)\\'+x) #exe methh: :upcase:$1 
+     
+  x is for Parameters ex: $0, $1..$9
+  .. meaning you can put char on it.
+
+=== Change Assign Variable
+
+Change in Assign Variable inside source code, but using it in HOT is the same
+
+  1. assign on normal variable 
+      old ex: &myvar!value
+      new ex: &myvar=value
+      /^[ \t]*(&[\w]+)=([^\n]+)([\n])/
+
+  2. assign on unique variable
+      old ex: @myvar!value1;value2
+      new ex: @myvar=value1;value2
+      /^[ \t]*(@[\w]+)=([^\n]+)([\n])/
+
 == 0.8.0
 
 * Initial public release.

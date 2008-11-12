@@ -5,10 +5,10 @@
 -js js/$0
 
 >>csq
--css jquery.$0
+%css jquery.$0
 
 >>jq
--js jquery.:strip$0
+%js jquery.:strip$0
 
 >>$pluginWindow
 %css common
@@ -18,8 +18,11 @@
 %$ready
   %$initWindow
 
+>>_ready
+%$ready
+
 >>$ready
-<!--need closing tags!-->
+<!-- need closing tags! -->
 <script type="text/javascript">
 $(function() {
 %$ready_end
@@ -55,11 +58,11 @@ $(function() {
   
 >>$bindWindow
 -!
-  bindWindow("%opt%","$0")
+  bindWindow("*opt*","$0")
 
 >>$defineWindow
 %div
-  %div%opt%.jqmNotice
+  %div*opt*.jqmNotice
     %img.jqmClose{alt="close" src="icon/close_icon.png"}/
     %div.jqmnTitle.jqDrag %h1!$0
     %div.jqmnContent
@@ -67,16 +70,19 @@ $(function() {
     %img.jqResize{alt="resize" src="icon/resize.gif"}/
 !/
 
+>>click
+<a *all* href="#">$0</a><br/>
+
 >>ul
 %treesub $*
 
 >>treesub
 %ul$0
-  <!--tagsnext: treeitem or <li>...</li>-->
+  <!-- tagsnext: treeitem or <li> ... </li> -->
 !~
 %!treeitem $*
 
 >>treeitem
-<li><img src="icon/[folder$1.gif"/>$0 <!--need closing tags!-->
+<li> <img src="icon/[folder$1.gif"/>$0 <!-- need closing tags! -->
 <</
 </li>

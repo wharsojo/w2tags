@@ -42,17 +42,31 @@ does not have automatically close so you must closing it your self with
 
   - end
 
+for w2erb, the HOT have definition for autoclosing and the help from
+method on parser "shortcut_exec(regex)", now it can auto intelligent 
+closing
+
+  -if index>100
+    .bigger bigger than 100
+  -elsif index>50
+    .bigger bigger than 50 but less than 100
+  -else
+    .less less than 50
+
+  .common
+    Common Tag
+
 work around to have a closing code, you can use feature to save some patern
 in a hot file and use it in your code, example: "common.hot"
 
-  >>if
+  >>_if
   - if $*
   <</
   - end
   
 and use it in your code:
 
-  %if <condition>
+  -if <condition>
 
 and it do automatic closing   
   

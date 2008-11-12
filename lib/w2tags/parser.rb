@@ -22,10 +22,10 @@ module W2Tags
       
       #regex for function tags    
       @rg_ht = [
-      /(%)([!]?[ \t\$\w\-\/:#.%=]+)~([^\n]*)\n()/,
-      /(%)([!]?[ \t\$\w\-\/:#.%=]+)\{([^\}]*)\}([^!=])/]
-      
-      @plt    =  99    #remark indentation
+      /(%)([!]?[ \t\$\w\-\/:#.%=]+)()~([^\n]*)\n/,
+      /(%)([!]?[ \t\$\w\-\/:#.%=]+)\{([^\}]*)\}~([^!=])/]
+      @plt_opt= ''     #plaintext option
+      @plt    =  99    #plaintext indentation
       @rmk    =  99    #remark indentation
       @rgx    =  nil   #current regular expression
       @ext    = '.htm' #target extension 
@@ -64,7 +64,7 @@ module W2Tags
       @tagr = proc do |this|
         @key.strip!
         tags_created =  "<#{@key}"
-        tags_created << " #{@mem_var["%all%"].strip}" if @mem_var["%all%"]!='' 
+        tags_created << " #{@mem_var["*all*"].strip}" if @mem_var["*all*"]!='' 
         tags_created << " #{@att}" if @att!=''
         if @txt=='/'
           tags_created << '/>'
@@ -75,10 +75,10 @@ module W2Tags
             @ln_end = ""            
             p "Stack: #{@tg_end}" if @dbg[:stack]
           else
-            if @mem_var["%code%"] && @mem_var["%code%"]!=''
-              tags_created << @mem_var["%code%"].gsub('$*',@txt)
+            if @mem_var["*code*"] && @mem_var["*code*"]!=''
+              tags_created << @mem_var["*code*"].gsub('$*',@txt)
             else
-              tags_created << @txt
+              tags_created << @txt.gsub(/^ +/,'') #remove gsub if don't want auto trim left
             end
             @ln_end = "</#{@key}>#{@ln_end}"
           end
@@ -106,6 +106,7 @@ module W2Tags
       merge_tags
       @doc_src = IO.read(src).split("\n")
       @doc_src<< "%finallize" if @tg_hot['finallize' ]
+      
       while (@row = @doc_src.shift) do  #;p "row:#{@row}"
         if init_start && !(/!hot!/ =~ @row)
           @doc_src,@row = [[@row]+@doc_src,"%initialize"] if @tg_hot['initialize']
@@ -130,9 +131,20 @@ module W2Tags
           @row.gsub!(/([\n\t ]*$)/,'')
           @row << "#{@ln_end}#{$1}\n"
         end
-        p "#####> #{@row.strip}" if @dbg[:parse] && @plt == 99 && @rmk == 99
-        
-        @doc_out << @row
+        if @row.strip!="" || @plt != 99 #for empty line plain text
+          p "#####> #{@row.strip}" if @dbg[:parse] && @plt == 99 && @rmk == 99
+          @doc_out << @row 
+        end
+      end
+      if @dbg[:constanta] 
+        p "const_ "
+        @mem_var.keys.sort.each {|k|p "#{k.ljust 10} : #{@mem_var[k]}"}
+      end
+      
+      if @dbg[:hot]
+        @tg_hot.keys.sort.each_with_index do |v,i|
+          puts "#{i}. #{v}"
+        end
       end
       
       open(tgt,'w') do |f|
@@ -141,11 +153,6 @@ module W2Tags
         end
       end
       
-      if @dbg[:hot]
-        @tg_hot.keys.sort.each_with_index do |v,i|
-          puts "#{i}. #{v}"
-        end
-      end
     end
     
     #parse one w2tags, result will be name of the target file created
@@ -210,12 +217,16 @@ module W2Tags
     
     private 
 
+    # try to shift empty line create document and add current 
+    # row to source. but it means re parsing current row.
     def swap_last_empt_src_with_end_tg(end_tg)
       last = []
       while @doc_out[-1] && @doc_out[-1].to_s.strip == ''
         last << @doc_out.pop
       end
-      @doc_src = end_tg + @doc_src
+      end_tg.shift if end_tg[0].strip==''
+      @doc_src = end_tg + @doc_src 
+#     p "Swp..: #{@doc_src.join ','}" if @dbg[:parse] 
     end
     
     #merging file hot based on the target extension, and target 
@@ -232,30 +243,29 @@ module W2Tags
       end
     end
     
-    #define variable ( &var! or %var! )tobe use by parser in hot for 
+    #define variable ( &var! or @var! )tobe use by parser in hot for 
     #the next line parsing, example on w2tags: 
-    #  &myvar!hello\n
+    #  &myvar=hello\n
     #  ^{.myclass &myvar!}
     #
     #it will translate on the fly to:
     #  ^{.myclass hello}
     #
-    #for %var! is uniq value split by ";", example on w2tags:
-    #  @myvar!hello;world\n
-    #  @myvar!world;tags\n
+    #for @var! is uniq value split by ";", example on w2tags:
+    #  @myvar=hello;world\n
+    #  @myvar=world;tags\n
     #  ^{.myclass @myvar!}
     #
     #it will translate on the fly to:
     #  ^{.myclass hello;world;tags}
     def parse_set_var
-      if @row.gsub!(   /^[ \t]*(&[\w]+!)([^\n]+)([\n])/,'')
-        @mem_var[$1] = $2 
-      elsif @row.gsub!(/^[ \t]*(@[\w]+!)([^\n]+)([\n])/,'')
-        k,v = [$1,$2] #;p v
+      if @row.gsub!(   /^[ \t]*(&[\w]+)=([^\n]+)([\n])/,'')
+        @mem_var[$1+"!"] = $2 
+      elsif @row.gsub!(/^[ \t]*(@[\w]+)=([^\n]+)([\n])/,'')
+        k,v = [$1+"!",$2] #;p v
         v << ';'+@mem_var[k].to_s if v[0,1]!=';' && @mem_var[k]
         @mem_var[k] = v.split(';').uniq.select{|x|x!=''}.join(';')
       end
-      p "const_ #{@mem_var.keys.join(', ')}" if @dbg[:constanta]
     end
     
     #same as merge_tags but this one call from w2tags file after parsing 
@@ -365,28 +375,34 @@ module W2Tags
         @new   = ''
         repeat = @rgx.to_s
         prms.each_with_index do |x,i|
-          @new << repeat.gsub(@rgx[3],x)
+          @new << repeat.gsub(@rgx[4],x)   # repeat.gsub(@rgx[3],x)
           @new << @spc if i+1<prms.size
         end
       else
         i = new_prms.size - 1
         new_prms.sort.reverse.each do |x|
-        opt_v = Regexp.new('\[([^\$]*)\\'+x+'([^\]]*)\]') 
-        def_v = Regexp.new('\[([^\$]*)\\'+x) 
-        eva_v = Regexp.new(':([\w]+)\\'  +x)     #exe methh: :upcase:$1 
+        opt_v = Regexp.new('\|([^$|\n]*)\\'+x+'([^\|\n]*)\|') 
+        def_v = Regexp.new('\|([\w]*)\|\\'+x) 
+        eva_v = Regexp.new(':([^$]+)\\'   +x)     #exe methh: :upcase:$1 
           if opt_v =~ @new #;p $1
-            @new.gsub!(opt_v){
-              rpl = ''
-              rpl = "#{$1.to_s}#{prms[i]}#{$2.to_s}" if prms[i] && prms[i].strip!=""
-            }
+            rpl = ''
+            rpl = "#{$1.to_s}#{prms[i]}#{$2.to_s}" if prms[i] && prms[i].strip!=""
+            @new.gsub!(opt_v,rpl)
+            #p "options: #{rpl} >> #{@new}"
           elsif def_v =~ @new #;p $1
-            @new.gsub!($~.to_s,(prms[i] && prms[i].strip!="" ? prms[i] : $1)) 
+            src = $~.to_s
+            rpl = (prms[i] && prms[i].strip!="" ? prms[i] : $1)
+            @new.gsub!(src,rpl) 
+            #p "default: #{@new}"
           end
-          if eva_v=~ @new
+          while eva_v=~ @new do
             src =  $~.to_s
-            rpl =  prms[i] ? prms[i].send($1).to_s : ""
+            evl = "\"#{prms[i]}\".#{$1}"
+            rpl =  prms[i] ? eval(evl).to_s : ""
             @new.gsub!(src,rpl)
+            p "eval: #{@new}"
           end
+          #p "rest: #{x} => #{prms[i].to_s}"
           @new.gsub!(x,prms[i].to_s)
           i = i -1
         end
@@ -417,10 +433,27 @@ module W2Tags
       rpls
     end
     
+    # in HOT if you define :
+    # >>_if
+    # - if $0
+    # -end
+    #
+    # >>_else
+    # - else
+    # -end
+    #
+    # >>_end
+    # <</
+    # <% end %>
     def shortcut_exec(regex)
+      no_end = %w[else elsif]
       if(regex =~ @row;@rgx = $~)
         srcs = @rgx.to_s
         rplc = "#{@rgx[1]}%!_#{@rgx[2]}~#{@rgx[3]}\n"
+        if no_end.include? @rgx[2] 
+          rplc = "#{@rgx[1]}%_#{@rgx[2]}~#{@rgx[3]}\n"
+          @tg_end.pop if @tg_end[-1]=='<% end %>'
+        end
         @row.gsub!(srcs,rplc)
         p "reExe_ #{@row}." if @dbg[:parse]
       end
@@ -443,14 +476,14 @@ module W2Tags
       if(regex =~ @row;@rgx = $~)
         keys = @rgx[2].strip
         opts = @rgx[3]
+        srcs = @rgx.captures.join
         opts = $1 << opts if keys.gsub!(/(\/)$/,'')
         hots = keys.gsub(/\{[^\}]*\}$/,'').gsub(/[:#.][\w\-#.=]*$/,'')
         rplc = @tg_hot[hots]!=nil ? 
         "%!#{keys}~#{opts}" : 
         "%!#{keys}!#{opts}" 
-        #p @row,ends,rplc
-        @row.gsub!(@rgx.captures.join,rplc)
-        p "reHot> #{rplc} >> #{hots}" if @dbg[:parse]
+        @row.gsub!(srcs,rplc)
+        p "reHot> #{rplc.strip} << -H-O-T-" if @dbg[:parse]
       end
     end
     
@@ -460,51 +493,50 @@ module W2Tags
     # @mem_var['$:'     ]
     # @mem_var['$#'     ]
     # @mem_var['$.'     ]
-    # @mem_var['%all%'  ]
-    # @mem_var['%opt%'  ]
-    # @mem_var['%id%'   ]
-    # @mem_var['%name%' ]
-    # @mem_var['%class%']
+    # @mem_var['*all*'  ]
+    # @mem_var['*opt*'  ]
+    # @mem_var['*id*'   ]
+    # @mem_var['*name*' ]
+    # @mem_var['*class*']
     # this var will be use in tranlation in w2tags and translation in hot
     def idclass_var(keys,rgx)
       @mem_var['$:'     ]= ''
       @mem_var['$#'     ]= ''
       @mem_var['$.'     ]= ''
-      @mem_var['%all%'  ]= ''
-      @mem_var['%opt%'  ]= ''
-      @mem_var['%id%'   ]= ''
-      @mem_var['%name%' ]= ''
-      @mem_var['%class%']= ''
-      @mem_var['%code%' ]= ''
+      @mem_var['*all*'  ]= ''
+      @mem_var['*opt*'  ]= ''
+      @mem_var['*id*'   ]= ''
+      @mem_var['*name*' ]= ''
+      @mem_var['*class*']= ''
+      @mem_var['*code*' ]= ''
       #p keys
       if keys.gsub!(rgx,'')
         keys = $1+$2
         if keys.gsub!(/^:([\w\-]+)/,'')
           @mem_var['$:'     ] = $1.to_s
-          @mem_var['%name%' ] = "name=\"#{$1}\" " 
-          @mem_var['%all%'  ]<< "name=\"#{$1}\" " 
-          @mem_var['%opt%'  ]<< ":#{$1}"
+          @mem_var['*name*' ] = "name=\"#{$1}\" " 
+          @mem_var['*all*'  ]<< "name=\"#{$1}\" " 
+          @mem_var['*opt*'  ]<< ":#{$1}"
         end
         if keys.gsub!(/^#([\w\-]+)/,'')
           @mem_var['$#'     ] = $1.to_s
-          @mem_var['%id%'   ] = "id=\"#{$1}\" " 
-          @mem_var['%all%'  ]<< "id=\"#{$1}\" " 
-          @mem_var['%opt%'  ]<< "##{$1}"
+          @mem_var['*id*'   ] = "id=\"#{$1}\" " 
+          @mem_var['*all*'  ]<< "id=\"#{$1}\" " 
+          @mem_var['*opt*'  ]<< "##{$1}"
         end
         if keys.gsub!(/^\.([\w\-.]+)/,'')
           prm = $1
           cls = prm.split('.').collect {|x|x.strip}.join(' ')
           @mem_var['$.'     ] = $1.to_s
-          @mem_var['%class%'] = "class=\"#{cls}\" "
-          @mem_var['%all%'  ]<< "class=\"#{cls}\" "
-          @mem_var['%opt%'  ]<< ".#{prm}"
+          @mem_var['*class*'] = "class=\"#{cls}\" "
+          @mem_var['*all*'  ]<< "class=\"#{cls}\" "
+          @mem_var['*opt*'  ]<< ".#{prm}"
         end
         if keys.gsub!(/==$/,'')
-          @mem_var['%code%' ] = '<%= "$*" %>'
+          @mem_var['*code*' ] = '<%= "$*" %>'
         elsif keys.gsub!(/=$/,'')
-          @mem_var['%code%' ] = "<%= $* %>"
+          @mem_var['*code*' ] = "<%= $* %>"
         end
-        p "const_#{@mem_var["%all%"]}" if @dbg[:constanta]
       end
     end
     
@@ -517,20 +549,23 @@ module W2Tags
         @rg_ht.each do |ht|
           if(ht =~ eva;@rgx = $~)
             keys = @rgx[2]
-            prms = @rgx[3]
-            ends = @rgx[4].to_s.strip      
+            attr = @rgx[3]
+            prms = @rgx[4].to_s.strip
+            @mem_var['*attr*'] = attr=="" ? "" : " #{attr}"
             idclass_var(keys,/([:#.])([\t\w\-#.= ]*$)/)
             if /^\!/ =~ keys
               @new = (multi_end2(nil)+@spc+@rgx.to_s.gsub('%!','%')).split("\n")
               swap_last_empt_src_with_end_tg(@new)
               @row = ''
             else
+              while prms[-1,1]=='\\' do #concenation line if params end with \
+                prms.gsub!(/\\$/,'') << @doc_src.shift.strip
+              end
               @mem_var["&tag!"] = keys
-
               if @tg_hot[keys]
-                hots = @tg_hot[keys]      
+                hots = @tg_hot[keys] 
+                hots[1]='' if !hots[1]  #remark if not error!
                 @new = hots[0].call(self).clone  
-                
                 if @new.strip=="" #&& @tg_end[-1]
                   @tg_end << "#{@spc}#{hots[1][0]}"
                   empt = @row.gsub!(@rgx.to_s,"").strip
@@ -538,9 +573,10 @@ module W2Tags
                 else
                   @tg_end << "#{@spc}#{hots[1]}" if hots[1]
                   @new.gsub!(/\n/,"\n#{@spc}")
-                  get_dollar(prms,hots[1])
-                  @new+= ends if ends!=''    #;p "NEW:::#{@new}"
-                  @doc_src = @row.gsub(@rgx.to_s,@new).split("\n")+@doc_src
+                  get_dollar(prms,hots[1]) #,hots[1]) for ends params
+                  #@new+= ends if ends!=''
+                  srcs = @rgx.to_s 
+                  @doc_src = @row.gsub(srcs,@new).split("\n")+@doc_src
                   @row = @doc_src.shift+"\n"
                   parse_spc
                 end
@@ -583,8 +619,11 @@ module W2Tags
       @rgx = nil
       if(regex =~ @row;@rgx = $~)
         @plt = @spc.size
+        @plt_opt = @rgx[3]
       elsif @spc.size <= @plt 
         @plt = 99
+      elsif @plt_opt[0,1]=='!'
+        @row = @row[@plt,999]
       end
       @plt  != 99
     end
@@ -598,10 +637,11 @@ module W2Tags
       elsif inside_plain_text(/(^[\t ]*)(-!)([^\n]*\n)/) 
         @row = '' if @rgx
       else
-        rtn = true if shortcut_exec( /(^[\t ]*)-([\w\-\/:#.%=]*) ([^\n]+)\n/) 
-        rtn = true if shortcut_equal(/(^[\t ]*)=([\w\-\/:#.%=]*) ([^\n]+)\n/) 
-        rtn = true if get_hot_simple(/^[\t ]*(%)([\$\w:#.=]+\{[^\}]*\}[#.=]?[^! ]* )([^\n]*)\n/)
-        rtn = true if get_hot_simple(/^[\t ]*(%)([\$\w:#.=]+\{[^\}]*\}[#.=]?[^! ]*)()\n/)
+        @plt_opt= '' 
+        rtn = true if shortcut_exec( /(^[\t ]*)-([\w\-\/:#.%=]*) *([^\n]*)\n/) 
+        rtn = true if shortcut_equal(/(^[\t ]*)=([\w\-\/:#.%=]*) *([^\n]*)\n/) 
+        rtn = true if get_hot_simple(/^[\t ]*(%)([\$\w\-:#.=]+\{[^\}]*\}[#.=]?[^~! ]* )([^\n]*)\n/)
+        rtn = true if get_hot_simple(/^[\t ]*(%)([\$\w\-:#.=]+\{[^\}]*\}[#.=]?[^~! ]*)()\n/)
         rtn = true if get_hot_simple(/^[\t ]*(%)([\$\w\-\/:#.%=]+ )([^\n]*)\n/) 
         rtn = true if get_hot_simple(/^[\t ]*(%)([\$\w\-\/:#.%=]+)()\n/) 
         rtn = true if get_div(/^[\t ]*([#.=])([\w:#.=]+\{[^\}]*\}[#.=]?[^ ]* )([^\n]*)\n/)
@@ -687,9 +727,9 @@ module W2Tags
         idclass_var(@key,/([:#.=])([\t\w\-#.= ]*$)/)
         
         if /^\!/ =~ @key
-          @row = ''
           @new = (multi_end(nil)+@spc+@rgx.to_s.gsub('%!','%')).split("\n")
           swap_last_empt_src_with_end_tg(@new)
+          @row = ''
         else
           tag_next = @tg_nex[@key] #;p "%mem_hot:#{@mem_hot}:#{@key}"
           tag_next[1].call if tag_next && @mem_hot==nil
@@ -699,7 +739,7 @@ module W2Tags
             rplc.gsub!(k,v)
           end
           @row.gsub!(srcs,rplc)
-          p "W2Tag: #{srcs}" if @dbg[:parse]
+#          p "W2Tag: #{srcs}" if @dbg[:parse]
         end
       end  
       @rgx!=nil
