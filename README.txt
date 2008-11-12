@@ -1,5 +1,5 @@
 == W2TAGS
-   by Widi Harsojo, wharsojo.wordpress.com
+   by Widi Harsojo, http://wharsojo.wordpress.com
 
 == DESCRIPTION:
 
