@@ -47,18 +47,18 @@ module W2Tags
       @tg_hot = {}     #{'div'=>[proc{|this|"%div$*!"},nil]} #collection of tag_hot after reading from source hot
       @tg_nex = {}     #tag next activate on shortcut tag "%"
       
-      @tg_nex['html'  ]= [0,proc { @mem_tag["^"] = '%!head!'}]
-      @tg_nex['head'  ]= [0,proc { @mem_tag["^"] = '%!body!'}]
-      @tg_nex['ol'    ]= [0,proc { @mem_tag["^"] = '%!li!$0'}]
-      @tg_nex['ul'    ]= [0,proc { @mem_tag["^"] = '%!li!$0'}]
-      @tg_nex['dl'    ]= [0,proc { @mem_tag["^"] = '%!dt!$0'}]
-      @tg_nex['dt'    ]= [0,proc { @mem_tag["^"] = '%!dd!$0'}]
-      @tg_nex['dd'    ]= [0,proc { @mem_tag["^"] = '%!dt!$0'}]
-      @tg_nex['select']= [0,proc { @mem_tag["^"] = '%!option{value="$0" $1}!'  }]
-      @tg_nex['form'  ]= [0,proc { @mem_tag["^"] = '%!input$0!/'  }]
-      @tg_nex['table' ]= [0,proc { @tg_nex['tr'][0] = 0 ;@mem_tag["^"] = '%!th!$0'}]
+      @tg_nex['html'  ]= [0,proc { @mem_tag["^"] = "%head $*\n"}]
+      @tg_nex['head'  ]= [0,proc { @mem_tag["^"] = "%body $*\n"}]
+      @tg_nex['ol'    ]= [0,proc { @mem_tag["^"] = "%li $0\n"  }]
+      @tg_nex['ul'    ]= [0,proc { @mem_tag["^"] = "%li $0\n"  }]
+      @tg_nex['dl'    ]= [0,proc { @mem_tag["^"] = "%dt $0\n"  }]
+      @tg_nex['dt'    ]= [0,proc { @mem_tag["^"] = "%dd $0\n"  }]
+      @tg_nex['dd'    ]= [0,proc { @mem_tag["^"] = "%dt $0\n"  }]
+      @tg_nex['select']= [0,proc { @mem_tag["^"] = "%option $0\n"}]
+      @tg_nex['form'  ]= [0,proc { @mem_tag["^"] = "%input$0!/\n"}]
+      @tg_nex['table' ]= [0,proc { @tg_nex['tr'][0] = 0 ;@mem_tag["^"] = "%th $0\n"}]
       @tg_nex['tr'    ]= [0,proc { @tg_nex['tr'][0]+= 1
-            @mem_tag["^"] =  @tg_nex['tr'][0]== 1 ? '%!th!$0' : '%!td!$0'
+            @mem_tag["^"] =  @tg_nex['tr'][0]== 1 ? "%th $0\n" : "%td $0\n"
               }]
 
       @tagr = proc do |this|
@@ -372,12 +372,12 @@ module W2Tags
           end
         end
       elsif new_alls==[] && new_prms.size==1 && prms.size>1 
-        @new   = ''
-        repeat = @rgx.to_s
+        tmp = ""
         prms.each_with_index do |x,i|
-          @new << repeat.gsub(@rgx[4],x)   # repeat.gsub(@rgx[3],x)
-          @new << @spc if i+1<prms.size
+          tmp<< @new.gsub(new_prms[0],x) 
+          tmp<< "\n#{@spc}" if i+1<prms.size
         end
+        @new = tmp
       else
         i = new_prms.size - 1
         new_prms.sort.reverse.each do |x|
@@ -673,9 +673,9 @@ module W2Tags
         end
         @new = @mem_tag[keys].clone
         get_dollar(prms)
-        p "exPand #{@new.strip}" if @dbg[:parse]
-        @row.gsub!(@rgx.to_s,@new+opt+ends)
-        #p "exPand "+@row.strip if @dbg[:parse]
+        rpl = @new #+opt.to_s+ends.to_s
+        p "exPand #{rpl}" if @dbg[:parse]
+        @row.gsub!(@rgx.to_s,rpl)
         rows = @row.split("\n")     
         if rows.size>1
             @doc_src = rows+@doc_src
