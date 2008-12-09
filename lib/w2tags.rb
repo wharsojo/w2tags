@@ -66,7 +66,7 @@ module W2Tags
   #  </body>
   def self.read_filehot(fhot)
     hot_new = {}
-    hot = ("\n"+IO.read(fhot)).split(/\n\>\>/)
+    hot = ("\n"+IO.read(fhot)).gsub(/\r/,'').split(/\n\>\>/)
     hot.shift
     hot.each do |item|
       item.gsub!(/\n([ \t]*)$/,'') #remove blank lines
