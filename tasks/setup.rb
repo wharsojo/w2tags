@@ -17,7 +17,7 @@ PROJ = OpenStruct.new(
   :authors => nil,
   :email => nil,
   :url => "\000",
-  :version => ENV['VERSION'] || '0.8.1',
+  :version => ENV['VERSION'] || '0.8.2',
   :exclude => %w(tmp$ bak$ ~$ CVS \.svn/ \.git/ ^pkg/),
   :release_name => ENV['RELEASE'],
 
