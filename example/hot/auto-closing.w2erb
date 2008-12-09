@@ -7,3 +7,5 @@
 
 .common
   Common Tag
+  %img url_path;alt_img
+  %img= url_var;alt_img
