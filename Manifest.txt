@@ -4,6 +4,7 @@ README.txt
 HAML.txt
 HOT.txt
 FAQ.txt
+ERB.HOT.txt
 Rakefile
 COPYING
 LICENSE
