@@ -13,14 +13,14 @@ some popular patern in view engine, so I change the patern. Now syntax mimics HA
 to easy transisition, and proven to be useable and best.
 
 Extended Syntax is the remain patern before I choose HAML like syntax, like 
-"^ Next Tag will be use", redefinition "^" command using "~", define variable "&var!", 
-define uniq variable "@var!", constanta variable"%var%" for attribute ID, CLASS, NAME. 
-This Constanta will be ready every time it parse the TAG (%) or parse the HOT.
+"^ Next Tag will be use", redefinition "^" command using "~", define variable "&var=", 
+define uniq variable "@var=", constanta variable"*var*" for attribute ID, CLASS, NAME. 
+This Constanta will be ready every time it parse the W2TAGS (%) or parse the HOT(% / -).
 
 HOT file is the powerfull features in w2tags, it contains some patern that you can
-call it letter using command "%", it contains one or more line of html / haml / hot
+call it later using command "%" or "-", it contains one or more line of html/w2tags/hot
 command, if you detect in you source that not DRY you can migrate the patern to hot
-files and letter you can call it
+files and later you can call it
 
 The rest of the command you can see it by reading source of w2tag::parser. 
 So you can code less typing.
