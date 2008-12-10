@@ -67,7 +67,7 @@ module W2Tags
         tags_created << " #{@mem_var["*all*"].strip}" if @mem_var["*all*"]!='' 
         tags_created << " #{@att}" if @att!=''
         if @txt=='/'
-          tags_created << '/>'
+          tags_created << "/>\n"
         else
           tags_created << '>'
           if @txt==''
