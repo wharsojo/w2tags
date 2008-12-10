@@ -1,0 +1,6 @@
+>>list2
+%ul$:$#
+  %item$. @var!
+
+>>item
+%li*opt* $0
