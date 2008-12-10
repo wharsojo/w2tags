@@ -2,6 +2,61 @@
 
 Below is a complete listing of changes for each revision of W2TAGS.
 
+== 0.8.2
+
+=== HOT for erb restructure
+
+now erb have 5 sub hot you can include in.
+
+=== Change Regex for W2TAGS
+
+  1. old:        /(%)([!]?[ \t\w:]+\{[^\}]*\}[#.=]?[^!]*)!([^`\n]*)([`\n])/
+     new: /^[ \t]*(%)([!]?[ \t\w:]+\{[^\}]*\}[#.=]?[^!]*)!([^\n]*)([\n])/
+  2. old:        /(%)([!]?[ \t\w:]+[#.=]?[^!]*)!([^`\n]*)([`\n])/          
+     new: /^[ \t]*(%)([!]?[ \t\w:]+[#.=]?[^!]*)!([^\n]*)([\n])/          
+     
+=== Change Regex for HOT
+
+  1. old:    /(%)([!]?[ \t\$\w\-\/:#.%=]+)~([^\n]*)\n()/
+     new:    /(%)([!]?[ \t\$\w\-\/:#.%=]+)()~([^\n]*)\n/
+  2. old:    /(%)([!]?[ \t\$\w\-\/:#.%=]+)\{([^\}]*)\}([^!=])/
+     new:    /(%)([!]?[ \t\$\w\-\/:#.%=]+)\{([^\}]*)\}~([^!=])/
+
+=== Change Next-Tags(W2TAGS)
+
+old => new: 
+
+      'html'  = '%!head!'                   => "%head $*\n"
+      'head'  = '%!body!'                   => "%body $*\n"
+      'ol'    = '%!li!$0'                   => "%li $0\n"  
+      'ul'    = '%!li!$0'                   => "%li $0\n"  
+      'dl'    = '%!dt!$0'                   => "%dt $0\n"  
+      'dt'    = '%!dd!$0'                   => "%dd $0\n"  
+      'dd'    = '%!dt!$0'                   => "%dt $0\n"  
+      'select'= '%!option{value="$0" $1}!'  => "%option $0\n"
+      'form'  = '%!input$0!/'               => "%input$0!/\n"
+      'table' = '%!th!$0'                   => "%th $0\n"
+      'tr'    = ? '%!th!$0' : '%!td!$0'     => ? "%th $0\n" : "%td $0\n"
+      
+=== Change Variable for code
+
+  old: %code%
+  new: *code*
+  
+=== fix regex for different OS
+
+=== debug for constanta now behave like debug for hot
+
+=== auto-close when indent is less then
+
+now if you put line text (not a W2TAGS command) and the identation is less then prev, 
+it will auto-close the tags.
+
+=== end tags change
+
+  old: ./ (dot   represent how many end tags from buffer to be pull out)
+  new: ~/ (tilde represent how many end tags from buffer to be pull out)
+      
 == 0.8.1
 
 === Add more example 
