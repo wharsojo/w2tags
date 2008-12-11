@@ -8,7 +8,7 @@ you will understand how HOT file is working.
 == PARAMETERS VARIABLE
 
 $*, $0 - $9. When you invoke HOT command like this "-all_params one;two;three;four"
-you are invoking HOT command with 4 params ($0,$1,$2,$3), but the transaltion will
+you are invoking HOT command with 4 params ($0,$1,$2,$3), but the translation will
 be done like sample below:
 
   test.hot
@@ -36,7 +36,7 @@ be done like sample below:
   two
 
 remember passing paramter to HOT doesn't mean that variable must start from
-zero, its only a guide you can have multiple params to pass in corrent order
+zero, its only a guide you can have multiple params to pass in correct order
 see sample after change the HOT but the result still the same
 
   test.hot
