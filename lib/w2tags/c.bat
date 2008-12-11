@@ -1,1 +1,1 @@
-copy . C:\bin\ruby\lib\ruby\gems\1.8\gems\w2tags-0.8.1\lib\w2tags /Y
+copy . C:\bin\ruby\lib\ruby\gems\1.8\gems\w2tags-0.8.2\lib\w2tags /Y
