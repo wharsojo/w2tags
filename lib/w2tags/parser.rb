@@ -381,9 +381,9 @@ module W2Tags
       else
         i = new_prms.size - 1
         new_prms.sort.reverse.each do |x|
-        opt_v = Regexp.new('\|([^$|\n]*)\\'+x+'([^\|\n]*)\|') 
-        def_v = Regexp.new('\|([\w]*)\|\\'+x) 
-        eva_v = Regexp.new(':([^$]+)\\'   +x)     #exe methh: :upcase:$1 
+        opt_v = Regexp.new('\|([^$|\n]*)\\' +x+'([^\|\n]*)\|') 
+        def_v = Regexp.new('\|([\w]*)\|\\'  +x) 
+        eva_v = Regexp.new('\\n.+:([^$]+)\\'+x)     #exe methh: :upcase:$1 
           if opt_v =~ @new #;p $1
             rpl = ''
             rpl = "#{$1.to_s}#{prms[i]}#{$2.to_s}" if prms[i] && prms[i].strip!=""
@@ -395,12 +395,12 @@ module W2Tags
             @new.gsub!(src,rpl) 
             #p "default: #{@new}"
           end
-          while eva_v=~ @new do
-            src =  $~.to_s
-            evl = "\"#{prms[i]}\".#{$1}"
+          while eva_v=~ "\n#{@new}" do
+            src = ":#{$1}#{x}" #$~.to_s
+            evl = "\"#{prms[i]}\".#{$1}";p evl
             rpl =  prms[i] ? eval(evl).to_s : ""
             @new.gsub!(src,rpl)
-            p "eval: #{@new}"
+            p "eval: #{src},#{rpl}"
           end
           #p "rest: #{x} => #{prms[i].to_s}"
           @new.gsub!(x,prms[i].to_s)
