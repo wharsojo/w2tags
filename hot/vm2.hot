@@ -4,6 +4,9 @@
 >>csq
 <link rel="stylesheet" href="$siteRoot/Content/css/jquery.$0.css" type="text/css" media="screen, projection" />
 
+>>js
+<script type="text/javascript" src="$siteRoot/Content/js/$0.js" > </script>
+
 >>jq
 <script type="text/javascript" src="$siteRoot/Content/js/jquery.$0.js" > </script>
 
