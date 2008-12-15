@@ -2,6 +2,80 @@
 
 Below is a complete listing of changes for each revision of W2TAGS.
 
+== 0.8.3
+
+=== Sinatra Hook
+
+if your framework is Sinatra, now it have "hook" on it.
+I'm forking blog "Scanty" create by "Adam Wiggins"
+and this is how I do it in Scanty ("main.rb"):
+
+  require 'rubygems'
+  require 'sinatra'
+  require 'w2tags'
+  require 'w2tags/sinatra_hook' 
+
+=== Changes in parser
+
+==== all debug are off
+
+before that debug stack is on, and it slowdown parsing inside rails / merb / sinatra 
+
+==== W2TAGS inline now have option for not inline 
+
+if the last char of params have a char "\"
+
+  %p inline
+    some_chars
+  %p not inline\
+    some_chars
+  
+will result in 
+
+  <p>inline</p>
+    some_chars
+  <p>not inline
+    some_chars
+  </p>
+
+==== Change Regex for Parameters 
+
+  1. optional      
+     old: Regexp.new('\|([^$|\n]*)\\'+x+'([^\|\n]*)\|') # ex: |..$1..|
+     new: Regexp.new('~([^$|\n]*)\\' +x+'([^\|\n]*)~')  # ex: ~..$1..~
+  2. default       
+     old: Regexp.new('\|([\w]*)\|\\'+x) # ex: |..|$1
+     new: Regexp.new('~([\w]*)~\\'  +x) # ex: ~..~$1
+
+==== Fix autoclosing not working if it inside another W2TAGS
+
+the enhance of "Function HOT". It will scan the last line of the result
+if it find <% end %> it wwill check that now processing %w[else elsif]
+end remove the <% end %>. Remember, it need define in HOT:
+
+  >>_if
+  >>_else
+  >>_elsif
+  >>_end
+  
+you can check into "erb.hot"
+
+=== Changes in HOT
+
+==== erb.hot
+
+  old: >>_each   ### become ###
+  new: >>_each2
+  
+  new: >>_each
+       !/
+       $0.each do |$1|
+       -end 
+
+==== htm.hot
+
+  >>_utf-8, >>_feed
+
 == 0.8.2
 
 === HOT for erb restructure
