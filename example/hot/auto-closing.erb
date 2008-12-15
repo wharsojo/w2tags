@@ -1,12 +1,9 @@
-<% if index>100 %>
-  <div class="bigger">bigger than 100</div>
-<% elsif index>50 %>
-  <div class="bigger">bigger than 50 but less than 100</div>
-<% else %>
-  <div class="less">less than 50</div>
-<% end %>
 <div class="common">
-  Common Tag
-  <img src="url_path" alt="alt_img" />
-  <img src="<%= url_var %>" alt="alt_img" />
-</div>
+  <% if index>100 %>
+    <div class="bigger">bigger than 100</div>
+  <% elsif index>50 %>
+    <div class="bigger">bigger than 50 but less than 100</div>
+  <% else %>
+    <div class="less">less than 50</div>
+  <% end %>
+</div> 

@@ -1,11 +1,7 @@
--if index>100
-  .bigger bigger than 100
--elsif index>50
-  .bigger bigger than 50 but less than 100
--else
-  .less less than 50
-
 .common
-  Common Tag
-  %img url_path;alt_img
-  %img= url_var;alt_img
+  -if index>100
+    .bigger bigger than 100
+  -elsif index>50
+    .bigger bigger than 50 but less than 100
+  -else
+    .less less than 50
