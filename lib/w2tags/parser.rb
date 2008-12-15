@@ -10,7 +10,7 @@ module W2Tags
     def initialize(ext = '.htm')
       @dbg={
         :hot      =>nil,
-        :stack    =>true,
+        :stack    =>nil,
         :parse    =>nil,
         :constanta=>nil
       }
@@ -70,17 +70,21 @@ module W2Tags
           tags_created << "/>\n"
         else
           tags_created << '>'
-          if @txt==''
+          @ln_end = " "            
+          if @txt=='' 
             @tg_end.push "#{@spc}</#{@key}>#{@ln_end}"
-            @ln_end = " "            
             p "Stack: #{@tg_end}" if @dbg[:stack]
           else
+            if @txt.gsub!(/\\$/,'')
+              @tg_end.push "#{@spc}</#{@key}>#{@ln_end}"
+            else
+              @ln_end = "</#{@key}>#{@ln_end}"
+            end
             if @mem_var["*code*"] && @mem_var["*code*"]!=''
               tags_created << @mem_var["*code*"].gsub('$*',@txt)
             else
               tags_created << @txt.gsub(/^ +/,'') #remove gsub if don't want auto trim left
             end
-            @ln_end = "</#{@key}>#{@ln_end}"
           end
         end
         tags_created
@@ -193,6 +197,8 @@ module W2Tags
     end
     
     #pop up end tags from the stack 
+    #result will be string contains end tags from stack 
+    #who's space inside each end tags > current space
     def multi_end(ttls)
       rpls = ''
       ttl  = @tg_end.size-1
@@ -381,8 +387,8 @@ module W2Tags
       else
         i = new_prms.size - 1
         new_prms.sort.reverse.each do |x|
-        opt_v = Regexp.new('\|([^$|\n]*)\\' +x+'([^\|\n]*)\|') 
-        def_v = Regexp.new('\|([\w]*)\|\\'  +x) 
+        opt_v = Regexp.new('~([^$|\n]*)\\' +x+'([^\|\n]*)~') 
+        def_v = Regexp.new('~([\w]*)~\\'  +x) 
         eva_v = Regexp.new('\\n.+:([^$]+)\\'+x)     #exe methh: :upcase:$1 
           if opt_v =~ @new #;p $1
             rpl = ''
@@ -433,27 +439,10 @@ module W2Tags
       rpls
     end
     
-    # in HOT if you define :
-    # >>_if
-    # - if $0
-    # -end
-    #
-    # >>_else
-    # - else
-    # -end
-    #
-    # >>_end
-    # <</
-    # <% end %>
     def shortcut_exec(regex)
-      no_end = %w[else elsif]
       if(regex =~ @row;@rgx = $~)
         srcs = @rgx.to_s
         rplc = "#{@rgx[1]}%!_#{@rgx[2]}~#{@rgx[3]}\n"
-        if no_end.include? @rgx[2] 
-          rplc = "#{@rgx[1]}%_#{@rgx[2]}~#{@rgx[3]}\n"
-          @tg_end.pop if @tg_end[-1].strip=='<% end %>'
-        end
         @row.gsub!(srcs,rplc)
         p "reExe_ #{@row}" if @dbg[:parse]
       end
@@ -558,6 +547,12 @@ module W2Tags
               swap_last_empt_src_with_end_tg(@new)
               @row = ''
             else
+              # Auto closing, see in "erb.hot": _elsif _else:
+              # when last doc out is <% end %> and hot command is %_elsif or %_else
+              # then remove the last doc out <% end %>
+              if @doc_out[-1].strip=='<% end %>'
+                 @doc_out.pop if %w[else elsif].include? prms.split(' ')[0]
+              end
               while prms[-1,1]=='\\' do #concenation line if params end with \
                 prms.gsub!(/\\$/,'') << @doc_src.shift.strip
               end
