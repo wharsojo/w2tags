@@ -22,8 +22,8 @@ module W2Tags
       
       #regex for function tags    
       @rg_ht = [
-      /(%)([!]?[ \t\$\w\-\/:#.%=]+)()~([^\n]*)\n/,
-      /(%)([!]?[ \t\$\w\-\/:#.%=]+)\{([^\}]*)\}~([^!=])/]
+      /(%)([!]?[ \t\$\w\-\/:#.%=]+\{[^\}]*\})~([^!=]*)\n/,
+      /(%)([!]?[ \t\$\w\-\/:#.%=]+)~([^\n]*)\n/       ]
       @plt_opt= ''     #plaintext option
       @plt    =  99    #plaintext indentation
       @rmk    =  99    #remark indentation
@@ -477,18 +477,23 @@ module W2Tags
     end
     
     #translation for tags with shortcut of name, id, or class and put in constants
-    #ex: @div:name#id.class
+    #ex: %div:name#id.class{attribute}=
     #will result in some of this var:
-    # @mem_var['$:'     ]
-    # @mem_var['$#'     ]
-    # @mem_var['$.'     ]
-    # @mem_var['*all*'  ]
-    # @mem_var['*opt*'  ]
-    # @mem_var['*id*'   ]
-    # @mem_var['*name*' ]
-    # @mem_var['*class*']
-    # this var will be use in tranlation in w2tags and translation in hot
+    # @mem_var['*att*'  ] => {attribute}
+    # @mem_var['$$'     ] => :name#id.class
+    # @mem_var['$:'     ] => :name
+    # @mem_var['$#'     ] => #id
+    # @mem_var['$.'     ] => .class
+    # @mem_var['*all*'  ] => name="name" id="id" class="class"
+    # @mem_var['*opt*'  ] => :name#id.class
+    # @mem_var['*id*'   ] => id="id"
+    # @mem_var['*name*' ] => name="name"
+    # @mem_var['*class*'] => class="class"
+    # this var will be use in parsing w2tags/hot command
     def idclass_var(keys,rgx)
+      @key = keys = @rgx[2].strip.gsub(/\{([^\}]*)\}/,'') 
+      @mem_var['*att*'  ]= @att = $1.to_s.strip
+      @mem_var['$$'     ]= ''
       @mem_var['$:'     ]= ''
       @mem_var['$#'     ]= ''
       @mem_var['$.'     ]= ''
@@ -521,6 +526,7 @@ module W2Tags
           @mem_var['*all*'  ]<< "class=\"#{cx}\" "
           @mem_var['*opt*'  ]<< ".#{cl}"
         end
+        @mem_var['$$'] = @mem_var['*opt*']
         if keys.gsub!(/==$/,'')
           @mem_var['*code*' ] = '<%= "$*" %>'
         elsif keys.gsub!(/=$/,'')
@@ -537,28 +543,26 @@ module W2Tags
         eva = "%#{col[c]}" << eva
         @rg_ht.each do |ht|
           if(ht =~ eva;@rgx = $~)
-            keys = @rgx[2]
-            attr = @rgx[3]
-            prms = @rgx[4].to_s.strip
-            @mem_var['*attr*'] = attr=="" ? "" : " #{attr}"
-            idclass_var(keys,/([:#.])([\t\w\-#.= ]*$)/)
-            if /^\!/ =~ keys
+            @key = @rgx[2]
+            prms = @rgx[3].to_s.strip
+            if /^\!/ =~ @key
               @new = (multi_end2(nil)+@spc+@rgx.to_s.gsub('%!','%')).split("\n")
               swap_last_empt_src_with_end_tg(@new)
               @row = ''
             else
+              idclass_var(@key,/([:#.])([\t\w\-#.= ]*$)/)
               # Auto closing, see in "erb.hot": _elsif _else:
               # when last doc out is <% end %> and hot command is %_elsif or %_else
               # then remove the last doc out <% end %>
-              if @doc_out[-1].strip=='<% end %>'
+              if @doc_out[-1] and @doc_out[-1].strip=='<% end %>'
                  @doc_out.pop if %w[else elsif].include? prms.split(' ')[0]
               end
               while prms[-1,1]=='\\' do #concenation line if params end with \
                 prms.gsub!(/\\$/,'') << @doc_src.shift.strip
               end
-              @mem_var["&tag!"] = keys
-              if @tg_hot[keys]
-                hots = @tg_hot[keys] 
+              @mem_var["&tag!"] = @key
+              if @tg_hot[@key]
+                hots = @tg_hot[@key] 
                 hots[1]='' if !hots[1]  #remark if not error!
                 @new = hots[0].call(self).clone  
                 if @new.strip=="" #&& @tg_end[-1]
@@ -577,7 +581,7 @@ module W2Tags
                 end
                 p "Func>> #{@new}" if @dbg[:parse]
               else
-                @row.gsub!(@rgx.to_s,"<!-- no hot for:#{keys} -->")
+                @row.gsub!(@rgx.to_s,"<!-- no hot for:#{@key} -->")
               end
             end
             break
@@ -647,6 +651,7 @@ module W2Tags
         @row = '' if @rgx
       else
         @plt_opt= '' 
+        rtn = true if shortcut_exec( /(^[\t ]*)-([\w\-\/:#.%]+\{[^\}]*\}[=]?) *([^\n]*)\n/) 
         rtn = true if shortcut_exec( /(^[\t ]*)-([\w\-\/:#.%=]*) *([^\n]*)\n/) 
         rtn = true if shortcut_equal(/(^[\t ]*)=([\w\-\/:#.%=]*) *([^\n]*)\n/) 
         rtn = true if get_hot_simple(/^[\t ]*(%)([\$\w\-:#.=]+\{[^\}]*\}[#.=]?[^~! ]* )([^\n]*)\n/)
@@ -730,12 +735,9 @@ module W2Tags
       @rgx = nil
       par  = []
       rgs  = @rg_tg.collect {|r|par << (r =~ @row);$~}
-      if (max = par.compact.sort.pop)      #have any to parse?
-        @rgx= rgs[par.index(max)]
-      
+      if(max = par.compact.sort.pop)      #have any to parse?
+        @rgx = rgs[par.index(max)]
         @txt = @rgx[3]
-        @key = @rgx[2].strip.gsub(/\{([^\}]*)\}/,'') 
-        @att = $1.to_s.strip
         idclass_var(@key,/([:#.=])([\t\w\-#.= ]*$)/)
         
         if /^\!/ =~ @key
