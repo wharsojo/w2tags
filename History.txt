@@ -2,6 +2,47 @@
 
 Below is a complete listing of changes for each revision of W2TAGS.
 
+== 0.8.4
+
+=== Sinatra Hook
+last commit not include
+
+=== Changes in parser
+
+==== Change Regex for HOT
+
+  1. old:    /(%)([!]?[ \t\$\w\-\/:#.%=]+)()~([^\n]*)\n/
+     new:    /(%)([!]?[ \t\$\w\-\/:#.%=]+)~([^\n]*)\n/
+  2. old:    /(%)([!]?[ \t\$\w\-\/:#.%=]+)\{([^\}]*)\}~([^!=])/
+     new:    /(%)([!]?[ \t\$\w\-\/:#.%=]+\{[^\}]*\})~([^!=]*)\n/
+     
+==== Parser for :name#id.clas now include {attribut} and new var
+parsing in w2tags and hot for {attribute} merge into method "idclass_var"
+so it must change hot regex with the same params regex ($1,$2,$3)
+
+variable *opt* is the same with $$
+
+==== Syntax patern for Shortcut HOT is the same with w2tags command
+
+ex: below an example shortcut HOT "-button" and how you write in source-code
+
+  ### in HOT ###
+  >>_button
+  %button$${*att* ~label="$0"~}/
+
+  ### command in source: ###
+  -button{disabled="true"} Red
+  -button{disabled="true" label="Red"} 
+  %button{disabled="true" label="Red"}/
+    
+  -button:def#key.hlite{disabled="true" num="1"} Red
+  
+  ### result ###
+  <button disabled="true" label="Red"/>
+  <button disabled="true" label="Red"/>
+  <button disabled="true" label="Red"/>
+  <button name="def" id="key" class="hlite" disabled="true" num="1" label="Red"/>
+  
 == 0.8.3
 
 === Sinatra Hook
