@@ -27,6 +27,7 @@ hot/vm2.hot
 hot/vm.hot
 hot/vm_crud.hot
 hot/vm_popup.hot
+hot/xul.hot
 spec/spec_helper.rb
 spec/w2tags_spec.rb
 tasks/ann.rake
