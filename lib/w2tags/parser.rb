@@ -388,7 +388,7 @@ module W2Tags
         i = new_prms.size - 1
         new_prms.sort.reverse.each do |x|
         opt_v = Regexp.new('~([^$|\n]*)\\' +x+'([^\|\n]*)~') 
-        def_v = Regexp.new('~([\w]*)~\\'  +x) 
+        def_v = Regexp.new('~([^~]+)~\\'   +x) 
         eva_v = Regexp.new('\\n.+:([^$]+)\\'+x)     #exe methh: :upcase:$1 
           if opt_v =~ @new #;p $1
             rpl = ''
