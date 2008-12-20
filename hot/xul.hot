@@ -4,8 +4,18 @@
 ,/
 
 >>_window
-<?xml-stylesheet href="css1.css" type="text/css"?>
+<?xml-stylesheet href="~app.css~$0" type="text/css"?>
 %window{xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"}
+
+>>_vbox
+%vbox{flex="1" style="overflow: auto;"}
+
+>>_groupbox
+%groupbox{*att*}
+ %caption{label="$0" style="background:white;"}/
+
+>>_splitter
+%splitter{collapse="~before~$0"} <grippy/>
 
 >>_vscroll
 %arrowscrollbox{orient="vertical" flex="1"}
@@ -39,3 +49,21 @@
 
 >>_button
 %button$${*att* ~label="$0"~}/
+
+>>_tree
+%tree{flex="1" hidecolumnpicker="true"}
+ %treecols
+  %treecol{flex="1" primary="true" label="$0"}
+ %treechildren
+ 
+>>_treeitms
+&cls=$.
+%treeitem{container="true" open="true"}
+ %treerow
+  %treecell{label="$0"}
+ %treechildren
+
+>>_treeitem
+%treeitem
+ %treerow
+  %treecell&cls!{*att* label="$0"}

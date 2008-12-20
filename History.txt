@@ -16,6 +16,11 @@ last commit not include
   2. old:    /(%)([!]?[ \t\$\w\-\/:#.%=]+)\{([^\}]*)\}~([^!=])/
      new:    /(%)([!]?[ \t\$\w\-\/:#.%=]+\{[^\}]*\})~([^!=]*)\n/
      
+==== Change Regex for get_dollar (default value)
+
+  old: Regexp.new('~([\w]*)~\\'+x)
+  new: Regexp.new('~([^~]+)~\\'+x)
+
 ==== Parser for :name#id.clas now include {attribut} and new var
 parsing in w2tags and hot for {attribute} merge into method "idclass_var"
 so it must change hot regex with the same params regex ($1,$2,$3)
