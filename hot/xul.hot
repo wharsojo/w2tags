@@ -4,15 +4,50 @@
 ,/
 
 >>_window
-<?xml-stylesheet href="~app.css~$0" type="text/css"?>
-%window{xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"}
+<?xml-stylesheet href="~app.css~$1" type="text/css"?>
+<window 
+title ="~example~$0"
+xmlns:html="http://www.w3.org/1999/xhtml"
+xmlns ="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+onload="init();">
+  <script>
+  -!
+   function init(){
+      for (i in wh.init ) { eval(wh.init[i]);   }
+      for (i in wh.init2) { eval(wh.init2[i]);  }
+   }
+   if(window.wh==undefined){
+      window.wh={};
+      wh.init  =[];
+      wh.init2 =[];
+   }
+  </script>
+  <script src="jquery.js"/>
+<</
+</window>
+
+>>_js
+<script src="$0.js"/>
+
+>>_script
+<script><![CDATA[
+ -script_end
+ -!
+
+>>_script_end
+<</
+]]></script>
+
+>>_hbox
+%hbox{~flex="1" style="overflow: auto;"~*att*}
 
 >>_vbox
-%vbox{flex="1" style="overflow: auto;"}
+%vbox{~flex="1" style="overflow: auto;"~*att*}
 
 >>_groupbox
-%groupbox{*att*}
+%groupbox$${~flex="1"~*att*}
  %caption{label="$0" style="background:white;"}/
+ <html:div class="div">...</html:div>
 
 >>_splitter
 %splitter{collapse="~before~$0"} <grippy/>
@@ -51,19 +86,29 @@
 %button$${*att* ~label="$0"~}/
 
 >>_tree
-%tree{flex="1" hidecolumnpicker="true"}
+%script wh.init.push("wh.treeInit('#tree','$1')")
+%tree$${*att* flex="1" hidecolumnpicker="true" onselect="wh['$#'].doClick();"}
  %treecols
   %treecol{flex="1" primary="true" label="$0"}
  %treechildren
  
 >>_treeitms
 &cls=$.
-%treeitem{container="true" open="true"}
+%treeitem$.-root{container="true" open="true"}
  %treerow
   %treecell{label="$0"}
  %treechildren
 
 >>_treeitem
-%treeitem
+%treeitem$$
  %treerow
   %treecell&cls!{*att* label="$0"}
+
+>>_div
+<html:div>
+-div_end
+
+>>_div_end
+<</
+</html:div>
+
