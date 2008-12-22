@@ -82,8 +82,8 @@ you can do interpolation on variable
 
 default mean that is params not supply it will use the default
 
-combine mean that is params not supply it will empty params var inside "| |" 
-but if it supply, param var will be replace and remove char "|" 
+combine mean that is params not supply it will empty params var inside "~ ~$0" 
+but if it supply, param var will be replace and remove char "~" 
 
   test.hot
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -92,14 +92,14 @@ but if it supply, param var will be replace and remove char "|"
   -inside_var $*
 
   >>_default_var
-  %div{ key="|1|$1" } title 1
-  %div{ key="|2|$2" } title 2
-  %div{ key="|3|$3" } title 3
+  %div{ key="~1~$1" } title 1
+  %div{ key="~2~$2" } title 2
+  %div{ key="~3~$3" } title 3
 
   >>_inside_var
-  %div{ |att="$1"|} title 1
-  %div{ |att="$2"|} title 2
-  %div{ |att="$3"|} title 3
+  %div{ ~att="$1"~} title 1
+  %div{ ~att="$2"~} title 2
+  %div{ ~att="$3"~} title 3
 
   params.w2erb
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
