@@ -9,6 +9,23 @@ last commit not include
 
 === Changes in parser
 
+==== Add Default Value for ~def_value~*var*
+
+inside hot you can make a default value for predefine var. Ex:
+
+  >>_li
+  %li{~name="widi"~*att*}
+  
+  %li line 1
+  %li{name="arie"} line 2
+  
+  <li name="widi">line 1</li>
+  <li name="arie">line 2</li>
+  
+predefine var effected are:
+  
+  *att*, *all*, *opt*, *id*, *name*, *class*, *code*
+
 ==== Change Regex for HOT
 
   1. old:    /(%)([!]?[ \t\$\w\-\/:#.%=]+)()~([^\n]*)\n/
