@@ -220,6 +220,13 @@ add inside file "config/init.rb" in the bottom:
 
   require 'w2tags'
   require 'w2tags/merb_hook'
+  
+=== SINATRA HOOK
+
+sinatra usualy consist only one file "main.rb", so just add below sinatra require:
+
+  require 'w2tags'
+  require 'w2tags/sinatra_hook'
 
 == LICENSE:
 
