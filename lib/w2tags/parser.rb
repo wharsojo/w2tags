@@ -360,7 +360,11 @@ module W2Tags
     def get_dollar(prms,ends=nil) #prms='@0;@1;@2' from hot
       @mem_var.each do |k,v|            #;p "#{k}, #{v}"
         prms.gsub!(k,v)
-        @new.gsub!(k,v)
+        if k[0,1]=='*' and Regexp.new("~([^~]+)~#{k}".gsub('*','\\*')) =~ @new
+          @new.gsub!($~.to_s,(v!='' ? v : $1)) 
+        else
+          @new.gsub!(k,v)
+        end
       end
       prms = prms.split(';') #W2Tags::splitter(prms)
       new_prms = @new.scan(/\$[0-9]/).uniq
