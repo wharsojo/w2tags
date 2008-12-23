@@ -9,6 +9,17 @@ last commit not include
 
 === Changes in parser
 
+==== Now Parser can be test in IRB
+
+  irb -rubygems -rw2tags
+  >  p=W2Tags::Parser.new
+  
+  >  p.parse_line '%h1 title'
+  => [<h1>title</h1>\n]
+  
+  >  p.parse_line '%h1#main{op="head"} title'
+  => [<h1>title</h1>\n, <h1 id="main" op="head">title</h1>\n]
+  
 ==== Add Default Value for ~def_value~*var*
 
 inside hot you can make a default value for predefine var. Ex:
