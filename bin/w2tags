@@ -37,7 +37,7 @@ if arg.size>0
 	v = W2Tags::Parser.new
 
 	x = arg.select {|s|s[0,3]=='-d:'}
-	v.dbg[:stack] = (x.size==0)	
+	#v.dbg[:stack] = (x.size==0)	
 	x.each do |s|
 		v.dbg[:parse]     = true if s=='-d:parser'
 		v.dbg[:stack]     = true if s=='-d:stack'
