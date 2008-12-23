@@ -21,11 +21,15 @@
   .charts
     #tabBoxExample
       %ul.tabSet
-        %li.tabs.off %a! Overview
-        %li.tabs.off %a! 200 calories
-        %li.tabs.off %a! 100 grams
+        %li.tabs.off 
+          %a Overview
+        %li.tabs.off 
+          %a 200 calories
+        %li.tabs.off 
+          %a 100 grams
         -for tab in @tabs
-          %li.tabs.off %a=!tab
+          %li.tabs.off 
+            %a= tab
       .panelSet
         .panel
           = @overview_images
@@ -58,7 +62,7 @@
               .fats/
               .sterols/
               .other/
-            .right_col <!-- spanner -->
+            .right_col 
           .left_col
             .protein_and_amino_acids/
             .vitamins/
@@ -87,12 +91,17 @@
               .other/
                 %h3 Other
                 %ul 
-                  %li %a=!@nutrients[6][:water].nil? ? "Water &#x25E6;&#x25E6;" : (sprintf("Water %.1f g", @nutrients[6][:water]))
-                  %li %a=!@nutrients[6][:alcohol].nil? ? "Alcohol &#x25E6;&#x25E6;" : (sprintf("Alcohol %.1f g", @nutrients[6][:alcohol]))
-                  %li %a=!@nutrients[6][:caffeine].nil? ? "Caffeine &#x25E6;&#x25E6;" : (sprintf("Caffeine %.1fmg", @nutrients[6][:caffeine]))
-                  %li %a=!@nutrients[6][:theobromine].nil? ? "Theobromine &#x25E6;&#x25E6;" : (sprintf("Theobromine %.1fmg", @nutrients[6][:theobromine]))
-                  %li %a=!@nutrients[6][:ash].nil? ? "Ash &#x25E6;&#x25E6;" : (sprintf("Ash %.1f g", @nutrients[6][:ash]))
-            .right_col <!-- spanner -->
+                  %li 
+                    %a= @nutrients[6][:water].nil? ? "Water &#x25E6;&#x25E6;" : (sprintf("Water %.1f g", @nutrients[6][:water]))
+                  %li 
+                    %a= @nutrients[6][:alcohol].nil? ? "Alcohol &#x25E6;&#x25E6;" : (sprintf("Alcohol %.1f g", @nutrients[6][:alcohol]))
+                  %li 
+                    %a= @nutrients[6][:caffeine].nil? ? "Caffeine &#x25E6;&#x25E6;" : (sprintf("Caffeine %.1fmg", @nutrients[6][:caffeine]))
+                  %li 
+                    %a= @nutrients[6][:theobromine].nil? ? "Theobromine &#x25E6;&#x25E6;" : (sprintf("Theobromine %.1fmg", @nutrients[6][:theobromine]))
+                  %li 
+                    %a= @nutrients[6][:ash].nil? ? "Ash &#x25E6;&#x25E6;" : (sprintf("Ash %.1f g", @nutrients[6][:ash]))
+            .right_col 
           .left_col
             .protein_and_amino_acids/
             .vitamins/
@@ -121,7 +130,7 @@
                 .fats/
                 .sterols/
                 .other/
-              .right_col <!-- spanner -->
+              .right_col 
             .left_col
               .protein_and_amino_acids/
               .vitamins/
