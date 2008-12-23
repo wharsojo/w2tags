@@ -145,7 +145,8 @@ module W2Tags
       merge_tags
     end
     
-    def parse_line row
+    def parse_line row,init=nil
+      parse_init if init
       dbg[:parse]=true
       @doc_src = [row]
       while (@row = @doc_src.shift) do  #;p "row:#{@row}"
