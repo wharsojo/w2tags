@@ -58,10 +58,10 @@
 <% $* %>
 
 >>br
-<br*attr*/>
+<br*att*/>
 
 >>hr
-<hr*attr*/>
+<hr*att*/>
 
 >>img
 <img src="$0" |alt="$1"| />
