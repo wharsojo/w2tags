@@ -1,0 +1,142 @@
+<?xml-stylesheet href="app.css" type="text/css"?>
+<window 
+title ="example"
+xmlns:html="http://www.w3.org/1999/xhtml"
+xmlns ="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+onload="init();">
+  <script>
+   function init(){
+      for (i in wh.init ) { eval(wh.init[i]);   }
+      for (i in wh.init2) { eval(wh.init2[i]);  }
+   }
+   if(window.wh==undefined){
+      window.wh={};
+      wh.init  =[];
+      wh.init2 =[];
+   }
+  </script>
+  <script src="jquery.js"/>
+  <script src="xul.tree.js"/>
+  <script><![CDATA[
+    wh.treeInitEven = function(){
+      wh['#tree'].tbl = function(){
+        $('#obj_tbl').find('.div')[0].innerHTML = '<html:h1>'+wh['#tree'].class+'</html:h1>';
+      };
+      wh['#tree'].seq = function(){
+        $('#obj_seq').find('.div')[0].innerHTML = '<html:h1>'+wh['#tree'].class+'</html:h1>';
+        this.addItem('AddItem');
+      };
+      wh['#tree'].viw = function(){
+        $('#obj_viw').find('.div')[0].innerHTML = '<html:h1>'+wh['#tree'].class+'</html:h1>';
+        this.items(['1','2','3']);
+      };
+    }
+   ]]></script>
+  <hbox flex="1" style="overflow: auto;">
+    <vbox flex="1" style="overflow: auto;">
+      <script>wh.init.push("wh.treeInit('#tree','tbl viw seq')")</script>
+      <tree id="tree" flex="1" hidecolumnpicker="true" onselect="wh['#tree'].doClick();">
+       <treecols>
+        <treecol flex="1" primary="true" label="Object brower">
+        </treecol> 
+       </treecols> 
+       <treechildren>
+        <treeitem class="tbl-root" container="true" open="true">
+         <treerow>
+          <treecell label="tables">
+          </treecell> 
+         </treerow> 
+         <treechildren>
+          <treeitem>
+           <treerow>
+            <treecell class="tbl" label="inv">
+            </treecell> 
+           </treerow> 
+          </treeitem> 
+          <treeitem>
+           <treerow>
+            <treecell class="tbl" label="customer">
+            </treecell> 
+           </treerow> 
+          </treeitem> 
+          <treeitem>
+           <treerow>
+            <treecell class="tbl" label="trans1">
+            </treecell> 
+           </treerow> 
+          </treeitem> 
+          <treeitem>
+           <treerow>
+            <treecell class="tbl" label="trans2">
+            </treecell> 
+           </treerow> 
+          </treeitem> 
+         </treechildren> 
+        </treeitem> 
+        <treeitem class="seq-root" container="true" open="true">
+         <treerow>
+          <treecell label="sequences">
+          </treecell> 
+         </treerow> 
+         <treechildren>
+          <treeitem>
+           <treerow>
+            <treecell class="seq" label="seq_inv">
+            </treecell> 
+           </treerow> 
+          </treeitem> 
+         </treechildren> 
+        </treeitem> 
+        <treeitem class="viw-root" container="true" open="true">
+         <treerow>
+          <treecell label="views">
+          </treecell> 
+         </treerow> 
+         <treechildren>
+          <treeitem>
+           <treerow>
+            <treecell class="viw" label="invbycustomer">
+            </treecell> 
+           </treerow> 
+          </treeitem> 
+          <treeitem>
+           <treerow>
+            <treecell class="viw" label="invbytotaltrans">
+            </treecell> 
+           </treerow> 
+          </treeitem> 
+         </treechildren> 
+        </treeitem> 
+       </treechildren> 
+      </tree> 
+      <hbox style="display:none;">
+        <treeitem id="dmy">
+         <treerow>
+          <treecell class="dummy" label="dummy">
+          </treecell> 
+         </treerow> 
+        </treeitem> 
+      </hbox> 
+    </vbox> 
+    <splitter collapse="before"><grippy/></splitter>
+    <vbox flex="5">
+      <groupbox id="obj_tbl" flex="1">
+       <caption label="Tables" style="background:white;"/>
+       <html:div class="div">...</html:div>
+      </groupbox> 
+      <groupbox id="obj_seq" flex="1">
+       <caption label="Sequences" style="background:white;"/>
+       <html:div class="div">...</html:div>
+      </groupbox> 
+      <groupbox id="obj_viw" flex="1">
+       <caption label="Views" style="background:white;"/>
+       <html:div class="div">...</html:div>
+      </groupbox> 
+    </vbox> 
+    <splitter collapse="after"><grippy/></splitter>
+    <groupbox flex="1">
+     <caption label="Property" style="background:white;"/>
+     <html:div class="div">...</html:div>
+    </groupbox> 
+  </hbox> 
+</window>
