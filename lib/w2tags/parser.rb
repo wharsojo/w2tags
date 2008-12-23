@@ -7,7 +7,7 @@ module W2Tags
     
     #initiall create instance object, default if no arguments will be 
     #target for htm
-    def initialize(ext = '.htm')
+    def initialize(ext = 'htm')
       @dbg={
         :hot      =>nil,
         :stack    =>nil,
@@ -28,7 +28,7 @@ module W2Tags
       @plt    =  99    #plaintext indentation
       @rmk    =  99    #remark indentation
       @rgx    =  nil   #current regular expression
-      @ext    = '.htm' #target extension 
+      @ext    =  ext   #target extension 
       @hot    = 'hot'  #source of file hot
       @w2x    = 'w2x'  #source file to include
       @src_path= ''    #path for source file
@@ -43,9 +43,11 @@ module W2Tags
       @mem_var= {'$me'=>"wharsojo"}
       @mem_var['$basepath'] = File.basename(File.expand_path('.'))
 
-      @tg_end = []     #momorize tag end from regex function
       @tg_hot = {}     #{'div'=>[proc{|this|"%div$*!"},nil]} #collection of tag_hot after reading from source hot
       @tg_nex = {}     #tag next activate on shortcut tag "%"
+      @tg_end = []     #momorize tag end from regex function
+      @doc_src= []
+      @doc_out= []
       
       @tg_nex['html'  ]= [0,proc { @mem_tag["^"] = "%head $*\n"}]
       @tg_nex['head'  ]= [0,proc { @mem_tag["^"] = "%body $*\n"}]
@@ -104,10 +106,8 @@ module W2Tags
     def parsing(src,tgt,init_start=true)
       puts ">>#{src}"
       puts ">>#{tgt}"
-      @src_path = File.dirname(src)
-      @tg_end   = [] #momorize tag end from regex function
-      @doc_out  = []
-      merge_tags
+      parse_init
+      @src_path= File.dirname(src)
       @doc_src = IO.read(src).gsub(/\r/,'').split("\n")
       @doc_src<< "%finallize" if @tg_hot['finallize' ]
       
@@ -117,7 +117,45 @@ module W2Tags
           p "HEAD:#{init_start}"
           init_start  = false
         end
-        
+        parse_row
+      end
+      if @dbg[:constanta] 
+        p "const_ "
+        @mem_var.keys.sort.each {|k|p "#{k.ljust 10} : #{@mem_var[k]}"}
+      end
+      
+      if @dbg[:hot]
+        @tg_hot.keys.sort.each_with_index do |v,i|
+          puts "#{i}. #{v}"
+        end
+      end
+      
+      open(tgt,'w') do |f|
+        @doc_out.each do |row|
+          f << row
+        end
+      end
+      
+    end
+    
+    def parse_init
+      @tg_end   = [] #momorize tag end from regex function
+      @doc_src  = []
+      @doc_out  = []
+      merge_tags
+    end
+    
+    def parse_line row
+      dbg[:parse]=true
+      @doc_src = [row]
+      while (@row = @doc_src.shift) do  #;p "row:#{@row}"
+        parse_row
+      end
+      @doc_out
+    end
+    
+    def parse_row row=nil
+        @row = row if row
         @row<<"\n"           #;p "row:#{@row}"
         p "_____> #{@row}" if @dbg[:parse] && @plt == 99 && @rmk == 99
 
@@ -139,26 +177,9 @@ module W2Tags
           p "#####> #{@row}" if @dbg[:parse] #&& @plt == 99 && @rmk == 99
           @doc_out << @row 
         end
-      end
-      if @dbg[:constanta] 
-        p "const_ "
-        @mem_var.keys.sort.each {|k|p "#{k.ljust 10} : #{@mem_var[k]}"}
-      end
-      
-      if @dbg[:hot]
-        @tg_hot.keys.sort.each_with_index do |v,i|
-          puts "#{i}. #{v}"
-        end
-      end
-      
-      open(tgt,'w') do |f|
-        @doc_out.each do |row|
-          f << row
-        end
-      end
-      
+        @row
     end
-    
+
     #parse one w2tags, result will be name of the target file created
     def parse_file(src,init_start=true,chk_date=false)
       tgt,@ext = [src[/(.+\.)w2(\w+)$/,1]<<$2,$2]
@@ -246,6 +267,7 @@ module W2Tags
       if File.exist?(filehot)
         p File.expand_path(filehot)
         @tg_hot.merge!(W2Tags.read_filehot(filehot)) 
+        @tg_hot
       end
     end
     
