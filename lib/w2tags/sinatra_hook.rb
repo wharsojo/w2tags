@@ -10,7 +10,7 @@ module Sinatra
           options[:views_directory] || Sinatra.application.options.views,
           "#{template}.#{renderer}"
         )
-        src = path.gsub(path[/\.(\w+)$/,1],'w2'<<$1)
+        src = path.gsub(path[/(\.\w+)$/,1],'.w2'<<$1[1,9])
         W2TAGS.parse_file(src,false,true)
         super 
       end
