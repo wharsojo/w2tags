@@ -553,7 +553,7 @@ module W2Tags
           cl = $1
           cx = cl.split('.').collect {|x|x.strip}.join(' ')
           @mem_var['$.'     ] = ".#{cl}"
-          @mem_var['*.'     ] = $1
+          @mem_var['*.'     ] = cl
           @mem_var['*class*'] = "class=\"#{cx}\" "
           @mem_var['*all*'  ]<< "class=\"#{cx}\" "
           @mem_var['*opt*'  ]<< ".#{cl}"
