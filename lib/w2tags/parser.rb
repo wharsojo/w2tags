@@ -138,13 +138,17 @@ module W2Tags
       
     end
     
+    #it use to clean all the definition and reloading the hot file
     def parse_init
       @tg_end   = [] #momorize tag end from regex function
       @doc_src  = []
       @doc_out  = []
+      @tg_hot   = {} 
       merge_tags
     end
     
+    #to test parsing on source line and return will be the result, 
+    #everytime it execude, it clean up and reloading the HOT files.
     def parse_line row,init=nil
       parse_init if init
       dbg[:parse]=true
@@ -155,6 +159,10 @@ module W2Tags
       @doc_out
     end
     
+    #the actual parsing on row, but it use for parsing the files not to
+    #test the source line, since some of the row have a command that 
+    #has effect on source, result and the row will be empty, please use
+    #parse_line if you want to test interactively on IRB.
     def parse_row row=nil
         @row = row if row
         @row<<"\n"           #;p "row:#{@row}"
@@ -344,7 +352,7 @@ module W2Tags
       @spc = @row[/(^[ \t]+)/,1].to_s       #sometime result is nil
     end
     
-    #do the translation from the params inside function like @a(par1;par2;par3)
+    #do the translation from the params inside function like "%a par1;par2;par3\n"
     #it do following job:
     # * replace constanta (&var!) inside params of the function
     # * replace constanta (&var!) inside new line of source code 
@@ -465,6 +473,12 @@ module W2Tags
       rpls
     end
     
+    #command execution "-key", internally parsed to "%_key~", so both command
+    #are the same except that command "-key" need to translate to "%_key~" and
+    #it goes to Hot files key definition to lookup to. some of these definition
+    # built in (for erb: %_if , %_elsif , %_else , %_end , ... etc)
+    #  -if  =>  %_if
+    #  -li  =>  %_li
     def shortcut_exec(regex)
       if(regex =~ @row;@rgx = $~)
         srcs = @rgx.to_s
@@ -474,6 +488,9 @@ module W2Tags
       end
     end
     
+    #command execution "=", internally parsed to "%=~", so both command
+    #are the same except that command "=" need to translate to "%=~" and
+    #it goes to Hot files key definition to lookup to. you can redefine it.
     def shortcut_equal(regex)
       if(regex =~ @row;@rgx = $~)
         srcs = @rgx.to_s
@@ -483,9 +500,9 @@ module W2Tags
       end
     end
     
-    #simple tags replacement with mark on the left with <space or tab>@ and 
-    #at the end #mark with space or \n ex: @div<space>  or @div<\n>
-    #if tag div fine in hot, tags it become a function, but if not 
+    #this command is the selector from command "%..key.. params1;paramsN \n"
+    #ex: %div<space>params\n  or %div<\n>. 
+    #if key div fine in hot, it will translate to HOT tags, but if not 
     #it become w2tags
     def get_hot_simple(regex)
       if(regex =~ @row;@rgx = $~)
@@ -572,6 +589,10 @@ module W2Tags
       @mem_var['$$'] = @mem_var['*opt*']
     end
     
+    #these not really visible for end user, since user usualy see the command as
+    #a HAML like command and translate to this HOT files. the translation usually
+    #came from method in "shortcut_exec", "get_hot_simple" and format for this 
+    #command is "%...key...~..params1;paramsN..\n"
     def parse_hot  
       eva = ''
       col = @row.split('%')
@@ -629,6 +650,13 @@ module W2Tags
       @rgx!=nil
     end
     
+    #shortcut for "%...div...!params", and user no need to write "%div" is user
+    #supply the command with ID or CLASS.
+    #  %div#key my key features   ~~SAME AS~~
+    #  #key my key features 
+    #
+    #  %div.okey my key features   ~~SAME AS~~
+    #  .okey my key features 
     def get_div(regex)
       if(regex =~ @row;@rgx = $~)
         src = @rgx.captures.join
@@ -642,6 +670,9 @@ module W2Tags
       @rgx!=nil
     end
     
+    #when command is "-#", it means that insdie these
+    #indentation will not include on the result or it
+    #become some comment.
     def inside_rmk(regex)
       if(regex =~ @row;@rgx = $~)
         @rmk = @spc.size
@@ -652,6 +683,8 @@ module W2Tags
       @rmk  != 99
     end
     
+    #when command is "-!", it means that insdie these
+    #indentation will not be parsed.
     def inside_plain_text(regex)
       @rgx = nil
       if(regex =~ @row;@rgx = $~)
@@ -665,6 +698,7 @@ module W2Tags
       @plt  != 99
     end
     
+    #popup the closing tags when indentation are less than the previous.
     def auto_close
       if @tg_end.size>1
         sz = @tg_end[-1][/^ +/].to_s.size
@@ -678,6 +712,7 @@ module W2Tags
       end
     end
     
+    #all regex for line will be test in this methods
     def parse_all
       if @row.strip == ''
       elsif /(^[\t ]*)(\\)([^\n]*\n)/ =~ @row #escape for plain text "\- "
@@ -715,10 +750,19 @@ module W2Tags
       rtn
     end
     
+    #remember command "^", not really use but if you want less typing you can
+    #define this command inside HOT file for the next command to be execute like:
+    #  >>_tr
+    #  ~^%td
+    #
+    #  -tr
+    #    ^inside td
+    #I think its Ok.
     def parse_set_mem
       @mem_tag["^"]= $2 if @row.gsub!(/([ \t]*~\^)([^`\n]+)(`|\n)/,'')
     end
     
+    #call from parse_get_mem
     def get_mem(regex)
       if(regex =~ @row;@rgx = $~)
         keys,tmp,prms,opt,ends= @rgx.captures
@@ -740,6 +784,14 @@ module W2Tags
       @rgx!=nil
     end
     
+    #remember command "^", not really use but if you want less typing you can
+    #define this command inside HOT file for the next command to be execute like:
+    #  >>_tr
+    #  ~^%td
+    #
+    #  -tr
+    #    ^inside td
+    #I think its Ok.
     def parse_get_mem
       get_mem(/([\^])()\{([^\}]*)\}([^`\n]*)(`|\n)/) ? true : \
       get_mem(/([\^])()([^`\n]*)(`|\n)/)
@@ -767,7 +819,8 @@ module W2Tags
       (get_end(/^[ \t]*(~+)\/(\n)/) ? true : \
        get_end(/^[ \t]*(!)\/(\n)/)))
     end
-    
+
+    #parsing w2tags commands
     def parse_tags
       @rgx = nil
       par  = []
