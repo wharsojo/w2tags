@@ -154,7 +154,7 @@ You can see that it not DRY, some patern will go to HOT files "rails_basic.hot"
 
   >>input
   %p
-    %b :capitalize$0
+    %b ~:capitalize$0
     %br
     = f.text_field :$0
 
@@ -178,7 +178,7 @@ and code in source:
 
 == REQUIREMENTS:
 
-no requirement for now, since it use only regular experssion to do
+no requirement for now, since it use only regular expression to do
 parsing.
 
 == INSTALL:
