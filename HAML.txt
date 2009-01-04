@@ -257,33 +257,33 @@ result:
 
 ==== Other Sample for Shortcut of DIV
 
-  #menu.content.light
-  #id.class1.class2{row="1"}
-  #id.class1
-  #id.class2
-  #id{row="1"}
-  #id
-  .class1.class2{row="1"}
-  .class2.class1{row="1"}
-  .class1{row="1"}
-  .class2{row="1"}
-  .class1
-  .class2
+  #menu.content.light/
+  #id.class1.class2{row="1"}/
+  #id.class1/
+  #id.class2/
+  #id{row="1"}/
+  #id/
+  .class1.class2{row="1"}/
+  .class2.class1{row="1"}/
+  .class1{row="1"}/
+  .class2{row="1"}/
+  .class1/
+  .class2/
     
 result:
 
-  <div id="menu" class="content light"></div>
-  <div id="id" class="class1 class2" row="1"></div>
-  <div id="id" class="class1"></div>
-  <div id="id" class="class2"></div>
-  <div id="id" row="1"></div>
-  <div id="id"></div>
-  <div class="class1 class2" row="1"></div>
-  <div class="class2 class1" row="1"></div>
-  <div class="class1" row="1"></div>
-  <div class="class2" row="1"></div>
-  <div class="class1"></div>
-  <div class="class2"></div>
+  <div id="menu" class="content light"/>
+  <div id="id" class="class1 class2" row="1"/>
+  <div id="id" class="class1"/>
+  <div id="id" class="class2"/>
+  <div id="id" row="1"/>
+  <div id="id"/>
+  <div class="class1 class2" row="1"/>
+  <div class="class2 class1" row="1"/>
+  <div class="class1" row="1"/>
+  <div class="class2" row="1"/>
+  <div class="class1"/>
+  <div class="class2"/>
 
 === \  line text / no parsing
 
@@ -306,3 +306,8 @@ this is a shortcut that after "=", it put inside of "<%=\" \"%>"
  
 line inside block of indentation (children of) will become a remark / comment
 the result does not have this block 
+
+=== -! block not parse
+ 
+line inside block of indentation (children of) will not be parse this is usefull
+for some block no need to parse.
