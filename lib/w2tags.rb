@@ -5,17 +5,18 @@ $LOAD_PATH << dir unless $LOAD_PATH.include?(dir)
 #
 # W2TAGS is a shortcut of tags, macros, and it is very simple describer for HTML
 # its not to become a replacement for inline tamplating engine, it best use for 
-# developement (rails / merb) and the result is an "erb" file to be execute by
-# erb or erubis (the fastest templating engine). It focus on how developer can
-# code and generate dynamic content with DRY philosophy, easy to understand and
-# in a very clean way.
+# developement (sinatra / rails / merb) and the result is an "erb" file to be 
+# execute by erb or erubis (the fastest templating engine). 
+#
+# It focus on how developer can code and generate dynamic content with 
+# DRY philosophy, easy to understand and in a very clean way.
 #
 # == Features
 #
 # * Mimics HAML syntax (inherit features define in HAML)
 # * Extended syntax for Next Tag, Variable, Constanta
 # * HOT file is patern for put in repetitif code and leter can be call it
-# * HOT Variable interpolation, make it code realy DRY
+# * HOT Variable interpolation, make it code really DRY
 #
 # == Using W2TAGS
 #
