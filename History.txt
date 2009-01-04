@@ -2,13 +2,90 @@
 
 Below is a complete listing of changes for each revision of W2TAGS.
 
+== 0.8.5
+
+=== Changes in erb.hot
+
+   >>_each2
+  old: $0.each_with_index do |r,i|
+  new: $0.each_with_index do |$1|
+  
+  >>_eachs
+  new: $0.sort.each do |$1|
+
+  >>_a
+  new: %a{href="#"}$$ $*
+
+  >>_a2
+  new: %a{href="<%= $1 %>"}$$ $0
+
+=== Changes in parser
+
+==== w2tags command last params with char "<"
+
+now it support end of tag not automatically close when last params with char "<"
+
+  %div my div<
+    %div other div
+    
+  <div>mydiv
+    <div>other div</div>
+  </div>
+  
+==== parse_set_var 
+
+value will be trim down 
+
+  &var= value
+  @var= value2
+  %div &var!
+  %div @var!
+  
+  <div>value</div>
+  <div>value2</div>
+
+==== get_dollar / fix auto repeat line 
+
+change behaviour "auto repeat" line 
+
+  >>_li
+  %li ~:capitalize$0
+
+  %ul
+    -li one;two
+  
+  <ul>
+    <li>One</li>
+    <li>Two</li>
+  </ul>
+  
+==== Change Regex for get_dollar (default value)
+
+  old: Regexp.new('~([^~]+)~\\'+x)
+  new: Regexp.new('~:([^$]+)\\'+x)
+
+=== Change Variable for name, id, class ( *: , *# , *. )
+
+when you put command like: 
+
+  %div:name#id.class myhtml
+  
+it will be save in these variable
+
+  @mem_var['$:'] = ":name"  
+  @mem_var['*:'] = "name"  
+  @mem_var['$#'] = "#id"  
+  @mem_var['*#'] = "id"  
+  @mem_var['$.'] = ".class"  
+  @mem_var['*.'] = "class"  
+
 == 0.8.4
 
 === Sinatra Hook
 last commit not include
 
 === Changes in parser
-
+  
 ==== Now Parser can be test in IRB
 
   irb -rubygems -rw2tags
