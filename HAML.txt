@@ -27,6 +27,7 @@ List of HAML command. This list are the HAML command that token begin with:
   =  translate to Ruby code
   == translate to Ruby String
   -# block remark / comment not include on result 
+  -! block not parse
 
 For details implementation, you must see on each explanation of these command below.
 
@@ -104,36 +105,56 @@ result:
 Combination of ID, CLASS, Attribute, and "Ruby", just follow from left to the right order, 
 you can have all of this or you can ommit some of this, you can check example below:
 
-  %div#menu.content.light
-  %div#id.class1.class2{row="1"}
-  %div#id.class1
-  %div#id.class2
-  %div#id{row="1"}
-  %div#id
-  %div.class1.class2{row="1"}
-  %div.class2.class1{row="1"}
-  %div.class1{row="1"}
-  %div.class2{row="1"}
-  %div.class1
-  %div.class2
-  %div{row="1"}
-    
-result:
+Source:
 
-  <div id="menu" class="content light"></div>
-  <div id="id" class="class1 class2" row="1"></div>
-  <div id="id" class="class1"></div>
-  <div id="id" class="class2"></div>
-  <div id="id" row="1"></div>
-  <div id="id"></div>
-  <div class="class1 class2" row="1"></div>
-  <div class="class2 class1" row="1"></div>
-  <div class="class1" row="1"></div>
-  <div class="class2" row="1"></div>
-  <div class="class1"></div>
-  <div class="class2"></div>
-  <div row="1"></div>
+  %div#menu.content.light/
+  %div#id.class1.class2{row="1"}/
+  %div#id.class1/
+  %div#id.class2/
+  %div#id{row="1"}/
+  %div#id/
+  %div.class1.class2{row="1"}/
+  %div.class2.class1{row="1"}/
+  %div.class1{row="1"}/
+  %div.class2{row="1"}/
+  %div.class1/
+  %div.class2/
+  %div{row="1"}/
   
+Same as:
+  
+  #menu.content.light/
+  #id.class1.class2{row="1"}/
+  #id.class1/
+  #id.class2/
+  #id{row="1"}/
+  #id/
+  .class1.class2{row="1"}/
+  .class2.class1{row="1"}/
+  .class1{row="1"}/
+  .class2{row="1"}/
+  .class1/
+  .class2/
+  %div{row="1"}/
+
+Result:
+
+  <div id="menu" class="content light"/>
+  <div id="id" class="class1 class2" row="1"/>
+  <div id="id" class="class1"/>
+  <div id="id" class="class2"/>
+  <div id="id" row="1"/>
+  <div id="id"/>
+  <div class="class1 class2" row="1"/>
+  <div class="class2 class1" row="1"/>
+  <div class="class1" row="1"/>
+  <div class="class2" row="1"/>
+  <div class="class1"/>
+  <div class="class2"/>
+  <div row="1"/>
+  
+Source:
+
   %div#menu.content.light= Harsojo
   %div#id.class1.class2{row="1"}= Harsojo
   %div#id.class1= Harsojo
@@ -163,6 +184,8 @@ result:
   <div class="class1"><%= Harsojo %></div>
   <div class="class2"><%= Harsojo %></div>
   <div row="1"><%= Harsojo %></div>
+
+Source:
 
   %div#menu.content.light== Harsojo
   %div#id.class1.class2{row="1"}== Harsojo
