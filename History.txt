@@ -21,6 +21,21 @@ Below is a complete listing of changes for each revision of W2TAGS.
 
 === Changes in parser
 
+==== update inline doc
+
+add and update inline doc, some of the documentation need correct documentation
+and I need feedback to get proper inline documentation 
+
+==== property "ext"
+
+for testing, it will auto loading HOT files and default ext is "htm", and
+now you can change the ext and auto loading will perform correctly.
+
+==== lookup auto loading HOT changes (merge_tags)
+
+now it will search in current folder if it not found it will search to gems
+folder of w2tags/hot. 
+
 ==== w2tags command last params with char "<"
 
 now it support end of tag not automatically close when last params with char "<"
