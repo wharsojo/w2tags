@@ -2,8 +2,11 @@
 
 module W2Tags 
   class Parser
-    attr_reader   :spc
+    #change debuging ex: obj.dbg[:parse] = true
     attr_accessor :dbg 
+    #set extention for ext auto loading HOT files 
+    attr_accessor :ext 
+    attr_reader   :spc
     
     #initiall create instance object, default if no arguments will be 
     #target for htm
@@ -267,16 +270,20 @@ module W2Tags
     #merging file hot based on the target extension, and target 
     #extension it self based on source extension, example: 
     #suppose you have source of w2tags 'index.html.w2erb'    
-    #it will produce target extension of '.erb' and 
-    #target file 'index.html.erb' and loding
-    #hot file of 'erb.hot' from library
+    #it just like autoloading:
+    # !hot!erb
+    #it will search HOT files in current folder, if it not found 
+    #it will search in gem/hot and merging the HOT
     def merge_tags 
-      filehot = "#{W2Tags::Dir}/../hot/#{@ext}.#{@hot}"
-      if File.exist?(filehot)
+      hot1 = "#{@src_path}/#{@ext}.#{@hot}"
+      hot2 = "#{W2Tags::Dir}/../hot/#{@ext}.#{@hot}"
+      filehot = hot1 if File.exist?(hot1)
+      filehot = hot2 if File.exist?(hot2)
+      if filehot
         p File.expand_path(filehot)
         @tg_hot.merge!(W2Tags.read_filehot(filehot)) 
-        @tg_hot
       end
+      @tg_hot
     end
     
     #define variable ( &var! or @var! )tobe use by parser in hot for 
@@ -304,8 +311,11 @@ module W2Tags
       end
     end
     
-    #same as merge_tags but this one call from w2tags file after parsing 
-    #and found tag !hot!filehot, and it will do action like on merge_tags
+    #when parsing and found tag
+    # !hot!filehot1;filehotN
+    #it will search HOT files in current folder, if it not found it will search
+    #in gem/hot and merging the HOT, this command can have multiple
+    #file HOT separate with ";"
     def merge_hot
       if(/!hot!([\w;]+)([`\n])/ =~ @row;@rgx = $~)
         hots= @rgx[1].split(';').collect {|x|x+'.'+@hot}
@@ -325,9 +335,10 @@ module W2Tags
       end
     end
     
-    #when parsing and found tag !inc!fileinc, it will include / replace 
-    #current row from file inside .w2x, and after parser will try to get
-    #current row after merging to be evaluate
+    #when parsing and found tag 
+    # !inc!fileinc
+    #it will include / replace current row from file inside .w2x, and after 
+    #parser will try to get current row after merging to be evaluate
     def merge_w2x
       if(/!inc![ ]?([\w.]+)([`\n])/ =~ @row;@rgx = $~)
         mac = @src_path+'/'+$1+'.'+@w2x
@@ -352,7 +363,8 @@ module W2Tags
       @spc = @row[/(^[ \t]+)/,1].to_s       #sometime result is nil
     end
     
-    #do the translation from the params inside function like "%a par1;par2;par3\n"
+    #do the translation from the params inside function like:
+    # %a par1;par2;par3
     #it do following job:
     # * replace constanta (&var!) inside params of the function
     # * replace constanta (&var!) inside new line of source code 
@@ -500,8 +512,10 @@ module W2Tags
       end
     end
     
-    #this command is the selector from command "%..key.. params1;paramsN \n"
-    #ex: %div<space>params\n  or %div<\n>. 
+    #this command is the selector from command 
+    # %..key.. params1;paramsN \n
+    #ex: 
+    # %div<space>params\n  or %div<\n>. 
     #if key div fine in hot, it will translate to HOT tags, but if not 
     #it become w2tags
     def get_hot_simple(regex)
@@ -520,13 +534,16 @@ module W2Tags
     end
     
     #translation for tags with shortcut of name, id, or class and put in constants
-    #ex: %div:name#id.class{attribute}=
+    # ex: %div:name#id.class{attribute}=
     #will result in some of this var:
     # @mem_var['*att*'  ] => {attribute}
     # @mem_var['$$'     ] => :name#id.class
     # @mem_var['$:'     ] => :name
     # @mem_var['$#'     ] => #id
     # @mem_var['$.'     ] => .class
+    # @mem_var['*:'     ] => name
+    # @mem_var['*#'     ] => id
+    # @mem_var['*.'     ] => class
     # @mem_var['*all*'  ] => name="name" id="id" class="class"
     # @mem_var['*opt*'  ] => :name#id.class
     # @mem_var['*id*'   ] => id="id"
@@ -591,8 +608,11 @@ module W2Tags
     
     #these not really visible for end user, since user usualy see the command as
     #a HAML like command and translate to this HOT files. the translation usually
-    #came from method in "shortcut_exec", "get_hot_simple" and format for this 
-    #command is "%...key...~..params1;paramsN..\n"
+    #came from method in:
+    # shortcut_exec
+    # get_hot_simple
+    #format for this command is 
+    # %...key...~..params1;paramsN..\n
     def parse_hot  
       eva = ''
       col = @row.split('%')
@@ -650,13 +670,18 @@ module W2Tags
       @rgx!=nil
     end
     
-    #shortcut for "%...div...!params", and user no need to write "%div" is user
-    #supply the command with ID or CLASS.
-    #  %div#key my key features   ~~SAME AS~~
-    #  #key my key features 
+    #shortcut for 
+    # "%...div...!params", 
+    #and user no need to write 
+    # "%div" 
+    #if user supply the command with ID or CLASS.
+    # %div#key my key features   
+    #same as:
+    # #key my key features 
     #
-    #  %div.okey my key features   ~~SAME AS~~
-    #  .okey my key features 
+    # %div.okey my key features   
+    #same as:
+    # .okey my key features 
     def get_div(regex)
       if(regex =~ @row;@rgx = $~)
         src = @rgx.captures.join
@@ -670,9 +695,13 @@ module W2Tags
       @rgx!=nil
     end
     
-    #when command is "-#", it means that insdie these
+    #when command is "-#", it means that inside these
     #indentation will not include on the result or it
     #become some comment.
+    # Example:
+    # -#
+    #  THIS COMMENT 
+    #  WILL NOT SHOW ON RESULT
     def inside_rmk(regex)
       if(regex =~ @row;@rgx = $~)
         @rmk = @spc.size
@@ -683,8 +712,15 @@ module W2Tags
       @rmk  != 99
     end
     
-    #when command is "-!", it means that insdie these
+    #when command is "-!", it means that inside these
     #indentation will not be parsed.
+    # Example:
+    # %head
+    #  %script
+    #   -!
+    #    $(function(){
+    #      alert('Hello World');
+    #    });
     def inside_plain_text(regex)
       @rgx = nil
       if(regex =~ @row;@rgx = $~)
@@ -752,11 +788,13 @@ module W2Tags
     
     #remember command "^", not really use but if you want less typing you can
     #define this command inside HOT file for the next command to be execute like:
-    #  >>_tr
-    #  ~^%td
+    # HOT file:
+    # >>_tr
+    # ~^%td
     #
-    #  -tr
-    #    ^inside td
+    # Source file:
+    # -tr
+    #   ^inside td
     #I think its Ok.
     def parse_set_mem
       @mem_tag["^"]= $2 if @row.gsub!(/([ \t]*~\^)([^`\n]+)(`|\n)/,'')
@@ -786,17 +824,20 @@ module W2Tags
     
     #remember command "^", not really use but if you want less typing you can
     #define this command inside HOT file for the next command to be execute like:
-    #  >>_tr
-    #  ~^%td
+    # HOT file:
+    # >>_tr
+    # ~^%td
     #
-    #  -tr
-    #    ^inside td
+    # Source file:
+    # -tr
+    #   ^inside td
     #I think its Ok.
     def parse_get_mem
       get_mem(/([\^])()\{([^\}]*)\}([^`\n]*)(`|\n)/) ? true : \
       get_mem(/([\^])()([^`\n]*)(`|\n)/)
     end
     
+    #it call from parse_end
     def get_end(regex)
       if(regex =~ @row;@rgx = $~)
         if @rgx[1]=='~' 
@@ -814,6 +855,10 @@ module W2Tags
       end
     end
     
+    #user can popup the end tags using these folowing command:
+    # ,/ all end tags will be popup
+    # ~/ one or multi end tags will be popup (depend on how many ~ you write)
+    # !/ popup until the same indentation of "!/"
     def parse_end
       (get_end(/^(,)\/(\n)/) ? true : \
       (get_end(/^[ \t]*(~+)\/(\n)/) ? true : \
