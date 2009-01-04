@@ -6,7 +6,7 @@ well know frame work.
 
 === INITIALIZE & FINALLIZE
 this command are use on (appended) so user who use it frequently can define
-any kind of element / tags for the biginning / ending document.
+any kind of element / tags for the beginning / ending document.
 
   %initialize
   not use but you can define it again 
