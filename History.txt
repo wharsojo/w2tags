@@ -4,6 +4,24 @@ Below is a complete listing of changes for each revision of W2TAGS.
 
 == 0.8.5
 
+=== Changes in htm.hot
+
+params value always be trim/strip, no need to interpolation the "dollar",so you 
+can code like this:
+    
+  -js jquery;jquery.listen
+  
+  <script type="text/javascript" src="jquery.js" > </script>
+  <script type="text/javascript" src="jquery.listen.js" > </script>
+
+  >>_css
+  old: <link rel="stylesheet" href=" :strip$0.css" type="text/css" media="screen, projection" />
+  new: <link rel="stylesheet" href="$0.css" type="text/css" media="screen, projection" />
+
+  >>_js
+  old: <script type="text/javascript" src=" :strip$0.js" > </script>
+  new: <script type="text/javascript" src="$0.js" > </script>
+
 === Changes in erb.hot
 
    >>_each2
