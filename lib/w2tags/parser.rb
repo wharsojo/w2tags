@@ -340,7 +340,7 @@ module W2Tags
     #it will include / replace current row from file inside .w2x, and after 
     #parser will try to get current row after merging to be evaluate
     def merge_w2x
-      if(/!inc![ ]?([\w.]+)([`\n])/ =~ @row;@rgx = $~)
+      if(/!inc![ ]?([\/\w._]+)([`\n])/ =~ @row;@rgx = $~)
         mac = @src_path+'/'+$1+'.'+@w2x
         src = $~.to_s #;p mac
         if File.exist?(mac)
