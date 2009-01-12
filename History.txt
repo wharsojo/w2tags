@@ -39,6 +39,16 @@ can code like this:
 
 === Changes in parser
 
+==== update regex for !inc!
+
+now you can specify path for include source
+
+  ex:
+  !inc!../partial/paginate
+
+  old: /!inc![ ]?([\w.]+)([`\n])/
+  new: /!inc![ ]?([\/\w._]s+)([`\n])/
+
 ==== update inline doc
 
 add and update inline doc, some of the documentation need correct documentation
