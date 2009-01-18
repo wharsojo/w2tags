@@ -347,7 +347,6 @@ module W2Tags
           pop = $~.captures.pop
           new = IO.read(mac).gsub("\n","\n"+@spc) + ( pop=='`' ? "\n"+@spc : '' )
           new.gsub!(/\r/,'')
-          p new
           @doc_src= @row.gsub(src,new).split("\n")+@doc_src
           @row= @doc_src.shift+"\n"
           parse_spc
