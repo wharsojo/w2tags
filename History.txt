@@ -16,7 +16,7 @@ swap / switch code between:
 
 Search folder are: running-ruby-script, source-w2tags, library-w2tags
 
-==== update regex for merge_inc (!inc!)
+==== update regex for merge_w2x (!inc!)
 
 Compatible running on Win32 or Linux, not yet test on Mac. when the source w2tags
 code in win32 and open in Linux, there been conflict on line-end since in Linux
