@@ -2,6 +2,26 @@
 
 Below is a complete listing of changes for each revision of W2TAGS.
 
+== 0.8.6
+
+=== Changes in htm.hot
+
+swap / switch code between:
+  >>js   >>_js
+  >>css  >>_css
+
+=== Changes in parser
+
+==== update regex for merge_hot (!hot!)
+
+Search folder are: running-ruby-script, source-w2tags, library-w2tags
+
+==== update regex for merge_inc (!inc!)
+
+Compatible running on Win32 or Linux, not yet test on Mac. when the source w2tags
+code in win32 and open in Linux, there been conflict on line-end since in Linux
+source code from win32 not translate properly (need manually remove the \r) 
+
 == 0.8.5
 
 === Changes in htm.hot
