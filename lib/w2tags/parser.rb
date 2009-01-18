@@ -321,14 +321,14 @@ module W2Tags
         hots= @rgx[1].split(';').collect {|x|x+'.'+@hot}
         rpl = ['']
         hots.each do |hot|
-          if File.exist?(@src_path+'/'+hot)
-            p "include hot: #{hot}"
-            @tg_hot.merge!(W2Tags.read_filehot(@src_path+'/'+hot))
-          elsif File.exist?( W2Tags::Dir+'/../hot/'+hot)
-            p "include hot: #{hot}"
-            @tg_hot.merge!(W2Tags.read_filehot(W2Tags::Dir+'/../hot/'+hot))
-          else
+          fls = File.exist?(hot)                        ? hot :
+                File.exist?(@src_path+'/'+hot)          ? @src_path+'/'+hot :
+                File.exist?(W2Tags::Dir+'/../hot/'+hot) ? W2Tags::Dir+'/../hot/'+hot : ''
+          if fls==''
             rpl << "<!--"+hot+", Not Found-->\n"
+          else
+            p "include hot: #{hot}"
+            @tg_hot.merge!(W2Tags.read_filehot(fls))
           end  
         end
         @row.gsub!(@rgx.to_s,rpl.join)
@@ -346,6 +346,8 @@ module W2Tags
         if File.exist?(mac)
           pop = $~.captures.pop
           new = IO.read(mac).gsub("\n","\n"+@spc) + ( pop=='`' ? "\n"+@spc : '' )
+          new.gsub!(/\r/,'')
+          p new
           @doc_src= @row.gsub(src,new).split("\n")+@doc_src
           @row= @doc_src.shift+"\n"
           parse_spc
