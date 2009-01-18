@@ -15,14 +15,14 @@
 >>_feed
 <link rel="alternate" href="$0" title="Primary Feed" type="application/atom+xml" />
 
->>_css
+>>css
 <link rel="stylesheet" href="$0.css" type="text/css" media="screen, projection" />
 
->>_js
+>>js
 <script type="text/javascript" src="$0.js" > </script>
 
->>js
--js $0
+>>_js
+%js $0
 
->>css
--css $0
+>>_css
+%css $0
