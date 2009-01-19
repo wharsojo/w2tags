@@ -4,6 +4,10 @@ Below is a complete listing of changes for each revision of W2TAGS.
 
 == 0.8.6
 
+=== Changes in sinatra_hook.rb
+
+Hook for Sinatra < 0.9.x and Sinatra > 0.9.x
+
 === Changes in htm.hot
 
 swap / switch code between:
