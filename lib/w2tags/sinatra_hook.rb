@@ -23,6 +23,15 @@ module Sinatra
       end
     end
   elsif Sinatra::VERSION > '0.9'
+  
+    if ::PLATFORM == "i386-mswin32"
+      class Application < Default
+        #set :server, "mongrel"
+        set :app_file, $0
+        set :run, true
+      end
+    end
+
     if Sinatra::Application.environment != :development
 		  puts 'W2Tags Only RUN on (Sinatra::Application.environment == :development)'
 	  else
@@ -33,10 +42,7 @@ module Sinatra
         def lookup_template(engine, template, options={})
           case template
           when Symbol
-            path = File.join(
-              options[:views_directory] || self.options.views,
-              "#{template}.#{engine}"
-            )
+            path= template_path(engine, template, options)
             src = path.gsub(path[/(\.\w+)$/,1],'.w2'<<$1[1,9])
             W2TAGS.parse_file(src,false,true)
           end
@@ -44,7 +50,7 @@ module Sinatra
         end
       end
       
-      class Application
+      class Base
         include W2TagsHooked
       end
     end
