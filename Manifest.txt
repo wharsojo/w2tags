@@ -1,3 +1,5 @@
+README
+VERSION
 COPYING
 ERB.HOT.txt
 FAQ.txt
@@ -7,7 +9,6 @@ HOT.txt
 LICENSE
 Manifest.txt
 Rakefile
-README.txt
 bin/w2tags
 lib/w2tags.rb
 lib/w2tags/parser.rb
