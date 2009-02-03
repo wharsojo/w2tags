@@ -1,6 +1,6 @@
-README
 VERSION
 COPYING
+README.rdoc
 ERB.HOT.txt
 FAQ.txt
 HAML.txt
