@@ -1,11 +1,11 @@
 VERSION
 COPYING
 README.rdoc
-ERB.HOT.txt
-FAQ.txt
-HAML.txt
-History.txt
-HOT.txt
+ERB.HOT.rdoc
+FAQ.rdoc
+HAML.rdoc
+History.rdoc
+HOT.rdoc
 LICENSE
 Manifest.txt
 Rakefile
