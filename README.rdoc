@@ -1,6 +1,7 @@
 == W2TAGS
    by Widi Harsojo, http://wharsojo.wordpress.com
-   run on MRI Ruby : 1.8.x & 1.91
+   
+=== Run on MRI Ruby : 1.8.x / 1.9.1
 
 == DESCRIPTION:
 
