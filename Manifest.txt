@@ -44,4 +44,9 @@ tasks/setup.rb
 tasks/spec.rake
 tasks/svn.rake
 tasks/test.rake
+example
+example/common.hot
+example/from_readme.erb
+example/from_readme.w2erb
+example/rails_basic.hot
 
