@@ -1,0 +1,10 @@
+>>_input
+%p
+  %b ~:capitalize.gsub('_',' ')$0
+  %br
+  = f.text_field :$0
+
+>>_submit
+!/
+%p
+  = f.submit "$0"

@@ -1,0 +1,7 @@
+>>_ul
+%ul
+  ^$*
+
+>>_form_for
+- form_for $*
+-end

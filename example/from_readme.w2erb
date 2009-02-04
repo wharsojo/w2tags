@@ -1,0 +1,64 @@
+%h2 Auto closing for Code
+-if index>100
+  .bigger bigger than 100
+-elsif index>50
+  .bigger bigger than 50 but less than 100
+-else
+  .less less than 50
+
+.common
+  Common Tag
+
+%h2 Example 1 - HAML:
+#content
+  %h1 menu
+  %ul
+    %li menu 1
+    %li menu 2
+    
+#content
+  %h1 menu
+  %ul
+    ^ menu 1; menu 2  
+    
+!hot!common
+#content
+  %h1 menu
+  -ul menu 1; menu 2
+  
+%h2 Example 2 - Form input
+%h1
+  New user
+
+= error_messages_for :user
+
+-form_for @user do |f|
+  %p
+    %b Name
+    %br
+    = f.text_field :name
+  %p
+    %b Email
+    %br
+    = f.text_field :email
+  %p
+    %b Last login
+    %br
+    = f.datetime_select :last_login
+
+  %p
+    = f.submit "Create"
+= link_to 'Back', users_path
+
+%h2 Example 2 - Form input - REFACTOR
+!hot!rails_basic
+%h1
+  New user
+
+= error_messages_for :user
+
+-form_for @user do |f|
+  -input name;email;last_login
+  -submit Create
+
+= link_to 'Back', users_path

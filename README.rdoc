@@ -102,21 +102,21 @@ Extended syntax that produce the same result
   #content
     %h1 menu
     %ul
-      ^{menu 1; menu 2}
+      ^ menu 1; menu 2
 
 or if <ul> patern is so common, it can be save in a hot file 
 and use it as hot command. Example: inside "common.hot"
 
-  >>ul
-  %ul
-    ^{$*}
+  >>_ul
+  -ul
+    ^$*
 
 and code in source:
 
   !hot!common
   #content
     %h1 menu
-    %ul menu 1; menu 2
+    -ul menu 1; menu 2
 
 ==== Example 2 - Form input
 
@@ -127,7 +127,7 @@ HAML format:
 
   = error_messages_for :user 
 
-  -form_for(@user) do |f| 
+  -form_for @user do |f| 
     %p
       %b Name
       %br
@@ -147,18 +147,13 @@ HAML format:
 
 You can see that it not DRY, some patern will go to HOT files "rails_basic.hot"
 
-  >>form_for
-  - form_for($0) do |f| 
-  <</
-  - end
-
-  >>input
+  >>_input
   %p
-    %b ~:capitalize$0
+    %b ~:capitalize.gsub('_',' ')$0
     %br
     = f.text_field :$0
 
-  >>submit
+  >>_submit
   !/
   %p
     = f.submit "$0"
