@@ -1,6 +1,0 @@
->>list
-%ul$:$#
-  %item$. $*
-  
->>item
-%li*opt* $0

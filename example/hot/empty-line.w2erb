@@ -1,7 +1,0 @@
-#container
-  %pre
-    -!
-     this is inside pre
-      
-     and empty line must be preserve
-#done DONE!
