@@ -2,6 +2,136 @@
 
 Below is a complete listing of changes for each revision of W2TAGS.
 
+== 0.8.7
+
+=== Add TEST
+
+now you can test the parser, it will grow when I have time to add to it or you can
+email me for some test / change test that produce valid / error test to me.
+
+=== Rename HTM.HOT to HTML.HOT
+
+I think its natural...
+
+=== Changes in sinatra_hook
+
+remove checking for PLANFORM (due bug in sinatra but now fix)
+
+=== Changes in parser
+
+==== Change Variable to make it easy see patern
+
+  REMOVE             REMAIN / ADD
+  @mem_var['*opt*']  @mem_var['$$']  :name#id.class{attr="optional"}
+                     @mem_var['$@']  {attr="optional"}
+  @mem_var['*att*']  @mem_var['*@']   attr="optional"
+
+==== HOT now implement full key-attribute
+
+  %li:name#id.class{oth="attribute"} html 
+  
+  -li:name#id.class{oth="attribute"} html 
+
+==== @doc_out - line RIGHTSTRIPED
+
+  to make it standard for writing test
+
+==== change behaviour parse_line()
+
+  old:parse_line(row,init=nil)
+  new:parse_line(row,init=true)
+  
+and debug parsing = false since focus now for the test, for 
+running on irb you just do:
+  
+  W2TAGS = W2Tags::Parser.new
+  W2TAGS.dbg[:parse] = true
+
+==== add parser for shortcut input (just like div)
+
+since the implementation for name is there and usable for form and the form it self
+commonly consist many of input tag, and inside that have attribute name, why not
+implement it...
+
+  :test#wow.kereen{mak="nyos"} test
+  
+  <input name="test" id="wow" class="kereen" mak="nyos">test</input>
+
+==== update implementation of parse_set_var() / uniq var
+
+now it will show the natural string of uniq value
+
+  @myvar=one;two;three
+  @myvar=five;one;two
+  %ul
+    ^ @myvar!
+
+  <ul>
+    <li>one</li>
+    <li>two</li>
+    <li>three</li>
+    <li>five</li>
+  </ul> 
+
+==== rename method from "inside_rmk()" to "inside_remark()"
+
+==== update regex and implementation of parse_set_mem()
+
+  old:/([ \t]*~\^)([^`\n]+)(`|\n)/
+  new:/([ \t]*~\^)([^\n]+)(\n)/
+  
+no need to add params for re-define shortcut
+  
+Ex: 
+
+  ~^%li.wclass
+  
+Produce:
+
+  @mem_tag["^"] = "%li.wclass $0\n" 
+  
+==== update regex and implementation of parse_get_mem()
+
+  old:get_mem(/([\^])([^ ]+)\{([^\}]*)\}([^`\n]*)(`|\n)/) ? true : \
+  old:get_mem(/([\^])([^ ]+)([^`\n]*)(`|\n)/)
+  new:get_mem(/([\^])([^ ]* )([^\n]*)(\n)/)
+  
+now you can have :name #id or .class after shortcut (remember! must be w/o spaces)
+
+Ex:
+
+  %ul
+    ^.wc withclass
+    
+  <ul>
+    <li class="wc">withclass</li>
+  </ul>
+
+=== Add W2TAGS.rdoc
+
+this guide are for explain commands found in W2TAGS and show some code-snipets
+and some of pre-define patern and behaviour of each commands.
+
+=== Changes in HOT.rdoc
+
+Add information for new feature and change behaviour for:
+
+New Features:
+  =$0  to =$9    Ruby Code
+  ==$0 to ==$9   Ruby String Code
+
+Change bahaviour of Variable interpolation
+  
+
+=== Changes in README.rdoc
+
+Fix Sample Code
+
+=== Undocumented VAR now documented
+
+  @mem_var['$me']        my nick name
+  @mem_var['$basepath']  current path
+
 == 0.8.6
 
 === Changes in sinatra_hook.rb
@@ -24,7 +154,7 @@ Search folder are: running-ruby-script, source-w2tags, library-w2tags
 
 Compatible running on Win32 or Linux, not yet test on Mac. when the source w2tags
 code in win32 and open in Linux, there been conflict on line-end since in Linux
-source code from win32 not translate properly (need manually remove the \r) 
+source code from win32 not translate properly (need manually remove the CR) 
 
 == 0.8.5
 

@@ -1,0 +1,28 @@
+>>initialize
+-! <!DOCTYPE html PUBLIC 
+-! "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" >
+%html{xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr"}
+  %head
+!~
+%body$*
+	
+>>finallize
+,/
+
+>>_utf-8
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+>>_feed
+<link rel="alternate" href="$0" title="Primary Feed" type="application/atom+xml" />
+
+>>css
+<link rel="stylesheet" href="$0.css" type="text/css" media="screen, projection" />
+
+>>js
+<script type="text/javascript" src="$0.js" > </script>
+
+>>_js
+%js $0
+
+>>_css
+%css $0

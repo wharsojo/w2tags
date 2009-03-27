@@ -20,8 +20,8 @@ Rule of W2TAGS HAML like command are:
 List of HAML command. This list are the HAML command that token begin with:
   
   %  Tag formating 
-  #  div formating with id
-  .  div formating with class
+  #  div formating with attribute id
+  .  div formating with attribute class
   \  line text / no parsing
   -  translate to Ruby code
   =  translate to Ruby code
@@ -218,28 +218,11 @@ result:
   <div row="1"><%= "Harsojo" %></div>
 
 === # or . Shortcut for DIV Tag
-As you can see on the example above, command begin with "%div", and luckly you can 
-ommit that tag ("%div"), to just write id or class as a HAML command, But for Attribute
-Iam not implement shortcut for Attribute as a HAML command, since usability for CSS 
-is less / not common use.
+As you can see on the example above, alot of command begin with "%div" and it spoted
+as duplicated and need to refactor :(, luckly you can ommit that tag ("%div"), 
+to just write id or class as a HAML command.
  
-==== .  div formating with class
-
-  .content
-    %ul#menu.main_side
-      %li.hot{line="1"} List
-      %li.hot{line="2"} New
-      
-result:
-
-  <div class="content">
-    <ul id="menu" class="main_side">
-      <li line="1" class="hot">List</li>
-      <li line="2" class="hot">New</li>
-    </ul>
-  </div>
-
-==== #  div formating with id
+==== # div formating with attribute id
 
   #main
     %ul#menu.main_side
@@ -249,6 +232,22 @@ result:
 result:
 
   <div id="main">
+    <ul id="menu" class="main_side">
+      <li line="1" class="hot">List</li>
+      <li line="2" class="hot">New</li>
+    </ul>
+  </div>
+
+==== . div formating with attribute class
+
+  .content
+    %ul#menu.main_side
+      %li.hot{line="1"} List
+      %li.hot{line="2"} New
+      
+result:
+
+  <div class="content">
     <ul id="menu" class="main_side">
       <li line="1" class="hot">List</li>
       <li line="2" class="hot">New</li>

@@ -1,6 +1,6 @@
 >>_input
 %p
-  %b ~:capitalize.gsub('_',' ')$0
+  %b $0.capitalize.gsub('_',' ')~
   %br
   = f.text_field :$0
 

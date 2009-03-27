@@ -17,7 +17,7 @@ PROJ = OpenStruct.new(
   :authors => nil,
   :email => nil,
   :url => "\000",
-  :version => ENV['VERSION'] || '0.8.6',
+  :version => ENV['VERSION'] || '0.9.0',
   :exclude => %w(tmp$ bak$ ~$ CVS \.svn/ \.git/ ^pkg/),
   :release_name => ENV['RELEASE'],
 
@@ -25,8 +25,8 @@ PROJ = OpenStruct.new(
   :ruby_opts => %w(-w),
   :libs => [],
   :manifest_file => 'Manifest.txt',
-  :history_file => 'History.rdoc',
-  :readme_file => 'README.rdoc',
+  :history_file  => 'History.rdoc',
+  :readme_file   => 'README.rdoc',
 
   # Announce
   :ann => OpenStruct.new(

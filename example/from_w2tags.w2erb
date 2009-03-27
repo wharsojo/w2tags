@@ -1,0 +1,32 @@
+  :test#wow.kereen{mak="nyos"} test
+  
+  %ul 
+    ^ this is a bullet list 1
+    ^ this is a bullet list 2 ; this is a bullet list 3
+    
+  %ul 
+    ^.hilite{wow="kereen"} this is a bullet list 1
+    ^.hilite{wow="kereen"} this is a bullet list 2 ; this is a bullet list 3
+    
+  %ul 
+    ~^%li.hilite{wow="kereen"}
+    ^ this is a bullet list 1
+    ^ this is a bullet list 2 ; this is a bullet list 3
+
+!hot!common
+  -ul 
+    ^ this is a bullet list 1
+    ^ this is a bullet list 2 ; this is a bullet list 3
+
+
+  %div my note on inline params<
+    second note without tag
+    %div inside other div
+
+  &myvar=wow kereen
+  .dodol &myvar!
+  
+  @myvar=one;two;three
+  @myvar=five;three
+  %ul
+    ^ @myvar!

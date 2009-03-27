@@ -1,0 +1,28 @@
+>>_d
+.rows$$ $0
+
+>>_x
+%x$$ $0
+
+>>_y
+%x$$ =$0
+
+>>_int
+%div#$0.reverse~ /
+
+>>_int2
+&tbl=dodol
+%input{type="text" id="&tbl!_$0" name="$0" value="<%= @&tbl!.$0 %>"}/
+
+>>_form
+%form$${method="post" action="==$0"}
+
+>>_form2
+%form$${method="post" action="$0."}
+
+>>_form3
+%form$${method="post" action="$0{}{}{}."}
+
+>>_code
+%span$$ $0
+

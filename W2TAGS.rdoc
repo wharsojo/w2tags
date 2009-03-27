@@ -1,0 +1,151 @@
+== W2TAGS extend HAML command
+   by Widi Harsojo, wharsojo.wordpress.com
+
+in this guide I'll explain command not found or different with HAML (HAML.rdoc), 
+some of the explanation intermix with the explanation come from HOT (HOT.rdoc)
+
+  : input formating with attribute name
+  ^ base extender / shortcut for common pattern in html
+ ~^ re-assign base extender / shortcut
+  < disable auto close tags when last params has char "<"
+  &var= define variable for it use later on params inside w2tags command
+  &var! use variable on params inside w2tags command
+  @var= define variable with uniq value for it use later on params inside w2tags command
+  @var! use variable with uniq value on params inside w2tags command
+
+you can find all example on this guide inside file:
+
+  example/from_w2tags.w2erb
+  
+=== : input formating with attribute name
+input is the tag that commonly use attribute "name", and I think its cool to have 
+the same behavior like HAML did in DIV to INPUT.
+
+  :test#wow.kereen{mak="nyos"} test
+  
+  <input name="test" id="wow" class="kereen" mak="nyos">test</input>
+
+=== ^ base extender / shortcut for common pattern in html
+
+when you type <b>ul</b> tag, commonly it follow the <b>li</b> tag and this is the benefit of
+using this command. 
+
+Predefine shortcut are: 
+
+  %html   => %head $*
+  %head   => %body $*
+  %ol     => %li $0
+  %ul     => %li $0
+  %dl     => %dt $0
+  %dd     => %dt $0
+  %select => %option $0
+  %form   => %input $0!/
+  %table  => %th
+  %tr     => %th #first line
+  %tr     => %td #after first line
+
+Basic Example: 
+
+  %ul 
+    ^ this is a bullet list 1
+    ^ this is a bullet list 2 ; this is a bullet list 3
+    
+  <ul>
+    <li>this is a bullet list 1</li>
+    <li>this is a bullet list 2</li>
+    <li>this is a bullet list 3</li>
+  </ul> 
+
+With Attribute:
+  
+  %ul 
+    ^.hilite{wow="kereen"} this is a bullet list 1
+    ^.hilite{wow="kereen"} this is a bullet list 2 ; this is a bullet list 3
+
+  <ul>
+    <li class="hilite" wow="kereen">this is a bullet list 1</li>
+    <li class="hilite" wow="kereen">this is a bullet list 2</li>
+    <li class="hilite" wow="kereen">this is a bullet list 3</li>
+  </ul> 
+  
+=== ~^ re-assign base extender / shortcut  
+
+sometime I need result from base extender / shortcut already include
+class or attribut and this command play.
+
+  %ul 
+    ~^%li.hilite{wow="kereen"}
+    ^ this is a bullet list 1
+    ^ this is a bullet list 2 ; this is a bullet list 3
+    
+  <ul>
+    <li class="hilite" wow="kereen">this is a bullet list 1</li>
+    <li class="hilite" wow="kereen">this is a bullet list 2</li>
+    <li class="hilite" wow="kereen">this is a bullet list 3</li>
+  </ul> 
+
+or you can put this command to a HOT file and it will use just like 
+regular W2TAGS command
+
+  >>_ul
+  %ul
+  ~^%li.hilite{wow="kereen..."}
+  
+  !hot!common
+  -ul 
+    ^ this is a bullet list 1
+    ^ this is a bullet list 2 ; this is a bullet list 3
+  
+  <ul>
+    <li class="hilite" wow="kereen...">this is a bullet list 1</li>
+    <li class="hilite" wow="kereen...">this is a bullet list 2</li>
+    <li class="hilite" wow="kereen...">this is a bullet list 3</li>
+  </ul> 
+  
+=== < disable auto close tags when last params has char "<"
+
+tag not automatically close when last params has char "<"
+
+  %div my note on inline params<
+    second note without tag
+    %div inside other div
+
+  <div>my note on inline params
+    second note without tag
+    <div>inside other div</div>
+  </div> 
+  
+=== &var= define variable for it use later on params inside w2tags command
+
+  &myvar=wow kereen
+
+=== &var! use variable on params inside w2tags command
+
+  .dodol &myvar!
+  
+  <div class="dodol">wow kereen</div>
+  
+=== @var= define variable with uniq value for it use later on params inside w2tags command
+
+  @myvar=one;two;three
+  @myvar=five;three => one;two;three;five
+
+when you assign value to this var with first char ";" it will reset the value 
+(not adding them)
+
+  @myvar=one;two;three
+  @myvar=five;three
+  @myvar=;three;two   
+  @myvar=zero;two   => three;two;zero
+  
+=== @var! use variable with uniq value on params inside w2tags command
+
+  %ul
+    ^ @myvar!
+  
+  <ul>
+    <li>three</li>
+    <li>two</li>
+    <li>zero</li>
+  </ul> 
+

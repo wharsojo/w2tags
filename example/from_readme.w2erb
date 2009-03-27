@@ -27,8 +27,8 @@
   -ul menu 1; menu 2
   
 %h2 Example 2 - Form input
-%h1
-  New user
+
+%h1 New user
 
 = error_messages_for :user
 
@@ -51,9 +51,9 @@
 = link_to 'Back', users_path
 
 %h2 Example 2 - Form input - REFACTOR
+
 !hot!rails_basic
-%h1
-  New user
+%h1 New user
 
 = error_messages_for :user
 

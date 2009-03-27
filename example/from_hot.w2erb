@@ -1,0 +1,8 @@
+  !hot!test
+  -all_params one;two;three;four
+
+  -reverse my;name;widi
+  
+  -form edit
+  
+  -form2 edit/1

@@ -24,14 +24,6 @@ module Sinatra
     end
   elsif Sinatra::VERSION > '0.9'
   
-    if ::PLATFORM == "i386-mswin32"
-      class Application < Default
-        #set :server, "mongrel"
-        set :app_file, $0
-        set :run, true
-      end
-    end
-
     if Sinatra::Application.environment != :development
 		  puts 'W2Tags Only RUN on (Sinatra::Application.environment == :development)'
 	  else

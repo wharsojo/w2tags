@@ -1,0 +1,82 @@
+= ERB HOT
+definition for file with extention of ".erb", this template is use on some of the
+well know frame work.
+
+== DEFINED COMMAND
+
+=== INITIALIZE & FINALLIZE
+this command are use on (appended) so user who use it frequently can define
+any kind of element / tags for the beginning / ending document.
+
+  %initialize
+  not use but you can define it again 
+
+  %finallize
+  use for extract all end of tags, it use command ",/"
+
+=== INCLUDE ANOTHER HOT FILES
+for merb application, I define 2 short cut of how you can use another hot file:
+
+  -merb_table (it will include: erb_merb, erb_table, erb_jquery)
+   it use when you define html for listing data, usually for method of "index"
+  
+  -merb_form  (it will include: erb_merb, erb_form, erb_jquery)
+   it use when you define html for fill in form, usually for method of 
+   "new", or "edit".
+
+=== AUTOCLOSE with -END
+these definition are auto close with "-end".
+
+  -if
+  -elsif
+  -else
+    ex:###############################################
+    -if @page.page_count>1 && !@page.first_page?
+        %a.first_page{href="?page=1"} First
+    -else
+        %span.first_page First
+    &nbsp;
+    ##################################################
+    <% if @page.page_count>1 && !@page.first_page? %>
+        <a class="first_page" href="?page=1">First</a>
+    <% else %>
+        <span class="first_page">First</span>
+    <% end %>
+    &nbsp;
+    
+  -for
+  -each
+  -times
+    ex:###############################################
+    -times pgt;pg1 = pg1 + 1
+      -if pg1 == @page.current_page
+          %span.current_page <%= pg1 %>
+      -else
+          %a.page_index{href="?page=<%= pg1 %>"} <%= pg1 %>
+      &nbsp;
+    ##################################################
+    <% pgt.times do pg1 = pg1 + 1 %>
+      <% if pg1 == @page.current_page %>
+          <span class="current_page"><%= pg1 %></span>
+      <% else %>
+          <a class="page_index" href="?page=<%= pg1 %>"><%= pg1 %></a>
+      <% end %>
+      &nbsp;
+    <% end %>
+    
+=== COMMAND
+
+  -end
+  -
+    ex:###############################################
+    - page = 25
+    ##################################################
+    <% page = 25 %>
+  
+=== EXPAND TAGS
+
+  %br
+  %hr
+  %img
+  %img=
+  

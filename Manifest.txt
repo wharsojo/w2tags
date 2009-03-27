@@ -1,6 +1,7 @@
 VERSION
 COPYING
 README.rdoc
+W2TAGS.rdoc
 ERB.HOT.rdoc
 FAQ.rdoc
 HAML.rdoc
@@ -21,7 +22,7 @@ hot/erb_head.hot
 hot/erb_jquery.hot
 hot/erb_merb.hot
 hot/erb_table.hot
-hot/htm.hot
+hot/html.hot
 hot/jquery.hot
 hot/nvelocity.hot
 hot/vm2.hot
@@ -46,7 +47,10 @@ tasks/svn.rake
 tasks/test.rake
 example
 example/common.hot
+example/rails_basic.hot
 example/from_readme.erb
 example/from_readme.w2erb
-example/rails_basic.hot
-
+example/from_w2tags.erb
+example/from_w2tags.w2erb
+test
+test/parser_test.rb

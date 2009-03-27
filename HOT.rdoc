@@ -5,14 +5,12 @@ code generate by w2tags are so useable because of the rule translation combine
 with HOT files, in this section I'll explain some of the feature inside it, so
 you will understand how HOT file is working.
 
-== PARAMETERS VARIABLE
+== PARAMETERS VARIABLE (MAX:9)
 
 $*, $0 - $9. When you invoke HOT command like this "-all_params one;two;three;four"
-you are invoking HOT command with 4 params ($0,$1,$2,$3), but the translation will
+you are invoking HOT command with 4 parameters ($0,$1,$2,$3), and the translation will
 be done like sample below:
 
-  test.hot
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   >>_all_params
   <div>$*</div>
   -magic $*
@@ -22,13 +20,13 @@ be done like sample below:
   >>_magic
   <magic>$0</magic>
 
-  params.w2erb
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$* meaning: this variable will be fill-in after all parameters got  fill-in, as example 
+we supply 4 parameters and parameters fill in to variable only two ($0 = "one", $1 = "two")
+the rest will go to variable $* = "three;four"
+
   !hot!test
-  -all_params one;two;three;four
+  -all_params one;two;
   
-  params.erb
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   <div>three;four</div>
   <magic>three</magic>
   <magic>four</magic>
@@ -36,11 +34,9 @@ be done like sample below:
   two
 
 remember passing paramter to HOT doesn't mean that variable must start from
-zero, its only a guide you can have multiple params to pass in correct order
+zero, its only a guide that you can have multiple params to pass in correct order
 see sample after change the HOT but the result still the same
 
-  test.hot
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   >>_all_params
   <div>$*</div>
   -magic $*
@@ -50,12 +46,33 @@ see sample after change the HOT but the result still the same
   >>_magic
   <magic>$4</magic>
 
+== PARAMETERS VARIABLE translate to RUBY CODE ( =$0 )
+
+some time it need a block of ruby code / ruby string code inside attribute of tag
+but it must be simple and easy to remember the command and this is how the implementation 
+
+  >>_form
+  %form{action="=$0"}
+
+  -form edit
+
+  <form action="<%= edit %>">
+  </form> 
+  
+== PARAMETERS VARIABLE translate to RUBY STRING CODE ( ==$0 )
+
+  >>_form2
+  %form{action="==$0"}
+
+  -form edit/1
+
+  <form action="<%= "edit/1" %>">
+  </form> 
+  
 == PARAMETERS VARIABLE INTERPOLATION
 
 you can do interpolation on variable
 
-  test.hot
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   >>_all_params
   <div>$*</div>
   -magic $*
@@ -63,15 +80,11 @@ you can do interpolation on variable
   $3
 
   >>_magic
-  <magic> :upcase.reverse$4 </magic>
+  <magic> $4.upcase.reverse~ </magic>
 
-  params.w2erb
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   !hot!test
   -all_params one;two;three;four
   
-  params.erb
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   <div>three;four</div>
   <magic> EERHT </magic>
   <magic> RUOF </magic>
