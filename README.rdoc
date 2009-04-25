@@ -231,7 +231,7 @@ get it from commandline "w2tags"
   8. w2tags -irb           #=> Start IRB with WH as instance object of W2Tags
   9. w2tags -rails         #=> Copy w2scaffold Rails and set environment.rb
  10. w2tags -tags2w        #=> Parsing erb to w2tags
-
+ 
   Enjoy... 
 
 === RAILS HOOK
