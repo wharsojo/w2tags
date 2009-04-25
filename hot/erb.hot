@@ -1,5 +1,6 @@
 >>initialize
 
+
 >>finallize
 ,/
 
@@ -17,6 +18,10 @@
 - if $0
 -end
 
+>>_unless
+- unless $0
+-end
+
 >>_elsif
 - elsif $0
 -end
@@ -25,9 +30,23 @@
 - else
 -end
 
+>>_
+!/
+<% $* %>
+
+>>_-
+!/
+<% $* %>
+-end
+
 >>=
 !/
 <%= $* %>
+
+>>_=
+!/
+<%= $* %>
+-end
 
 >>_for
 !/
@@ -58,21 +77,17 @@
 <</
 <% end %>
 
->>_
-!/
-<% $* %>
-
 >>_a
-%a$${href="#"} $*
+%a$${href="*&"} $*
 
 >>_a2
 %a$${href="=$1"} $0
 
 >>br
-<br*att*/>
+<br*all**@/>
 
 >>hr
-<hr*att*/>
+<hr*all**@/>
 
 >>img
 <img src="$0" ~alt="$1"~ />
@@ -126,6 +141,28 @@
 
 >>script
 <script *all**@type="text/javascript" charset="utf-8">
+%script_end
 
->>test
-<test>$0</test>
+>>script_end
+<</
+</script>
+
+>>input
+<input *all*~value="$0"~/>
+
+>>text
+<input *all*type="text"~value="$0"~/>
+
+>>submit
+<input *all*type="submit"~value="$0"~/>
+
+>>post
+%form$:$#.lelouch.*.{*@method="post"~action="$0"~}
+
+>>_form_tag
+<% form_tag($*) do %>
+-end
+
+>>_form_for
+<% form_for($*) do %>
+-end

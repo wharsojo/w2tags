@@ -10,14 +10,14 @@ class OpenStruct; undef :gem; end
 
 PROJ = OpenStruct.new(
   # Project Defaults
-  :name => nil,
-  :summary => nil,
-  :description => nil,
+  :name => 'w2tags',
+  :summary => 'Its Way to Tags',
+  :description => 'w2tags is the way to tags, a short cut / macros. when it do it use some patern define in files (HOT file) to produce tags from minimal code to become full fledge tags',
   :changes => nil,
-  :authors => nil,
-  :email => nil,
+  :authors => 'Widi Harsojo',
+  :email => 'wharsojo@gmail.com',
   :url => "\000",
-  :version => ENV['VERSION'] || '0.9.0',
+  :version => ENV['VERSION'] || '0.9.4',
   :exclude => %w(tmp$ bak$ ~$ CVS \.svn/ \.git/ ^pkg/),
   :release_name => ENV['RELEASE'],
 
@@ -25,7 +25,7 @@ PROJ = OpenStruct.new(
   :ruby_opts => %w(-w),
   :libs => [],
   :manifest_file => 'Manifest.txt',
-  :history_file  => 'History.rdoc',
+  :history_file  => 'doc/History.rdoc',
   :readme_file   => 'README.rdoc',
 
   # Announce
@@ -74,7 +74,7 @@ PROJ = OpenStruct.new(
   # Rdoc
   :rdoc => OpenStruct.new(
     :opts => [],
-    :include => %w(^lib/ ^bin/ ^ext/ \.txt$ \.rdoc$),
+    :include => %w(^lib/ ^bin/ ^ext/ \.txt$ \.rdoc$ MIT-LICENSE COPYING),
     :exclude => %w(extconf\.rb$),
     :main => nil,
     :dir => 'doc',

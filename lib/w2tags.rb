@@ -1,5 +1,6 @@
 dir = File.dirname(__FILE__)
-$LOAD_PATH << dir unless $LOAD_PATH.include?(dir)
+Dir["#{dir}/w2tags/block/*.rb"].each{|f|require f}
+$LOAD_PATH << dir  unless $LOAD_PATH.include?(dir)
 
 # = W2TAGS (Way to Tags)
 #
@@ -21,10 +22,11 @@ $LOAD_PATH << dir unless $LOAD_PATH.include?(dir)
 # == Using W2TAGS
 #
 # some of the guide are inside
-# * README.txt
-# * HAML.txt
-# * FAQ.txt
-#
+# * README.rdoc
+# * doc/W2TAGS.rdoc
+# * doc/HAML.rdoc
+# * doc/FAQ.rdoc
+# * doc/HOT.rdoc
 
 module W2Tags
   Dir = File.dirname(__FILE__)
@@ -66,8 +68,8 @@ module W2Tags
   #   <div>Hello Tags</div>
   #  </body>
   def self.read_filehot(fhot)
-    hot_new = {}
-    hot = ("\n"+IO.read(fhot)).gsub(/\r/,'').split(/\n\>\>/)
+    hot_new = {} 
+    hot = ("\n"+IO.read(fhot)).delete("\r").split(/\n\>\>/)
     hot.shift
     hot.each do |item|
       item.gsub!(/\n([ \t]*)$/,'') #remove blank lines
@@ -95,5 +97,4 @@ module W2Tags
     hot_new
   end  
 end
-
 require 'w2tags/parser'

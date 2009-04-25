@@ -1,8 +1,8 @@
 >>input
-<input *all**@value="$0"/>
+<input *all*value="$0"/>
 
 >>text
-<input *all**@type="text" value="$0"/>
+<input *all*type="text" value="$0"/>
 
 >>submit
-<input *all**@type="submit" value="$0"/>
+<input *all*type="submit" value="$0"/>

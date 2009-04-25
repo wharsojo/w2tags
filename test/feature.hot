@@ -12,7 +12,7 @@
 
 >>_int2
 &tbl=dodol
-%input{type="text" id="&tbl!_$0" name="$0" value="<%= @&tbl!.$0 %>"}/
+%input{type="text" id="&tbl!_$0" name="$0"}= @&tbl!.$0
 
 >>_form
 %form$${method="post" action="==$0"}

@@ -1,9 +1,29 @@
 #!/usr/bin/env ruby
 # The command line W2tags parser.
+#  How to WaytoTags:
+#  ~~~~~~~~~~~~~~~~~~~~~~~
+#  syntax:
+#  w2tags [*.w2htm] [-a] [-d:*opt*]
+#  OR
+#  w2tags [file1,file2,file3] [-b] [-d:*opt*]
+#
+#  example:
+#  1. w2tags -a             #=> translate all file with ext: w2htm
+#  2. w2tags *.w2xml -a     #=> translate all file with ext: w2xml
+#  3. w2tags file1.w2htm    #=> translate a file
+#  4. w2tags file1.w2htm -b #=> translate a file with no initialize/finalize
+#  5. w2tags file1.w2htm -d:parser #=> translate with debug parser
+#  6. w2tags file1.w2htm -d:constanta #=> translate with debug constanta
+#  7. w2tags file1.w2htm -d:stack #=> translate with debug stack indentation
+#  8. w2tags -irb           #=> Start IRB with WT as instant object of W2Tags
+#  9. w2tags -rails         #=> Copy w2scaffold Rails and set environment.rb
+# 10. w2tags -tags2w        #=> Parsing erb to w2tags
+#
+#  Enjoy... 
 
 require File.expand_path(
         File.join(File.dirname(__FILE__),%w[.. lib w2tags]))
-
+wpath=  File.dirname(__FILE__).gsub(/bin$/,'')
 def howto_w2tags
 puts <<END
 
@@ -22,6 +42,9 @@ example:
 5. w2tags file1.w2htm -d:parser #=> translate with debug parser
 6. w2tags file1.w2htm -d:constanta #=> translate with debug constanta
 7. w2tags file1.w2htm -d:stack #=> translate with debug stack indentation
+8. w2tags -irb           #=> Start IRB with WH as instance object of W2Tags
+9. w2tags -rails         #=> Copy w2scaffold Rails and set environment.rb
+10.w2tags -tags2w        #=> Parsing erb to w2tags
 
 Enjoy... 
 END
@@ -34,21 +57,110 @@ if arg.size>0
 	puts 'ARGV  : '+arg.join(" ")
 	puts arg[1]
 	
-	v = W2Tags::Parser.new
+	WH = W2Tags::Parser.new
 
 	x = arg.select {|s|s[0,3]=='-d:'}
-	#v.dbg[:stack] = (x.size==0)	
+	#WH.dbg[:stack] = (x.size==0)	
 	x.each do |s|
-		v.dbg[:parse]     = true if s=='-d:parser'
-		v.dbg[:stack]     = true if s=='-d:stack'
-		v.dbg[:constanta] = true if s=='-d:constanta'
-		v.dbg[:show_hot]  = true if s=='-d:show_hot'
+		WH.dbg[:parse]     = true if s=='-d:parser'
+		WH.dbg[:stack]     = true if s=='-d:stack'
+		WH.dbg[:constanta] = true if s=='-d:constanta'
+		WH.dbg[:show_hot]  = true if s=='-d:show_hot'
 	end
 	
-	case arg[1]
-	when '-a' ;v.parse_files(Dir["*.#{arg[0]}*"]) 
-	when '-b' ;v.parse_files(arg[0].split(','),false)
-	else      ;v.parse_files(arg[0].split(','))
+	if arg[0]=='-irb'
+    ARGV.shift
+    
+    class Object
+      def wh(str)
+        puts WH.parse_line(str)
+      end
+    end
+
+    require 'irb'
+    puts "Your W2Tags instance object stored in WH..."
+    puts 'Ex: puts WH.parse_line "#content\\n  %span Hello"'
+    puts 'Shortcut wh() => puts WH.parse_line()'
+    puts ''
+    
+    IRB.start      
+	elsif arg[0]=='-rails'
+    if !File.exist?('vendor/plugins')
+      puts 'No Folder: vendor/plugins...'
+    elsif !File.exist?('config/environment.rb')
+      puts 'No File: config/environment.rb...'
+    else
+      ttl_copy = 0
+      require 'fileutils'
+      Dir[wpath + "plugins/**/*"].each do |fl|
+        if !File.directory?(fl)
+          path= fl.gsub(/.*\/plugins\//,'vendor/plugins/')
+          dir = File.dirname(path)
+          FileUtils.mkdir_p(dir) if !File.exist?(dir)
+          if !File.exist?(path)
+            ttl_copy += 1
+            puts "Copy w2tags plugins for rails..." if ttl_copy==1
+            puts "=> #{fl.gsub(/.*\/w2tags\//,'')}"
+            File.open(path, 'wb') { |file| file.write(File.read(fl)) }
+          end
+        end
+      end
+      ttl_copy = 0
+      Dir[wpath + "hot/rails/**/*"].each do |fl|
+        path= fl.gsub(/.*\/rails\//,'')
+        if !File.exist?(path)
+          ttl_copy += 1
+          puts "Copy w2tags HOT files..." if ttl_copy==1
+          puts "=> #{path}"
+          File.open(path, 'wb') { |file| file.write(File.read(fl)) }
+        end
+      end
+      content = File.read('config/environment.rb')
+      ori= content.length
+      content << "\nrequire 'w2tags'" if /\n *require *\'w2tags\'/ !~ content
+      content << "\nrequire 'w2tags/rails_hook'" if /\n *require *\'w2tags\/rails_hook\'/ !~ content
+      if ori != content.length
+        puts 'Update config/environment.rb...'
+        File.open('config/environment.rb', 'wb') { |file| file.write(content) }
+      end
+      puts(<<END)
+
+FINISH W2TAGS for RAILS...
+You can try w2scaffold:
+
+script/generate w2scaffold post title:string body:text published:boolean
+rake db:migrate
+script/server
+
+END
+    end
+	elsif arg[0]=='-tags2w'
+    require 'tags2w'
+    t2t = MakeTag.new
+    t2w = Tags2w.new
+    fls = Dir['./**/views/**/*.erb']
+    fls = Dir['./**/*.erb'] if fls==[]
+
+    fls.each do |f|
+      puts f
+      lines= IO.read(f).delete("\r").split("\n")
+      t2t.make_it(lines)
+      #File.open(f.gsub('.erb','.w1erb'),'w') do |wr|
+      #  wr<<lines.join("\n")
+      #end
+      #hp = Hpricot(lines.join("\n"))
+      hp =Hpricot::XML(lines.join("\n"))
+      t2w.start(hp).line_code
+      File.open(f.gsub('.erb','.w2erb'),'w') do |wr|
+        wr<<t2w.result.join("\n")
+      end
+    end
+  else
+    case arg[1]
+    when '-a' ;WH.parse_files(Dir["*.#{arg[0]}*"]) 
+    when '-b' ;WH.parse_files(arg[0].split(','),false)
+    else      ;WH.parse_files(arg[0].split(','))
+    end
 	end
 else
 	howto_w2tags

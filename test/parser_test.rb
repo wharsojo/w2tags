@@ -1,23 +1,23 @@
 require 'test/unit'
 require 'rubygems'
 require 'w2tags'
+require 'w2tags_no_parsing'
+require 'w2tags_basic_usability'
+require 'w2tags_form'
+require 'w2tags_hot'
+require 'w2tags_hot_var'
+require 'w2tags_enlightning'
 
 class ParserTest < Test::Unit::TestCase
 
   W2TAGS = W2Tags::Parser.new
   W2TAGS.silent= true
-  def easy_test(w2tg,expected)
-    assert_equal(expected,W2TAGS::parse_line(w2tg,true).join)
-  end
   
-  def test_empty
-    assert_equal([], W2TAGS::parse_line('',true))
-    assert_equal([], W2TAGS::parse_line("\n\n\n\n\n\n",true))
-    assert_equal([], W2TAGS::parse_line("\n    \n    ",true))
-  end
-  
-  require 'w2tags_basic_usability'
+  include W2tagsNoParsing
   include W2tagsBasicUsability    
+  include W2tagsForm
+  include W2tagsHotVar
+  include W2tagsEnlightning
   
   def test_haml_like
 easy_test(<<W2TAGS____________,<<EXPECTED__________)
@@ -133,8 +133,8 @@ EXPECTED__________
 
 easy_test(<<W2TAGS____________,<<EXPECTED__________)
 %form
-  ^{value="1"} /
-  ^{value="2"} /
+  ^ 1
+  ^ 2
 W2TAGS____________
 <form>
   <input value="1"/>
@@ -165,36 +165,14 @@ EXPECTED__________
   def test_w2tags
 easy_test(<<W2TAGS____________,<<EXPECTED__________)
 :names
-:names /
 W2TAGS____________
-<input name="names">
-</input>
-<input name="names"/>
+<input name="names" />
 EXPECTED__________
 
 easy_test(<<W2TAGS____________,<<EXPECTED__________)
-:names#ids.classes{value="OK"} /
+:names#ids.classes OK
 W2TAGS____________
 <input name="names" id="ids" class="classes" value="OK"/>
-EXPECTED__________
-
-easy_test(<<W2TAGS____________,<<EXPECTED__________)
--#
-  remark only
-  you will see only the empty line
--!
-  but this line will not parse
-W2TAGS____________
-
-  but this line will not parse
-EXPECTED__________
-
-easy_test(<<W2TAGS____________,<<EXPECTED__________)
--!
-  how about this line
-W2TAGS____________
-
-  how about this line
 EXPECTED__________
   end
   
@@ -216,81 +194,10 @@ W2TAGS____________
 EXPECTED__________
   end
   
-  def test_hot_feature
-easy_test(<<W2TAGS____________,<<EXPECTED__________)
-!hot!feature
--d arghhh
-W2TAGS____________
-<div class="rows">arghhh</div>
-EXPECTED__________
-
-easy_test(<<W2TAGS____________,<<EXPECTED__________)
-!hot!feature
--d= arghhh
-W2TAGS____________
-<div class="rows"><%= arghhh %></div>
-EXPECTED__________
-
-easy_test(<<W2TAGS____________,<<EXPECTED__________)
-!hot!feature
--d== arghhh
-W2TAGS____________
-<div class="rows"><%= "arghhh" %></div>
-EXPECTED__________
-
-easy_test(<<W2TAGS____________,<<EXPECTED__________)
-!hot!feature
--x:n#i.c.x arghhh
-W2TAGS____________
-<x name="n" id="i" class="c x">arghhh</x>
-EXPECTED__________
-
-easy_test(<<W2TAGS____________,<<EXPECTED__________)
-!hot!feature
--y:n#i.c.x{mak="yos"} arghhh
-W2TAGS____________
-<x name="n" id="i" class="c x" mak="yos"><%= arghhh %></x>
-EXPECTED__________
-
-easy_test(<<W2TAGS____________,<<EXPECTED__________)
-!hot!feature
--int 12345
-W2TAGS____________
-<div id="54321"/>
-EXPECTED__________
-
-easy_test(<<W2TAGS____________,<<EXPECTED__________)
-!hot!feature
--int2 12345
-W2TAGS____________
-<input type="text" id="dodol_12345" name="12345" value="<%= @dodol.12345 %>"/>
-EXPECTED__________
-
-easy_test(<<W2TAGS____________,<<EXPECTED__________)
-!hot!feature
--form#id 67890
-W2TAGS____________
-<form id="id" method="post" action="<%= "67890" %>">
-</form>
-EXPECTED__________
-
-easy_test(<<W2TAGS____________,<<EXPECTED__________)
-!hot!feature
--form2#widi.sky8 testing
-W2TAGS____________
-<form id="widi" class="sky8" method="post" action="testing.">
-</form>
-EXPECTED__________
-
-easy_test(<<W2TAGS____________,<<EXPECTED__________)
-!hot!feature
--form3#widi.sky8 testing
-W2TAGS____________
-<form id="widi" class="sky8" method="post" action="testing{}{}{}.">
-</form>
-EXPECTED__________
-  end    
+  private
   
-  require 'hot_test'
-  include HotTest  
+  def easy_test(w2tg,expected)
+    assert_equal(expected,W2TAGS::parse_line(w2tg,true).join)
+  end
+
 end

@@ -1,12 +1,31 @@
-== W2TAGS
-   by Widi Harsojo, http://wharsojo.wordpress.com
-   
-=== Run on MRI Ruby : 1.8.x / 1.9.1
+= W2TAGS
+=== Run on MRI Ruby : 1.8.x / 1.9.x
 
+  C:\>w2tags -irb
+  ARGV  : -irb
+
+  Your W2Tags instance object stored in WH...
+  Ex: puts WH.parse_line("#content\n  %span Hello")
+  Shortcut command => wh("#content\n  %span Hello")
+
+  irb(main):001:0> wh(<<END)
+  irb(main):002:0" #wow
+  irb(main):003:0"  #kereen
+  irb(main):004:0"   %span Hello World
+  irb(main):005:0" END
+  =>C:/mingw/lib/ruby/gems/1.9.1/gems/w2tags-0.9.1/hot/html.hot
+  <div id="wow">
+   <div id="kereen">
+    <span>Hello World</span>
+   </div>
+  </div>
+  => nil
+  irb(main):006:0>
+  
 == DESCRIPTION:
 
-w2tags is the way to tags, a short cut / macros. when it do it use some patern 
-define in files (HOT file) to produce tags from minimal code to become full fledge tags 
+W2Tags is the way to tags, a short cut / macros. When it do, it use some patern 
+define in HOT file to produce tags from minimal code to become full fledge tags.
 
 == FEATURES
 
@@ -14,17 +33,26 @@ Before it release it use some patern, but I reliaze, today web development have
 some popular patern in view engine, so I change the patern. Now syntax mimics HAML 
 to easy transisition, and proven to be useable and best.
 
-Extended Syntax is the remain patern before I choose HAML like syntax, like 
-"^ Next Tag will be use", redefinition "^" command using "~", define variable "&var=", 
-define uniq variable "@var=", constanta variable"*var*" for attribute ID, CLASS, NAME. 
-This Constanta will be ready every time it parse the W2TAGS (%) or parse the HOT(% / -).
+Extended Syntax are the remain patern before I choose HAML-like syntax like
+"^" - NextTag (next tag will be use after using a tag like "ul" next tag "li"), 
+Redefinition NextTag command using "~^", define variable "&var=", 
+define uniq variable "@var=", Key-Variable 
+
+  "$:","*:" for attribute NAME, 
+  "$#","*#" for attribute ID, 
+  "$.","*." for attribute CLASS, 
+  "$@","*@" for custome attribute,
+  "$$" for all Key-Variable. 
+  
+This Constanta will be ready every time it parse the W2TAGS HOT (% / -).
 
 HOT file is the powerfull features in w2tags, it contains some patern that you can
 call it later using command "%" or "-", it contains one or more line of html/w2tags/hot
-command, if you detect in you source that not DRY you can migrate the patern to hot
-files and later you can call it
+command, if you detect in you source that not DRY you can migrate the patern to HOT
+files and you can call it later
 
-The rest of the command you can see it by reading source of w2tag::parser. 
+The rest of the command you can see in each RDOC Documentation or by reading 
+the source of W2Tags::Parser or see in Test folder, 
 So you can code less typing.
 
 == PROBLEMS:
@@ -106,11 +134,11 @@ Extended syntax that produce the same result
     %ul
       ^ menu 1; menu 2
 
-or if <ul> patern is so common, it can be save in a hot file 
+or if the patern is so common, it can be save in a hot file 
 and use it as hot command. Example: inside "common.hot"
 
   >>_ul
-  -ul
+  %ul
     ^$*
 
 and code in source:
@@ -200,6 +228,9 @@ get it from commandline "w2tags"
   5. w2tags file1.w2htm -d:parser #=> translate with debug parser
   6. w2tags file1.w2htm -d:constanta #=> translate with debug constanta
   7. w2tags file1.w2htm -d:stack #=> translate with debug stack indentation
+  8. w2tags -irb           #=> Start IRB with WH as instance object of W2Tags
+  9. w2tags -rails         #=> Copy w2scaffold Rails and set environment.rb
+ 10. w2tags -tags2w        #=> Parsing erb to w2tags
 
   Enjoy... 
 
@@ -209,6 +240,8 @@ add inside file "config/environment.rb" in the bottom:
 
   require 'w2tags'
   require 'w2tags/rails_hook'
+  
+You can automatically add by using commandline "w2tags -rails"
 
 === MERB HOOK
 
@@ -226,7 +259,7 @@ sinatra usualy consist only one file "main.rb", so just add below sinatra requir
 
 == LICENSE:
 
-Copyright (c) 2008 Widi Harsojo, wharsojo<at>gmail.com
+Copyright (c) 2008 - 2009 Widi Harsojo
 
-Distributed under the user's choice of the {GPL Version 2}[http://www.gnu.org/licenses/old-licenses/gpl-2.0.html] (see COPYING for details) or the
-{Ruby software license}[http://www.ruby-lang.org/en/LICENSE.txt] by Widi Harsojo.
+Distributed under the user's choice of the {GPL Version 2}[http://www.gnu.org/licenses/old-licenses/gpl-2.0.html] 
+(see COPYING for details) or the MIT License .
