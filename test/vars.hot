@@ -1,0 +1,30 @@
+>>_vars
+-!
+ $$
+ nm=$:
+ id=$#
+ cl=$.
+ at=$@
+
+>>_var2
+-!
+ $$
+ nm=*:
+ id=*#
+ cl=*.
+ at=*@
+
+>>_var3
+-!
+ *all*
+ *name*
+ *id*
+ *class*
+ *@
+
+>>_var4
+$me
+*code*
+
+>>_var5
+$tag

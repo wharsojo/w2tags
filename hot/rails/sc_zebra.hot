@@ -1,0 +1,10 @@
+>>table
+<table border=1>
+<</
+</table>
+
+>>_each_tr
+<% idx=0 %>
+-each $*
+ <% idx= idx==0 ? 1 : 0 %>
+ %tr{style="background:<%= idx==0 ? "red" : "yellow" %>;"}

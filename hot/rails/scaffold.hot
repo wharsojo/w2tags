@@ -1,0 +1,15 @@
+>>_th
+%th <b>$0.capitalize.gsub('_',' ')~</b>
+  
+>>_td
+%td$$ h &rec!.$0
+
+>>_td_link_crud
+~^ %td link_to $0
+^= "Show", &rec!
+^= "Edit", edit_&rec!_path(&rec!)
+^= "Destroy", &rec!, :confirm => "Are you sure?", :method => :delete
+
+>>_each_tr
+-each $*
+ %tr

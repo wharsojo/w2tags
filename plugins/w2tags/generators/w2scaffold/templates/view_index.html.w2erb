@@ -1,0 +1,14 @@
+!hot!scaffold
+%h1 Listing <%= plural_name %>
+&rec=<%= singular_name %>
+&fld=<%= attributes.collect {|f|f.name}.join(";") %>
+%table
+  %tr
+    -th &fld!
+
+  -each_tr @<%= plural_name %>;&rec!
+    -td= &fld!
+    -td_link_crud
+%br
+
+= link_to "New &rec!", new_&rec!_path
