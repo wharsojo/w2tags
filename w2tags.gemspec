@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["widi harsojo"]
-  s.date = %q{2009-04-21}
+  s.date = %q{2009-04-26}
   s.default_executable = %q{w2tags}
   s.description = %q{w2tags is the way to tags, a short cut / macros. when it do it use some patern define in files (HOT file) to produce tags from minimal code to become full fledge tags}
   s.email = %q{wharsojo@gmail.com}
