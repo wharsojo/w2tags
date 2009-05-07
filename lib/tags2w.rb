@@ -50,6 +50,7 @@ class Tags2w
         tag.gsub!(/\%input\:/,':') 
       end
       if /\%cmd\./ =~ tag
+        #puts tag
         tag.gsub!(/\%cmd\.if\{(.*?)\}/    ,    "-if #{$1}") if /\%cmd\.if\{att="(.*?)"\}/    =~ tag
         tag.gsub!(/\%cmd\.for\{(.*?)\}/   ,   "-for #{$1}") if /\%cmd\.for\{att="(.*?)"\}/   =~ tag
         tag.gsub!(/\%cmd\.unless\{(.*?)\}/,"-unless #{$1}") if /\%cmd\.unless\{att="(.*?)"\}/=~ tag
@@ -59,6 +60,9 @@ class Tags2w
         tag.gsub!(/\%cmd\.each2\{(.*?)\}/ , "-each2 #{$1}") if /\%cmd\.each2\{att="(.*?)"\}/ =~ tag
         tag.gsub!(/\%cmd\.form_tag\{(.*?)\}/,"-form_tag #{$1}") if /\%cmd\.form_tag\{att="(.*?)"\}/=~ tag
         tag.gsub!(/\%cmd\.form_for\{(.*?)\}/,"-form_for #{$1}") if /\%cmd\.form_for\{att="(.*?)"\}/=~ tag
+      else  
+        tag.gsub!(/\%\<\?xml/             ,        "<?xml") if /^\%\<\?xml/                  =~ tag
+        tag.gsub!(/\%\<\!DOCTYPE/         ,    "<!DOCTYPE") if /^\%\<\!DOCTYPE/              =~ tag
       end                                                
     end
     tag  
@@ -185,7 +189,17 @@ class MakeTag
     @blk_ar= Array.new(20,[''])  #level, space
     lines.each_with_index do |l,i|
       dbg=''
-      if /( *)\<% *(.*? ) *do *\|(.*?)\|/ =~ l
+      if /( *)\<% *(\w+)[(]?(.*?)[)]? *do *\|(.*?)\|/ =~ l
+        @lvl_dp += 1
+        blk= ["<cmd class=\"#{$2}\" att=\"#{$3};#{$4}\">","<form_for>"]
+        dbg<< "#{$1}#{blk[0]}"
+        @blk_ar[@lvl_dp]= blk
+      elsif /( *)\<% *(\w+)[(]?(.*?)[)]? *do */ =~ l
+        @lvl_dp += 1
+        blk= ["<cmd class=\"#{$2}\" att=\"#{$3}\">","<form_tag>"]
+        dbg<< "#{$1}#{blk[0]}"
+        @blk_ar[@lvl_dp]= blk
+      elsif /( *)\<% *(.*? ) *do *\|(.*?)\|/ =~ l
         spc= $1
         cmd= $2
         att= $3
@@ -205,17 +219,7 @@ class MakeTag
         spc= $1
         cmd= $2
         att= $3.lstrip.gsub(/\-$/,'')
-        if /( *)\<% *form_tag[(]?(.*?)[)]? *do */ =~ l
-          @lvl_dp += 1
-          blk= ["<cmd class=\"form_tag\" att=\"#{$2}\">","<form_tag>"]
-          dbg<< "#{spc}#{blk[0]}"
-          @blk_ar[@lvl_dp]= blk
-        elsif /( *)\<% *form_for[(]?(.*?)[)]? *do *\|(.*?)\|/ =~ l
-          @lvl_dp += 1
-          blk= ["<cmd class=\"form_for\" att=\"#{$2};#{$3}\">","<form_for>"]
-          dbg<< "#{spc}#{blk[0]}"
-          @blk_ar[@lvl_dp]= blk
-        elsif %w[unless if for].find_index(cmd)
+        if %w[unless if for].find_index(cmd)
           @lvl_dp += 1
           blk= ["<cmd class=\"#{cmd}\" att=\"#{att}\">","<#{cmd}>"]
           dbg<< "#{spc}#{blk[0]}"
