@@ -1,6 +1,6 @@
 module W2Tags 
   module Block
-    module Bhot
+    module BlockHot
       def bhot_skip_initialize
         @doc_hot= [] #bhot buffer
         @key_hot= '' #key for hot 
