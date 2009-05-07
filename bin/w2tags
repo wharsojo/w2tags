@@ -145,9 +145,11 @@ END
       puts f
       lines= IO.read(f).delete("\r").split("\n")
       t2t.make_it(lines)
-      #File.open(f.gsub('.erb','.w1erb'),'w') do |wr|
-      #  wr<<lines.join("\n")
-      #end
+      if arg[1]=='-debug'
+        File.open(f.gsub('.erb','.w1erb'),'w') do |wr|
+          wr<<lines.join("\n")
+        end
+      end
       #hp = Hpricot(lines.join("\n"))
       hp =Hpricot::XML(lines.join("\n"))
       t2w.start(hp).line_code
