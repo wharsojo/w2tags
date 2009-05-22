@@ -12,7 +12,7 @@ task :default => 'spec:run'
 PROJ.name = 'w2tags'
 PROJ.authors = 'widi harsojo'
 PROJ.email = 'wharsojo@gmail.com'
-PROJ.url = 'w2tags.rubyforge.org'
+PROJ.url = 'http://w2tags.rubyforge.org'
 PROJ.rubyforge.name = 'w2tags'
 
 PROJ.rdoc.opts << '--line-numbers' << '--inline-source' << '-A cattr_accessor=object'
