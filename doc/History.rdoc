@@ -2,6 +2,20 @@
 
 Below is a complete listing of changes for each revision of W2TAGS.
 
+== 0.9.5
+
+=== Add Condition Hook for Sinatra 0.9.2
+
+Since sinatra change again method of "lookup_template", the Hook must add another
+condition Hook. 
+
+=== HOT files
+
+==== erb.hot
+
+add tag "%comment" since reverse erb to w2tags (tags2w) use this tag and it must 
+be play nice (no parsing inside it).
+
 == 0.9.4
 
 === Tags To W (Reverse parse to w2tags)
