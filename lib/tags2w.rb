@@ -157,7 +157,7 @@ class Tags2w
       if /[^"] *\<%(=.*)[-]?%\>/=~ ln
         ln.gsub!(/[^"] *\<%=.*[-]?%\>/,$1.lstrip.gsub(/\-$/,'')) 
         @doc_med<< ln
-      elsif /[^"] *\<%(.*)[-]?%\>/ =~ ln
+      elsif /[^"] *\<%[-]?(.*)[-]?%\>/ =~ ln
         code= $1.lstrip.gsub(/\-$/,'')
         part= code.split(/ +/)[0]
         if %w[if elsif else].find_index(part)
@@ -169,7 +169,7 @@ class Tags2w
         if @cod_if && (%w[end].find_index(part))
           @cod_if= false
         else
-          ln.gsub!(/\<%.*[-]?%\>/,code) 
+          ln.gsub!(/\<%[-]?.*[-]?%\>/,code) 
           @doc_med<< ln 
         end
       else
@@ -189,17 +189,21 @@ class MakeTag
     @blk_ar= Array.new(20,[''])  #level, space
     lines.each_with_index do |l,i|
       dbg=''
-      if /( *)\<% *(\w+)[(]?(.*?)[)]? *do *\|(.*?)\|/ =~ l
+      if /( *)\<%[-]? *(\w+)[(]?(.*?)[)]? *do *\|(.*?)\|/ =~ l
         @lvl_dp += 1
-        blk= ["<cmd class=\"#{$2}\" att=\"#{$3};#{$4}\">","<form_for>"]
+    if $3=='.each'
+          blk= ["<cmd class=\"#{$3[1,99]}\" att=\"#{$2};#{$4}\">","<form_for>"]
+    else
+          blk= ["<cmd class=\"#{$2}\" att=\"#{$3};#{$4}\">","<form_for>"]
+    end
         dbg<< "#{$1}#{blk[0]}"
         @blk_ar[@lvl_dp]= blk
-      elsif /( *)\<% *(\w+)[(]?(.*?)[)]? *do */ =~ l
+      elsif /( *)\<%[-]? *(\w+)[(]?(.*?)[)]? *do *$/ =~ l
         @lvl_dp += 1
         blk= ["<cmd class=\"#{$2}\" att=\"#{$3}\">","<form_tag>"]
         dbg<< "#{$1}#{blk[0]}"
         @blk_ar[@lvl_dp]= blk
-      elsif /( *)\<% *(.*? ) *do *\|(.*?)\|/ =~ l
+      elsif /( *)\<%[-]? *(.*? ) *do *\|(.*?)\|/ =~ l
         spc= $1
         cmd= $2
         att= $3
@@ -215,7 +219,7 @@ class MakeTag
         @lvl_dp += 1
         @blk_ar[@lvl_dp]= blk
         dbg<< "#{spc}#{blk[0]}"
-      elsif /( *)\<% *([\w_]+) *(.*?)%>/ =~ l
+      elsif /( *)\<%[-]? *([\w_]+) *(.*?)[-]?%>/ =~ l
         spc= $1
         cmd= $2
         att= $3.lstrip.gsub(/\-$/,'')
