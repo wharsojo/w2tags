@@ -9,6 +9,10 @@ Below is a complete listing of changes for each revision of W2TAGS.
 Since sinatra change again method of "lookup_template", the Hook must add another
 condition Hook. 
 
+=== tags2w
+
+Fix: html - erb with ruby sanitize code: "<%-  -%>"
+
 === HOT files
 
 ==== erb.hot
