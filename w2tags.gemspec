@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{w2tags}
-  s.version = "0.9.43"
+  s.version = "0.9.44"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["widi harsojo"]
