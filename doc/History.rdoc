@@ -9,6 +9,11 @@ Below is a complete listing of changes for each revision of W2TAGS.
 Since sinatra change again method of "lookup_template", the Hook must add another
 condition Hook. 
 
+=== block_hot
+
+add a block for hot so you can put your hot block inside your code (embed) mean 
+that you hot is only for this code only
+
 === tags2w
 
 Fix: html - erb with ruby sanitize code: "<%-  -%>"
@@ -19,6 +24,8 @@ Fix: html - erb with ruby sanitize code: "<%-  -%>"
 
 add tag "%comment" since reverse erb to w2tags (tags2w) use this tag and it must 
 be play nice (no parsing inside it).
+
+change form_tag, form_to, using block var 
 
 == 0.9.4
 
