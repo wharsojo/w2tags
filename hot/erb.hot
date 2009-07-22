@@ -170,5 +170,5 @@
 -end
 
 >>_form_for
-<% form_for($*) do %>
+<% form_for($0) do |$1| %>
 -end
