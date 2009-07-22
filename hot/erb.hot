@@ -166,7 +166,7 @@
 %form$:$#.lelouch.*.{*@method="post"~action="$0"~}
 
 >>_form_tag
-<% form_tag($*) do %>
+<% form_tag($0) do |$1| %>
 -end
 
 >>_form_for
