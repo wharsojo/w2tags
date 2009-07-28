@@ -2,8 +2,8 @@ module W2Tags
   module Block
     module BlockHot
       def bhot_skip_initialize
-        @doc_hot= [] #bhot buffer
         @key_hot= '' #key for hot 
+        @doc_hot= [] #bhot buffer
         @bht    = 99 #hot indentation block
       end
       
@@ -11,6 +11,7 @@ module W2Tags
         @rgx = nil
         if(/(^[\t ]*)(!H!) *(\w+)\n/ =~ @row;@rgx = $~)
           @key_hot= $3.strip
+          @doc_hot= [] #bhot buffer
           @bht = @spc.size
         elsif @bht!= 99 
           if @spc.size<= @bht

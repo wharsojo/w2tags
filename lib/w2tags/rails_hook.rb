@@ -7,7 +7,7 @@ module ActionView
       W2TAGS = W2Tags::Parser.new
       def mtime
         src = filename.gsub(/\.erb$/,'.w2erb')
-        W2TAGS.parse_file(src,false,true)
+        W2TAGS.parse_file(src,true,true)
         File.mtime(filename)
       end
     end

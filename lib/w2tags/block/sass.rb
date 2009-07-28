@@ -14,6 +14,8 @@ module W2Tags
           @row = ''
           @sas = @spc.size
           @doc_sas = [[' '*@sas,"<style>\n"].join]
+          @key_sas = [] #sass indentation
+          @nms_sas = [0,""]
         elsif @sas!= 99 
           if @spc.size<= @sas
             @doc_sas<< "#{' '*@key_sas[-1][0]}}\n"

@@ -1,0 +1,164 @@
+>>_js
+%js /javascripts/$0
+
+>>_css
+%css /stylesheets/$0
+
+>>comment
+-!!
+ <!--
+<</
+ \-->
+
+>>_if
+- if $0
+-end
+
+>>_unless
+- unless $0
+-end
+
+>>_elsif
+- elsif $0
+-end
+
+>>_else
+- else
+-end
+
+>>_
+!/
+<% $* %>
+
+>>_-
+!/
+<% $* %>
+-end
+
+>>=
+!/
+<%= $* %>
+
+>>_=
+!/
+<%= $* %>
+-end
+
+>>_for
+!/
+<% for $* %>
+-end
+
+>>_each
+!/
+- $0.each do |$1|
+-end
+
+>>_eachs
+!/
+- $0.sort.each do |$1|
+-end
+
+>>_each2
+!/
+- $0.each_with_index do |$1|
+-end
+
+>>_times
+!/
+- $0.times do $1
+-end
+
+>>_end
+<</
+<% end %>
+
+>>_a
+%a$${href="*&"} $*
+
+>>_a2
+%a$${href="=$1"} $0
+
+>>br
+<br *all**@/>
+
+>>hr
+<hr *all**@/>
+
+>>img
+<img *all*src="$0" ~alt="$1"~ />
+
+>>img=
+<img *all*src="=$0" ~alt="$1"~ />
+
+>>html_title 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us" >
+  <head>
+    <title>$0</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+>>p_a
+%p
+	%a $*
+~/
+
+>>r_each
+!/
+<% $1.each do |$0| %>
+-end
+
+>>for_in
+!/
+<% for $0 in $1 %>
+-end
+
+>>not
+- unless $*
+
+>>else
+!/
+<% else %>
+-end
+
+>>/
+!/
+<% end %>
+
+>>_code
+!/
+-end_code
+ -!!
+ <%
+
+>>_end_code
+<</
+ %>
+
+>>script
+<script *all**@type="text/javascript" charset="utf-8">
+%script_end
+
+>>script_end
+<</
+</script>
+
+>>input
+<input *all*~value="$0"~/>
+
+>>text
+<input *all*type="text"~value="$0"~/>
+
+>>submit
+<input *all*type="submit"~value="$0"~/>
+
+>>post
+%form$:$#.lelouch.*.{*@method="post"~action="$0"~}
+
+>>_form_tag
+<% form_tag($0) do |$1| %>
+-end
+
+>>_form_for
+<% form_for($0) do |$1| %>
+-end

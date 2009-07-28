@@ -23,6 +23,7 @@ lib/w2tags/block/plain_text.rb
 lib/w2tags/block/remark.rb
 lib/w2tags/block/sass.rb
 hot/erb.hot
+hot/erb_base.hot
 hot/erb_form.hot
 hot/erb_head.hot
 hot/erb_jquery.hot
