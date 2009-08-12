@@ -9,12 +9,12 @@
 #
 #  example:
 #  1. w2tags -a             #=> translate all file with ext: w2htm
-#  2. w2tags *.w2xml -a     #=> translate all file with ext: w2xml
-#  3. w2tags file1.w2htm    #=> translate a file
-#  4. w2tags file1.w2htm -b #=> translate a file with no initialize/finalize
-#  5. w2tags file1.w2htm -d:parser #=> translate with debug parser
-#  6. w2tags file1.w2htm -d:constanta #=> translate with debug constanta
-#  7. w2tags file1.w2htm -d:stack #=> translate with debug stack indentation
+#  2. w2tags *.w2erb -a     #=> translate all file with ext: w2erb
+#  3. w2tags file1.w2erb    #=> translate a file
+#  4. w2tags file1.w2erb -b #=> translate a file with no initialize/finalize
+#  5. w2tags file1.w2erb -d:parser #=> translate with debug parser
+#  6. w2tags file1.w2erb -d:constanta #=> translate with debug constanta
+#  7. w2tags file1.w2erb -d:stack #=> translate with debug stack indentation
 #  8. w2tags -irb           #=> Start IRB with WT as instant object of W2Tags
 #  9. w2tags -rails         #=> Copy w2scaffold Rails and set environment.rb
 # 10. w2tags -tags2w        #=> Parsing erb to w2tags
@@ -147,19 +147,23 @@ END
       t2t.make_it(lines)
       if arg[1]=='-debug'
         File.open(f.gsub('.erb','.w1erb'),'w') do |wr|
-          wr<<lines.join("\n")
+          wr << lines.join("\n")
         end
       end
       #hp = Hpricot(lines.join("\n"))
       hp =Hpricot::XML(lines.join("\n"))
       t2w.start(hp).line_code
       File.open(f.gsub('.erb','.w2erb'),'w') do |wr|
-        wr<<t2w.result.join("\n")
+        wr << t2w.result.join("\n")
       end
     end
   else
     case arg[1]
-    when '-a' ;WH.parse_files(Dir["*.#{arg[0]}*"]) 
+    when '-a' ;
+       fls = Dir["./**/views/**/#{arg[0]}"]
+       fls = Dir["./**/#{arg[0]}"] if fls==[]
+       #WH.parse_files(Dir["*.#{arg[0]}*"]) 
+       WH.parse_files(fls) 
     when '-b' ;WH.parse_files(arg[0].split(','),false)
     else      ;WH.parse_files(arg[0].split(','))
     end
