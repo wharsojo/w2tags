@@ -438,8 +438,14 @@ module W2Tags
       elsif new_alls==[] && new_prms.size==1 && prms.size>1 
         tmp = ""
         rpt = @rgx.to_s.gsub(@rgx[3]+"\n","")
+        classs = rpt[/(\.[\w\-\.;]*)/,1]
+        clsmlt = classs.to_s.split(';')
+        clscnt = clsmlt.length
         prms.each_with_index do |x,i|
-          tmp<< rpt+x #tmp<< @new.gsub(new_prms[0],x) 
+          line = rpt+x #tmp<< @new.gsub(new_prms[0],x) 
+          #implement multi class params ^.d;.g canggh;bow              
+          line.gsub!(classs,(clscnt>i ? clsmlt[i] : '')) if classs
+          tmp<< line
           tmp<< "\n#{@spc}" if i+1<prms.size
         end
         @new = tmp
