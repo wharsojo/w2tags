@@ -4,6 +4,31 @@ Below is a complete listing of changes for each revision of W2TAGS.
 
 == 0.9.5
 
+=== Command line
+
+Help Information change from w2html to w2erb, for params like
+
+  w2tags *.w2erb -a 
+  
+it will parse all w2tags type 'erb' from folder view or if not found, 
+it will parse from current folder down to child folder
+
+=== Parser
+
+Remember command / Next command have multi class for parameters convert 
+to multiple line 
+
+  %table
+    %tr
+      ^.c;.r No;Info
+  	  
+  <table>
+    <tr>
+      <td class="c">No</td>
+      <td class="r">Info</td>
+    </tr>
+  </table>
+
 === Add Condition Hook for Sinatra 0.9.2
 
 Since sinatra change again method of "lookup_template", the Hook must add another
