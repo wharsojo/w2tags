@@ -438,7 +438,11 @@ module W2Tags
       elsif new_alls==[] && new_prms.size==1 && prms.size>1 
         tmp = ""
         rpt = @rgx.to_s.gsub(@rgx[3]+"\n","")
-        classs = rpt[/(\.[\w\-\.;]*)/,1]
+        #multi key params(class,attribute,etc)
+        classs = rpt[/([.:#].*\{.*?\}.*?) /,1] 
+        classs = rpt[/(\{.*?\}.*?) /,1] if !classs 
+        classs = rpt[/([.:#].*?) /,1]   if !classs 
+        classs.sub!(/=$/,'') if classs
         clsmlt = classs.to_s.split(';')
         clscnt = clsmlt.length
         prms.each_with_index do |x,i|
