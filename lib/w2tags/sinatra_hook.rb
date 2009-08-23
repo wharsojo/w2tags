@@ -13,7 +13,7 @@ module Sinatra
             "#{template}.#{renderer}"
           )
           src = path.gsub(path[/(\.\w+)$/,1],'.w2'<<$1[1,9])
-          W2TAGS.parse_file(src,false,true)
+          W2TAGS.parse_file(src,true,true)
           super 
         end
       end
@@ -40,7 +40,7 @@ module Sinatra
               else
                 path = ::File.join(views_dir, "#{template}.#{engine}")
                 src = path.gsub(path[/(\.\w+)$/,1],'.w2'<<$1[1,9])
-                W2TAGS.parse_file(src,false,true)
+                W2TAGS.parse_file(src,true,true)
                 [ ::File.read(path), path, 1 ]
               end
             when Proc
@@ -59,7 +59,7 @@ module Sinatra
             when Symbol
               path= template_path(engine, template, options)
               src = path.gsub(path[/(\.\w+)$/,1],'.w2'<<$1[1,9])
-              W2TAGS.parse_file(src,false,true)
+              W2TAGS.parse_file(src,true,true)
             end
             super
           end

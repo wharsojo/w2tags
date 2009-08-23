@@ -33,6 +33,7 @@ to multiple line
 
 Since sinatra change again method of "lookup_template", the Hook must add another
 condition Hook. 
+Sinatra Hook update, it a same behaviour with Rails
 
 === block_hot
 
