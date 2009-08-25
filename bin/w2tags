@@ -3,12 +3,12 @@
 #  How to WaytoTags:
 #  ~~~~~~~~~~~~~~~~~~~~~~~
 #  syntax:
-#  w2tags [*.w2htm] [-a] [-d:*opt*]
+#  w2tags [*.w2erb] [-a] [-d:*opt*]
 #  OR
 #  w2tags [file1,file2,file3] [-b] [-d:*opt*]
 #
 #  example:
-#  1. w2tags -a             #=> translate all file with ext: w2htm
+#  1. w2tags -a             #=> translate all file with ext: w2erb
 #  2. w2tags *.w2erb -a     #=> translate all file with ext: w2erb
 #  3. w2tags file1.w2erb    #=> translate a file
 #  4. w2tags file1.w2erb -b #=> translate a file with no initialize/finalize
@@ -30,18 +30,18 @@ puts <<END
 How to WaytoTags:
 ~~~~~~~~~~~~~~~~~~~~~~~
 syntax:
-w2tags [*.w2htm] [-a] [-d:*opt*]
+w2tags [*.w2erb] [-a] [-d:*opt*]
 OR
 w2tags [file1,file2,file3] [-b] [-d:*opt*]
 
 example:
-1. w2tags -a             #=> translate all file with ext: w2htm
-2. w2tags *.w2xml -a     #=> translate all file with ext: w2xml
-3. w2tags file1.w2htm    #=> translate a file
-4. w2tags file1.w2htm -b #=> translate a file with no initialize/finalize
-5. w2tags file1.w2htm -d:parser #=> translate with debug parser
-6. w2tags file1.w2htm -d:constanta #=> translate with debug constanta
-7. w2tags file1.w2htm -d:stack #=> translate with debug stack indentation
+1. w2tags -a             #=> translate all file with ext: w2erb
+2. w2tags *.w2erb -a     #=> translate all file with ext: w2erb
+3. w2tags file1.w2erb    #=> translate a file
+4. w2tags file1.w2erb -b #=> translate a file with no initialize/finalize
+5. w2tags file1.w2erb -d:parser #=> translate with debug parser
+6. w2tags file1.w2erb -d:constanta #=> translate with debug constanta
+7. w2tags file1.w2erb -d:stack #=> translate with debug stack indentation
 8. w2tags -irb           #=> Start IRB with WH as instance object of W2Tags
 9. w2tags -rails         #=> Copy w2scaffold Rails and set environment.rb
 10.w2tags -tags2w        #=> Parsing erb to w2tags
@@ -53,7 +53,7 @@ end
 
 arg = ARGV 
 if arg.size>0
-	arg = ['w2htm'] + arg if arg.size==1 && arg[0]=='-a'
+	arg = ['w2erb'] + arg if arg.size==1 && arg[0]=='-a'
 	puts 'ARGV  : '+arg.join(" ")
 	puts arg[1]
 	

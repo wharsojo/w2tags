@@ -15,6 +15,11 @@ it will parse from current folder down to child folder
 
 === Parser
 
+Include Source now doesn't have default ext (.w2ex), for easy maintenace
+of source code.
+
+  !inc!partial.w2erb
+
 Remember command / Next command have multi class for parameters convert 
 to multiple line 
 

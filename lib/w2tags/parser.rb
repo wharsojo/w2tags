@@ -12,7 +12,7 @@ module W2Tags
     include *(block.collect{|m|eval("::W2Tags::Block::#{m.to_s}")})
     #initiall create instance object, default if no arguments will be 
     #target for html
-    def initialize(ext = 'html')
+    def initialize(ext = 'erb')
       @dbg={
         :hot      =>nil,
         :stack    =>nil,
