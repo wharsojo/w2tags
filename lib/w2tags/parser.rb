@@ -32,7 +32,6 @@ module W2Tags
       @rgx    =  nil   #current regular expression
       @ext    =  ext   #target extension 
       @hot    = 'hot'  #source of file hot
-      @w2x    = 'w2x'  #source file to include
       @src_path= ''    #path for source file
       @silent = false  #for test
       
@@ -347,11 +346,11 @@ module W2Tags
     
     #when parsing and found tag 
     # !inc!fileinc
-    #it will include / replace current row from file inside .w2x, and after 
+    #it will include / replace current row from file include, and after 
     #parser will try to get current row after merging to be evaluate
     def merge_w2x
       if(/!inc![ ]?([\/\w._]+)([`\n])/ =~ @row;@rgx = $~)
-        mac = @src_path+'/'+$1+'.'+@w2x
+        mac = @src_path+'/'+$1 
         src = $~.to_s #;p mac
         if File.exist?(mac)
           pop = $~.captures.pop
