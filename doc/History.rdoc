@@ -13,6 +13,10 @@ Help Information change from w2html to w2erb, for params like
 it will parse all w2tags type 'erb' from folder view or if not found, 
 it will parse from current folder down to child folder
 
+=== tags2w
+
+using index (not find_index), for compactible with ruby version 1.8.6
+
 === Parser
 
 Include Source now doesn't have default ext (.w2ex), for easy maintenace

@@ -160,13 +160,13 @@ class Tags2w
       elsif /[^"] *\<%[-]?(.*)[-]?%\>/ =~ ln
         code= $1.lstrip.gsub(/\-$/,'')
         part= code.split(/ +/)[0]
-        if %w[if elsif else].find_index(part)
+        if %w[if elsif else].index(part)
           @cod_if = true
           code= "-#{code}" 
         else
           code= "- #{code}" 
         end
-        if @cod_if && (%w[end].find_index(part))
+        if @cod_if && (%w[end].index(part))
           @cod_if= false
         else
           ln.gsub!(/\<%[-]?.*[-]?%\>/,code) 
@@ -223,16 +223,16 @@ class MakeTag
         spc= $1
         cmd= $2
         att= $3.lstrip.gsub(/\-$/,'')
-        if %w[unless if for].find_index(cmd)
+        if %w[unless if for].index(cmd)
           @lvl_dp += 1
           blk= ["<cmd class=\"#{cmd}\" att=\"#{att}\">","<#{cmd}>"]
           dbg<< "#{spc}#{blk[0]}"
           @blk_ar[@lvl_dp]= blk
-        elsif %w[elsif else].find_index(cmd)
+        elsif %w[elsif else].index(cmd)
           blk= ["</cmd><cmd class=\"#{cmd}\" att=\"#{att}\">","<#{cmd}>"]
           dbg<< "#{spc}#{blk[0]}"
           @blk_ar[@lvl_dp]= blk
-        elsif %w[end].find_index(cmd)
+        elsif %w[end].index(cmd)
           blk= ["</cmd>"]  
           dbg<< "#{spc}#{blk[0]}"
           @lvl_dp -= 1
