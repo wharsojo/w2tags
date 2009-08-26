@@ -1,27 +1,29 @@
 = W2TAGS
-=== Run on MRI Ruby : 1.8.x / 1.9.x
+=== Run on MRI Ruby : 1.8.6 / 1.9.x
 
-  C:\>w2tags -irb
+  me@ubuntu:~$ sudo gem install wharsojo-w2tags
+  
+  me@ubuntu:~$ w2tags -irb
   ARGV  : -irb
 
   Your W2Tags instance object stored in WH...
   Ex: puts WH.parse_line("#content\n  %span Hello")
   Shortcut command => wh("#content\n  %span Hello")
 
-  irb(main):001:0> wh(<<END)
+  irb(main):001:0> wh <<END
   irb(main):002:0" #wow
-  irb(main):003:0"  #kereen
-  irb(main):004:0"   %span Hello World
+  irb(main):003:0"   #kereen
+  irb(main):004:0"     . Hello World
   irb(main):005:0" END
-  =>C:/mingw/lib/ruby/gems/1.9.1/gems/w2tags-0.9.1/hot/html.hot
+  =>/usr/lib/ruby/gems/1.8/gems/wharsojo-w2tags-0.9.49/hot/erb.hot
   <div id="wow">
-   <div id="kereen">
-    <span>Hello World</span>
-   </div>
+    <div id="kereen">
+      <div>Hello World</div>
+    </div>
   </div>
   => nil
   irb(main):006:0>
-  
+
 == DESCRIPTION:
 
 W2Tags is the way to tags, a short cut / macros. When it do, it use some patern 
@@ -202,8 +204,11 @@ and code in source:
 
 == REQUIREMENTS:
 
-no requirement for now, since it use only regular expression to do
-parsing.
+no requirement for w2tags (the parser), since it use only regular expression 
+to do parsing.
+
+converting .erb or .html need hpricot engine to do search tags (see below
+on command no.10)
 
 == INSTALL:
 
