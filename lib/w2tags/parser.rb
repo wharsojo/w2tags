@@ -326,7 +326,7 @@ module W2Tags
     #in gem/hot and merging the HOT, this command can have multiple
     #file HOT separate with ";"
     def merge_hot
-      if(/!hot!([\w;]+)([`\n])/ =~ @row;@rgx = $~)
+      if(/!hot! *([\w;]+)([`\n])/ =~ @row;@rgx = $~)
         hots= @rgx[1].split(';').collect {|x|x+'.'+@hot}
         rpl = ['']
         hots.each do |hot|
@@ -349,7 +349,7 @@ module W2Tags
     #it will include / replace current row from file include, and after 
     #parser will try to get current row after merging to be evaluate
     def merge_w2x
-      if(/!inc![ ]?([\/\w._]+)([`\n])/ =~ @row;@rgx = $~)
+      if(/!inc! *([\/\w._]+)([`\n])/ =~ @row;@rgx = $~)
         mac = @src_path+'/'+$1 
         src = $~.to_s #;p mac
         if File.exist?(mac)
