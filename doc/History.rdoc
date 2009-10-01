@@ -2,6 +2,24 @@
 
 Below is a complete listing of changes for each revision of W2TAGS.
 
+== 0.9.52
+
+=== Parser
+
+Change for auto include hot, if w2tags instance without params run as 
+usual, but if supply with params (hot file name without ext), it will
+overwrite auto-hot from params
+
+=== Rails Hook
+
+It will auto-hot 'rails.hot' (inside will include html,erb_base), but 
+remember when your source include hot (ex: !hot!dodol), loading sequence
+are: dodol.hot, html.hot, erb_base.hot
+
+=== HOT
+
+consolidate HOT to simplify the loading
+
 == 0.9.5
 
 === Command line
