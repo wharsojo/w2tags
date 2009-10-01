@@ -12,7 +12,7 @@ module W2Tags
     include *(block.collect{|m|eval("::W2Tags::Block::#{m.to_s}")})
     #initiall create instance object, default if no arguments will be 
     #target for html
-    def initialize(ext = 'erb')
+    def initialize(mrg = nil)
       @dbg={
         :hot      =>nil,
         :stack    =>nil,
@@ -30,7 +30,8 @@ module W2Tags
       /(%)([!]?[ \t\$\w\-&\/:#.%=]+\{.*\}[=]*)~([^\n]*)\n/,
       /(%)([!]?[ \t\$\w\-&\/:#.%=]+)~([^\n]*)\n/    ]
       @rgx    =  nil   #current regular expression
-      @ext    =  ext   #target extension 
+      @mrg    =  mrg   #another hot to include
+      @ext    = 'erb'  #target extension 
       @hot    = 'hot'  #source of file hot
       @src_path= ''    #path for source file
       @silent = false  #for test
@@ -155,7 +156,7 @@ module W2Tags
       @doc_src  = []
       @doc_out  = []
       @tg_hot   = {} 
-      merge_tags
+      merge_tags @mrg ? @mrg : @ext
     end
     
     #to test parsing on source line and return will be the result, 
@@ -281,9 +282,9 @@ module W2Tags
     # !hot!erb
     #it will search HOT files in current folder, if it not found 
     #it will search in gem/hot and merging the HOT
-    def merge_tags 
-      hot1 = "#{@src_path}/#{@ext}.#{@hot}"
-      hot2 = "#{W2Tags::Dir}/../hot/#{@ext}.#{@hot}"
+    def merge_tags(ext) 
+      hot1 = "#{@src_path}/#{ext}.#{@hot}"
+      hot2 = "#{W2Tags::Dir}/../hot/#{ext}.#{@hot}"
       filehot = hot1 if File.exist?(hot1)
       filehot = hot2 if File.exist?(hot2)
       if filehot

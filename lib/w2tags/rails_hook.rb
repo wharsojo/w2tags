@@ -4,7 +4,7 @@ module ActionView
   else
     puts 'W2Tags Hooked on Rails 2.3.2 & Up!'
     class ReloadableTemplate < Template			
-      W2TAGS = W2Tags::Parser.new
+      W2TAGS = W2Tags::Parser.new('rails')
       def mtime
         src = filename.gsub(/\.erb$/,'.w2erb')
         W2TAGS.parse_file(src,true,true)
