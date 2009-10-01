@@ -8,6 +8,13 @@
 >>finallize
 ,/
 
+>>html_title 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
+%html{xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us"}
+  %head
+    %title $0
+    -utf-8
+
 >>_utf-8
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
@@ -26,5 +33,39 @@
 >>_css
 %css $0
 
+>>script
+<script *all**@type="text/javascript" charset="utf-8">
+%script_end
+-!
+
+>>script_end
+<</
+</script>
+
+>>style
+<style>
+%style_end
+-!
+
+>>comment
+-!!
+ <!--
+<</
+ \-->
+
+>>style_end
+<</
+</style>
+
 >>input
 <input *all*~value="$0"~/>
+
+>>text
+<input *all*type="text"~value="$0"~/>
+
+>>submit
+<input *all*type="submit"~value="$0"~/>
+
+>>post
+%form$:$#.lelouch.*.{*@method="post"~action="$0"~}
+

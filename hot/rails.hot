@@ -1,6 +1,7 @@
 >>initialize
 !hot!html
 !hot!erb_base
+!hot!erb_rails
 
 >>finallize
 ,/

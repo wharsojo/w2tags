@@ -1,0 +1,17 @@
+>>_js
+%js /javascripts/$0
+
+>>_css
+%css /stylesheets/$0
+
+>>_form_tag
+<% form_tag($0) do |$1| %>
+-end
+
+>>_form_for
+<% form_for($0) do |$1| %>
+-end
+
+>>_content_for
+- content_for $* do 
+-end

@@ -1,15 +1,3 @@
->>_js
-%js /javascripts/$0
-
->>_css
-%css /stylesheets/$0
-
->>comment
--!!
- <!--
-<</
- \-->
-
 >>_if
 - if $0
 -end
@@ -79,24 +67,17 @@
 >>_a2
 %a$${href="=$1"} $0
 
->>br
+>>_br
 <br *all**@/>
 
->>hr
+>>_hr
 <hr *all**@/>
 
->>img
+>>_img
 <img *all*src="$0" ~alt="$1"~ />
 
->>img=
+>>_img=
 <img *all*src="=$0" ~alt="$1"~ />
-
->>html_title 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us" >
-  <head>
-    <title>$0</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
 >>p_a
 %p
@@ -135,40 +116,3 @@
 <</
  %>
 
->>script
-<script *all**@type="text/javascript" charset="utf-8">
-%script_end
--!
-
->>script_end
-<</
-</script>
-
->>style
-<style>
-%style_end
--!
-
->>style_end
-<</
-</style>
-
->>input
-<input *all*~value="$0"~/>
-
->>text
-<input *all*type="text"~value="$0"~/>
-
->>submit
-<input *all*type="submit"~value="$0"~/>
-
->>post
-%form$:$#.lelouch.*.{*@method="post"~action="$0"~}
-
->>_form_tag
-<% form_tag($0) do |$1| %>
--end
-
->>_form_for
-<% form_for($0) do |$1| %>
--end
