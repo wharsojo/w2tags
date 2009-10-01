@@ -28,10 +28,12 @@ hot/erb_form.hot
 hot/erb_head.hot
 hot/erb_jquery.hot
 hot/erb_merb.hot
+hot/erb_rails.hot
 hot/erb_table.hot
 hot/html.hot
 hot/jquery.hot
 hot/nvelocity.hot
+hot/rails.hot
 hot/vm2.hot
 hot/vm.hot
 hot/vm_crud.hot
