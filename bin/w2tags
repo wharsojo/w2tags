@@ -24,6 +24,7 @@
 require File.expand_path(
         File.join(File.dirname(__FILE__),%w[.. lib w2tags]))
 wpath=  File.dirname(__FILE__).gsub(/bin$/,'')
+
 def howto_w2tags
 puts <<END
 
@@ -53,22 +54,22 @@ end
 
 arg = ARGV 
 if arg.size>0
-	arg = ['w2erb'] + arg if arg.size==1 && arg[0]=='-a'
-	puts 'ARGV  : '+arg.join(" ")
-	puts arg[1]
-	
-	WH = W2Tags::Parser.new
+  arg = ['w2erb'] + arg if arg.size==1 && arg[0]=='-a'
+  puts 'ARGV  : '+arg.join(" ")
+  puts arg[1]
+  
+  WH = W2Tags::Parser.new
 
-	x = arg.select {|s|s[0,3]=='-d:'}
-	#WH.dbg[:stack] = (x.size==0)	
-	x.each do |s|
-		WH.dbg[:parse]     = true if s=='-d:parser'
-		WH.dbg[:stack]     = true if s=='-d:stack'
-		WH.dbg[:constanta] = true if s=='-d:constanta'
-		WH.dbg[:show_hot]  = true if s=='-d:show_hot'
-	end
-	
-	if arg[0]=='-irb'
+  x = arg.select {|s|s[0,3]=='-d:'}
+  #WH.dbg[:stack] = (x.size==0)  
+  x.each do |s|
+    WH.dbg[:parse]     = true if s=='-d:parser'
+    WH.dbg[:stack]     = true if s=='-d:stack'
+    WH.dbg[:constanta] = true if s=='-d:constanta'
+    WH.dbg[:show_hot]  = true if s=='-d:show_hot'
+  end
+  
+  if arg[0]=='-irb'
     ARGV.shift
     
     class Object
@@ -84,7 +85,7 @@ if arg.size>0
     puts ''
     
     IRB.start      
-	elsif arg[0]=='-rails'
+  elsif arg[0]=='-rails'
     if !File.exist?('vendor/plugins')
       puts 'No Folder: vendor/plugins...'
     elsif !File.exist?('config/environment.rb')
@@ -134,7 +135,7 @@ script/server
 
 END
     end
-	elsif arg[0]=='-tags2w'
+  elsif arg[0]=='-tags2w'
     require 'tags2w'
     t2t = MakeTag.new
     t2w = Tags2w.new
@@ -167,7 +168,7 @@ END
     when '-b' ;WH.parse_files(arg[0].split(','),false)
     else      ;WH.parse_files(arg[0].split(','))
     end
-	end
+  end
 else
-	howto_w2tags
+  howto_w2tags
 end
