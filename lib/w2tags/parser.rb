@@ -327,7 +327,7 @@ module W2Tags
     #in gem/hot and merging the HOT, this command can have multiple
     #file HOT separate with ";"
     def merge_hot
-      if(/!hot! *([\w;]+)([`\n])/ =~ @row;@rgx = $~)
+      if(/!hot! *([\w;]+)([\n])/ =~ @row;@rgx = $~)
         hots= @rgx[1].split(';').collect {|x|x+'.'+@hot}
         rpl = ['']
         hots.each do |hot|
@@ -350,12 +350,12 @@ module W2Tags
     #it will include / replace current row from file include, and after 
     #parser will try to get current row after merging to be evaluate
     def merge_w2x
-      if(/!inc! *([\/\w._]+)([`\n])/ =~ @row;@rgx = $~)
+      if(/!inc! *([\/\w._]+)([\n])/ =~ @row;@rgx = $~)
         mac = @src_path+'/'+$1 
         src = $~.to_s #;p mac
         if File.exist?(mac)
           pop = $~.captures.pop
-          new = IO.read(mac).delete("\r").gsub("\n","\n"+@spc) + ( pop=='`' ? "\n"+@spc : '' )
+          new = IO.read(mac).delete("\r").gsub("\n","\n"+@spc) 
           @doc_src= @row.gsub(src,new).split("\n")+@doc_src
           @row= @doc_src.shift+"\n"
           parse_spc
@@ -445,10 +445,11 @@ module W2Tags
         classs.sub!(/=$/,'') if classs
         clsmlt = classs.to_s.split(';')
         clscnt = clsmlt.length
+        clsmlt+= clscnt==1 ? clsmlt*prms.length : ['']*prms.length
         prms.each_with_index do |x,i|
           line = rpt+x #tmp<< @new.gsub(new_prms[0],x) 
-          #implement multi class params ^.d;.g canggh;bow              
-          line.gsub!(classs,(clscnt>i ? clsmlt[i] : '')) if classs
+          #implement multi class params ^.d;.g canggh;bow
+          line.gsub!(classs,clsmlt[i]) if classs
           tmp<< line
           tmp<< "\n#{@spc}" if i+1<prms.size
         end
