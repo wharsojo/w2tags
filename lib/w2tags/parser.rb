@@ -457,9 +457,9 @@ module W2Tags
       else
         i = new_prms.size - 1
         new_prms.sort.reverse.each do |x|
-          opt_v = Regexp.new('~([^$|\n]*)\\'+x+'([^\|\n]*)~') 
+          opt_v = Regexp.new('~([^$]*)\\' +x+'([^~]*)~') 
           def_v = Regexp.new('~([^~]+)~\\'+x) 
-          eva_v = Regexp.new('\\'+x+'.([^~$]+)~') #$1.upcase~
+          eva_v = Regexp.new('\\'+x+'\.([^~]+)~') #$1.upcase~
           if opt_v =~ @new #;p $1
             rpl = ''
             rpl = "#{$1.to_s}#{prms[i]}#{$2.to_s}" if prms[i] && prms[i].strip!=""
