@@ -1,19 +1,21 @@
 >>initialize
-\<!DOCTYPE html PUBLIC 
-\"-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" >
-%html{xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr"}
+%xhtml 1.1
  %head
  %body$*
 	
 >>finallize
 ,/
 
->>html_title 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
-%html{xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us"}
-  %head
-    %title $0
-    -utf-8
+>>xml
+<?xml version='1.0' encoding='utf-8' ?>
+
+>>dtd
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML ~1.0~$0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+>>xhtml
+%xml
+%dtd $0
+%html{xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr"}
 
 >>_utf-8
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -25,7 +27,7 @@
 <link rel="stylesheet" href="$0.css" type="text/css" media="screen, projection" />
 
 >>js
-<script type="text/javascript" src="$0.js" > </script>
+<script type="text/javascript" src="$0.js" ></script>
 
 >>_js
 %js $0
@@ -47,15 +49,15 @@
 %style_end
 -!
 
+>>style_end
+<</
+</style>
+
 >>comment
 -!!
  <!--
 <</
  \-->
-
->>style_end
-<</
-</style>
 
 >>input
 <input *all*~value="$0"~/>
@@ -68,4 +70,3 @@
 
 >>post
 %form$:$#.lelouch.*.{*@method="post"~action="$0"~}
-
