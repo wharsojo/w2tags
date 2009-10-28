@@ -3,8 +3,6 @@ README.rdoc
 Rakefile
 VERSION
 LICENSE
-COPYING
-MIT-LICENSE
 doc/W2TAGS.rdoc
 doc/ERB.HOT.rdoc
 doc/FAQ.rdoc
