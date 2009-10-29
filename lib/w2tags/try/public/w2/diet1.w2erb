@@ -1,0 +1,10 @@
+!H!_d
+ %td{class="*. $0.split('|')[1].to_s~"}= r[:$0.split('|')[0].to_s~]
+
+-# Complex Expression.
+
+%table
+  %tr
+   -d.1 field1
+   -d.2 field2
+   -d#ss.3 field3|<%= con r[:fieldX] %>

@@ -1,0 +1,82 @@
+<style>
+#content a{font-size:1em;
+}
+#tryit td{
+  vertical-align:top;
+}
+textarea {
+  border:2px inset;
+  font-size:11px;
+  line-height:12px;
+}
+textarea.in1{
+  width:400px;
+  height:400px;
+}
+textarea.in2{
+  width:600px;
+  height:535px;
+  background-color:#EEEEEE;
+}
+
+</style>
+<div id="content">
+<a href="#" class="load2" loc="html">html.hot</a>
+<table id="tryit">
+<tr>
+<td>
+<form id="try" method="post">
+<textarea wrap="off" name="input" class="in1"><% if params[:input] %><%= params[:input] %><% else %>%xhtml
+  %head
+    %title Myspace
+  %body
+    %h1 I am the international space station
+    %p  Sign my guestbook<% end %></textarea><br/>
+<input type="submit" value="Render"/><a href="/">Home</a>
+<table border=1><tr>
+<td><a href="#" class="load" loc="basic" >Simple Page</a><br/>
+    <a href="#" class="load" loc="basic1">Basic 1</a><br/>
+    <a href="#" class="load" loc="basic2">Basic 2</a><br/>
+    <a href="#" class="load" loc="basic3">Basic 3</a><br/>
+    <a href="#" class="load" loc="basic4">Basic 4</a>
+</td>
+<td><a href="#" class="load" loc="layout">Layout:</a><br/>
+    <a href="#" class="load" loc="layout1">Table</a><br/>
+    <a href="#" class="load" loc="layout2">Div</a>
+</td>
+<td><a href="#" class="load" loc="if">Block:if</a><br/>
+    <a href="#" class="load" loc="each">each</a><br/>
+    <a href="#" class="load" loc="each2">each2</a><br/>
+</td>
+<td><a href="#" class="load" loc="popup">Popup</a><br/>
+    <a href="#" class="load" loc="popup2">Popup2</a>
+</td>
+<td><a href="#" class="load" loc="params">Params</a>
+</td>
+<td><a href="#" class="load" loc="combobox">Combo</a>
+</td>
+<td><a href="#" class="load" loc="upload">Upload</a>
+</td>
+</tr></table>
+</form>
+</td>
+<td class="i2">
+<textarea wrap="off" class="ln- in2">
+<%= @result %>
+</textarea>
+</td>
+</tr>
+</table>
+</div>
+<script>
+$(function(){
+  $('a.load').live('click',function(){
+    var loc= "/w2/"+$(this).attr('loc')+".w2erb";
+    $('textarea.in1').load(loc);
+  });
+  $('a.load2').live('click',function(){
+    var loc= "/w2/"+$(this).attr('loc')+".hot.html";
+    $('td.i2').load(loc);
+  });
+});
+</script>

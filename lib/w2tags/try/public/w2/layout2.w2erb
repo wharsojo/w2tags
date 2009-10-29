@@ -1,0 +1,17 @@
+%style
+  table.layout{width="400px";}
+  td.header   {background-color:yellow;}
+  td.leftside {background-color:orange; width:100px;}
+  td.content  {background-color:#eeeeee;width:300px;height:200px;}
+  td.footer   {background-color:yellow;}
+%comment 
+.layout
+  .header Header
+  .leftside
+    %b Left menu
+    %ul.menu
+     ^ Item 1
+     ^ Item 2
+     ^ Item 3
+  .content= yield
+  .footer Footer

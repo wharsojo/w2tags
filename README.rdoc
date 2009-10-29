@@ -233,9 +233,10 @@ get it from commandline "w2tags"
   5. w2tags file1.w2erb -d:parser #=> translate with debug parser
   6. w2tags file1.w2erb -d:constanta #=> translate with debug constanta
   7. w2tags file1.w2erb -d:stack #=> translate with debug stack indentation
-  8. w2tags -irb           #=> Start IRB with WH as instance object of W2Tags
-  9. w2tags -rails         #=> Copy w2scaffold Rails and set environment.rb
- 10. w2tags -tags2w        #=> Parsing erb to w2tags
+  8. w2tags -try           #=> Test W2tags using Sinatra http://localhost:4567/
+  9. w2tags -irb           #=> Start IRB with WH as instance object of W2Tags
+ 10. w2tags -rails         #=> Copy w2scaffold Rails and set environment.rb
+ 11.w2tags -tags2w         #=> Parsing erb to w2tags
  
   Enjoy... 
 

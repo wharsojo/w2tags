@@ -15,9 +15,10 @@
 #  5. w2tags file1.w2erb -d:parser #=> translate with debug parser
 #  6. w2tags file1.w2erb -d:constanta #=> translate with debug constanta
 #  7. w2tags file1.w2erb -d:stack #=> translate with debug stack indentation
-#  8. w2tags -irb           #=> Start IRB with WT as instant object of W2Tags
-#  9. w2tags -rails         #=> Copy w2scaffold Rails and set environment.rb
-# 10. w2tags -tags2w        #=> Parsing erb to w2tags
+#  8. w2tags -try           #=> Test W2tags using Sinatra http://localhost:4567/
+#  9. w2tags -irb           #=> Start IRB with WH as instance object of W2Tags
+# 10. w2tags -rails         #=> Copy w2scaffold Rails and set environment.rb
+# 11.w2tags -tags2w         #=> Parsing erb to w2tags
 #
 #  Enjoy... 
 
@@ -43,9 +44,10 @@ example:
 5. w2tags file1.w2erb -d:parser #=> translate with debug parser
 6. w2tags file1.w2erb -d:constanta #=> translate with debug constanta
 7. w2tags file1.w2erb -d:stack #=> translate with debug stack indentation
-8. w2tags -irb           #=> Start IRB with WH as instance object of W2Tags
-9. w2tags -rails         #=> Copy w2scaffold Rails and set environment.rb
-10.w2tags -tags2w        #=> Parsing erb to w2tags
+8. w2tags -try           #=> Test W2tags using Sinatra http://localhost:4567/
+9. w2tags -irb           #=> Start IRB with WH as instance object of W2Tags
+10. w2tags -rails        #=> Copy w2scaffold Rails and set environment.rb
+11.w2tags -tags2w        #=> Parsing erb to w2tags
 
 Enjoy... 
 END
@@ -69,7 +71,11 @@ if arg.size>0
     WH.dbg[:show_hot]  = true if s=='-d:show_hot'
   end
   
-  if arg[0]=='-irb'
+  if arg[0]=='-try'
+     require File.expand_path(
+             File.join(File.dirname(__FILE__),%w[.. lib w2tags try try]))
+             Sinatra::Application.run! 
+  elsif arg[0]=='-irb'
     ARGV.shift
     
     class Object

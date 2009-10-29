@@ -1,0 +1,5 @@
+%gee
+  %whiz
+    Wow this is cool!
+  = @title
+  \= @title

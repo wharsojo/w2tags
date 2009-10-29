@@ -1,0 +1,18 @@
+-#define nexttag(^) without attribute
+ #since it will add automatically
+
+~^%radio $0
+^.max{style="color:red\;"} wow;kereen;canggih
+
+%tr
+  ^.wow wow
+
+^.max{style="color:red\;"} wow;kereen;canggih
+
+%ul
+  ^.wow wow
+
+^.max{style="color:red\;"} wow;kereen;canggih
+
+~^%text $0
+^.max{style="color:red\;"} wow;kereen;canggih

@@ -1,0 +1,15 @@
+!H!_upload
+ %tr
+  %td
+   %label{for="uploadFile"} Select File $0 : 
+  %td
+   -form_tag "upload/uploadFile",:multipart => true
+     = file_field "upload", "datafile" 
+     = hidden_field_tag "target", "$1" 
+     = submit_tag "Upload" 
+
+%h3 Upload File
+%table
+ -upload Pdf;pdf
+ -upload Csv;csv
+ -upload Image;img

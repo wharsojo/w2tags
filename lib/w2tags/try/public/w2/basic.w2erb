@@ -1,0 +1,10 @@
+%xhtml
+  %head
+    %title Myspace
+  %body
+    %h1 I am the international space station
+    %p  Sign my guestbook
+    %ul
+      %li Rock Star
+      %li Rock Star Sky8
+      %li Rock Star Programmer
