@@ -457,9 +457,16 @@ module W2Tags
       else
         i = new_prms.size - 1
         new_prms.sort.reverse.each do |x|
+          eva_v = Regexp.new('\\'+x+'\.([^~]+)~') #$1.upcase~
+          while eva_v=~ "\n#{@new}" do
+            src = "#{x}.#{$1}~" ; #p "\n#{@new} => #{src}"
+            evl = "\"#{prms[i]}\".#{$1}"; #p "====> #{evl} <=="
+            rpl =  prms[i] ? eval(evl).to_s : ""
+            @new.gsub!(src,rpl)
+          end
+          
           opt_v = Regexp.new('~([^$]*)\\' +x+'([^~]*)~') 
           def_v = Regexp.new('~([^~]+)~\\'+x) 
-          eva_v = Regexp.new('\\'+x+'\.([^~]+)~') #$1.upcase~
           if opt_v =~ @new #;p $1
             rpl = ''
             rpl = "#{$1.to_s}#{prms[i]}#{$2.to_s}" if prms[i] && prms[i].strip!=""
@@ -470,12 +477,6 @@ module W2Tags
             rpl = (prms[i] && prms[i].strip!="" ? prms[i] : $1)
             @new.gsub!(src,rpl) 
             #p "default: #{@new}"
-          end
-          while eva_v=~ "\n#{@new}" do
-            src = "#{x}.#{$1}~" ; #p "\n#{@new} => #{src}"
-            evl = "\"#{prms[i]}\".#{$1}"; #p "====> #{evl} <=="
-            rpl =  prms[i] ? eval(evl).to_s : ""
-            @new.gsub!(src,rpl)
           end
           #p "rest: #{x} => #{prms[i].to_s}"
           @new.gsub!(x,prms[i].to_s)
@@ -644,7 +645,7 @@ module W2Tags
             cl = $1
             cx = cl.split('.').collect {|x|x.strip}.join(' ')
             @mem_var['$.'     ] = ".#{cl}"
-            @mem_var['*.'     ] = cl
+            @mem_var['*.'     ] = cx
             @mem_var['*class*'] = "class=\"#{cx}\" "
             @mem_var['*all*'  ]<< "class=\"#{cx}\" "
             @mem_var['$$'     ]<< ".#{cl}"
