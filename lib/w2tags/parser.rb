@@ -615,11 +615,11 @@ module W2Tags
       #p keys
       if @key.gsub!(/([&:#.=])([\/\t\w\-#.= ]*$)/,'')
         keys = $1+$2
+        @mem_var['$$'] = keys.clone
         if keys.gsub!(/^&([\/\w\-.]*)/,'')
           if $1!=''
             @mem_var['$&'     ] = "&#{$1}"
             @mem_var['*&'     ] = $1
-            @mem_var['$$'     ]<< "&#{$1}"
           end  
         end
         if keys.gsub!(/^:([\w\-.]*)/,'')
@@ -628,7 +628,6 @@ module W2Tags
             @mem_var['*:'     ] = $1
             @mem_var['*name*' ] = "name=\"#{$1}\" " 
             @mem_var['*all*'  ]<< "name=\"#{$1}\" " 
-            @mem_var['$$'     ]<< ":#{$1}"
           end  
         end
         if keys.gsub!(/^#([\w\-]*)/,'')
@@ -637,7 +636,6 @@ module W2Tags
             @mem_var['*#'     ] = $1
             @mem_var['*id*'   ] = "id=\"#{$1}\" " 
             @mem_var['*all*'  ]<< "id=\"#{$1}\" " 
-            @mem_var['$$'     ]<< "##{$1}"
           end  
         end
         if keys.gsub!(/^\.([\w\-\.]*)/,'')
@@ -648,14 +646,13 @@ module W2Tags
             @mem_var['*.'     ] = cx
             @mem_var['*class*'] = "class=\"#{cx}\" "
             @mem_var['*all*'  ]<< "class=\"#{cx}\" "
-            @mem_var['$$'     ]<< ".#{cl}"
           end  
         end
         @key << keys
       end
       @mem_var['$$'   ] << @mem_var['$@']
       @mem_var['*all*'] << @mem_var['*@']
-      @mem_var['*att*'] =  @mem_var['*@']
+      @mem_var['*att*']  = @mem_var['*@']
       if @key[0,1]!='='
         if @key.gsub!(/==$/,'')
           @mem_var['*code*'] = '<%= "$*" %>'

@@ -18,10 +18,18 @@ textarea.in2{
   height:535px;
   background-color:#EEEEEE;
 }
+#ifr{
+  width:600px;
+  height:535px;
+}
 
 </style>
 <div id="content">
-<a href="#" class="load2" loc="html">html.hot</a>
+<a href="#" class="load2" loc="try.rb">try.rb</a> -
+<a href="#" class="load2" loc="rails">rails.hot</a> -
+<a href="#" class="load2" id="curr" loc="html">html.hot</a> -
+<a href="#" class="load2" loc="erb_base">erb_base.hot</a> -
+<a href="#" class="load2" loc="erb_rails">erb_rails.hot</a>
 <table id="tryit">
 <tr>
 <td>
@@ -61,9 +69,11 @@ textarea.in2{
 </form>
 </td>
 <td class="i2">
-<textarea wrap="off" class="ln- in2">
-<%= @result %>
-</textarea>
+<% if @result %>
+  <textarea wrap="off" class="ln- in2"><%= @result %></textarea>
+<% else %>
+  <iframe frameborder="0" src="/w2/html.hot.html" id="ifr"></iframe>
+<% end %>
 </td>
 </tr>
 </table>
@@ -75,8 +85,8 @@ $(function(){
     $('textarea.in1').load(loc);
   });
   $('a.load2').live('click',function(){
-    var loc= "/w2/"+$(this).attr('loc')+".hot.html";
-    $('td.i2').load(loc);
+  	var ifr= '<iframe id="ifr" frameborder="0" src="/w2/'+$(this).attr('loc')+'.hot.html"></iframe>';
+    $('td.i2').html(ifr);
   });
 });
 </script>

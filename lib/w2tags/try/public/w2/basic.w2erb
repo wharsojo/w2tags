@@ -6,5 +6,11 @@
     %p  Sign my guestbook
     %ul
       %li Rock Star
-      %li Rock Star Sky8
-      %li Rock Star Programmer
+      %li Rock Star at Sky8
+      %li Rock Start Developer
+    %ul
+      ^ Rock Star
+      ^ Rock Star at Sky8
+      ^ Rock Start Developer
+    %ul
+      ^ Rock Star;Rock Star at Sky8; Rock Start Developer

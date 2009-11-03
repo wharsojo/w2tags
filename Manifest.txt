@@ -37,7 +37,11 @@ lib/w2tags/try/public/w2/diet.w2erb
 lib/w2tags/try/public/w2/diet1.w2erb
 lib/w2tags/try/public/w2/each.w2erb
 lib/w2tags/try/public/w2/each2.w2erb
+lib/w2tags/try/public/w2/erb_base.hot.html
+lib/w2tags/try/public/w2/erb_rails.hot.html
 lib/w2tags/try/public/w2/html.hot.html
+lib/w2tags/try/public/w2/rails.hot.html
+lib/w2tags/try/public/w2/try.rb.hot.html
 lib/w2tags/try/public/w2/if.w2erb
 lib/w2tags/try/public/w2/layout.w2erb
 lib/w2tags/try/public/w2/layout1.w2erb
