@@ -80,29 +80,28 @@ textarea.in2{
 </table>
 </div>
 <script type="text/javascript">
+var editor = null;
 $(function(){
   $('a.load').live('click',function(){
     var loc= "/w2/"+$(this).attr('loc')+".w2erb";
-    $('textarea.in1').load(loc);
-    $('iframe:eq(0)').remove();
-    createHilite();
+    $.get(loc, function(data){
+      $('textarea.in1').html(data);
+    editor.setCode(data);
+    });
   });
   $('a.load2').live('click',function(){
   	var ifr= '<iframe id="ifr" frameborder="0" src="/w2/'+$(this).attr('loc')+'.hot.html"></iframe>';
     $('td.i2').html(ifr);
   });
-  function createHilite(){
-    var editor = CodeMirror.fromTextArea('code', {
-      parserfile: ["../js/tokenize.js", "../js/parsew2tags.js"],
-      stylesheet: "/css/rubycolors.css",
-      path: "../js/",
-      lineNumbers: false,
-      textWrapping: false,
-      indentUnit: 4,
-      parserConfig: {},
-      height: '400px'
-    });
-  }
-  createHilite();
+  editor = CodeMirror.fromTextArea('code', {
+    parserfile: ["../js/tokenize.js", "../js/parsew2tags.js"],
+    stylesheet: "/css/rubycolors.css",
+    path: "../js/",
+    lineNumbers: false,
+    textWrapping: false,
+    indentUnit: 4,
+    parserConfig: {},
+    height: '400px'
+  });
 });
 </script>
