@@ -34,13 +34,14 @@ textarea.in2{
 <tr>
 <td>
 <form id="try" method="post">
-<textarea wrap="off" name="input" class="in1"><% if params[:input] %><%= params[:input] %><% else %>%xhtml
+<textarea wrap="off" name="input" id="code" rows="80" class="in1"><% if params[:input] %><%= params[:input] %><% else %>%xhtml
   %head
     %title Myspace
   %body
     %h1 I am the international space station
-    %p  Sign my guestbook<% end %></textarea><br/>
+    %p  Sign my guestbook<% end %></textarea>
 <input type="submit" value="Render"/><a href="/">Home</a>
+</form>
 <table border=1><tr>
 <td><a href="#" class="load" loc="basic" >Simple Page</a><br/>
     <a href="#" class="load" loc="basic1">Basic 1</a><br/>
@@ -65,8 +66,8 @@ textarea.in2{
 </td>
 <td><a href="#" class="load" loc="upload">Upload</a>
 </td>
-</tr></table>
-</form>
+</tr>
+</table>
 </td>
 <td class="i2">
 <% if @result %>
@@ -78,15 +79,30 @@ textarea.in2{
 </tr>
 </table>
 </div>
-<script>
+<script type="text/javascript">
 $(function(){
   $('a.load').live('click',function(){
     var loc= "/w2/"+$(this).attr('loc')+".w2erb";
     $('textarea.in1').load(loc);
+    $('iframe:eq(0)').remove();
+    createHilite();
   });
   $('a.load2').live('click',function(){
   	var ifr= '<iframe id="ifr" frameborder="0" src="/w2/'+$(this).attr('loc')+'.hot.html"></iframe>';
     $('td.i2').html(ifr);
   });
+  function createHilite(){
+    var editor = CodeMirror.fromTextArea('code', {
+      parserfile: ["../js/tokenize.js", "../js/parsew2tags.js"],
+      stylesheet: "/css/rubycolors.css",
+      path: "../js/",
+      lineNumbers: false,
+      textWrapping: false,
+      indentUnit: 4,
+      parserConfig: {},
+      height: '400px'
+    });
+  }
+  createHilite();
 });
 </script>
