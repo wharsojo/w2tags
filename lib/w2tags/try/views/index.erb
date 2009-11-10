@@ -115,7 +115,7 @@ $(function(){
   $('input[type=submit]').live('click',function(){
     var ser= $('form#try').serialize();
     $('#load').show();
-    $.get('/parse?'+ser, function(data){
+    $.post('/parse',ser,function(data){
       editor2.setCode(data);
       $('td.i3').hide();
       $('td.i2').show();
