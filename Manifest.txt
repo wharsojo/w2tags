@@ -22,7 +22,6 @@ lib/w2tags/block/remark.rb
 lib/w2tags/block/sass.rb
 lib/w2tags/try
 lib/w2tags/try/public
-lib/w2tags/try/t.txt
 lib/w2tags/try/try.rb
 lib/w2tags/try/views
 lib/w2tags/try/public/css
