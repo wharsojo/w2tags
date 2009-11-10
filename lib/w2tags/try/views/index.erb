@@ -100,7 +100,7 @@ $(function(){
   $('a.load').live('click',function(){
     var loc= "/w2/"+$(this).attr('loc')+".w2erb";
     $.get(loc, function(data){
-      $('#code1').html(data);
+      //$('#code1').html(data);
       editor1.setCode(data);
     });
   });
@@ -113,9 +113,9 @@ $(function(){
   });
   
   $('input[type=submit]').live('click',function(){
-    var ser= $('form#try').serialize();
+    //var ser= $('form#try').serialize();
     $('#load').show();
-    $.post('/parse',ser,function(data){
+    $.post('/parse',{input : editor1.getCode()},function(data){
       editor2.setCode(data);
       $('td.i3').hide();
       $('td.i2').show();
