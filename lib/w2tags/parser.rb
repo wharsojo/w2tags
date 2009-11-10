@@ -702,9 +702,7 @@ module W2Tags
               if @doc_out[-1] and @doc_out[-1].strip=='<% end %>'
                  @doc_out.pop if %w[else elsif].include? prms.split(' ')[0]
               end
-              while prms[-1,1]=='\\' do #concenation line if params end with \
-                prms.gsub!(/\\$/,'') << @doc_src.shift.strip
-              end
+              params_inline prms #concenation line if params end with \
               @mem_var["$tag"] = @key
               if @tg_hot[@key]
                 hots = @tg_hot[@key] 
@@ -867,7 +865,8 @@ module W2Tags
           opt=''
           @mem_hot=nil
         end
-        
+        params_inline prms #concenation line if params end with \
+
         @new = @mem_tag[keys].split(' ')
         @new[0] << tmp
         @new = @new.join(" ") << "\n"
@@ -951,6 +950,7 @@ module W2Tags
           p "W2Tag: try closing tag by indentation..." if @dbg[:parse]
           return true
         else
+          params_inline @txt #concenation line if params end with \
           @mem_var["$tag"] = @key
           nameidclass_var()
           srcs = @rgx.to_s.gsub!(/^[ \t]*/,'')
@@ -988,6 +988,13 @@ module W2Tags
         p "InLin: #{@row}" if @dbg[:parse]
       end
       @rgx
+    end
+    
+    #concenation line if params end with \
+    def params_inline prms
+      while prms[-1,1]=='\\' do 
+        prms.gsub!(/\\$/,'') << @doc_src.shift.strip
+      end
     end
   end  
 end
