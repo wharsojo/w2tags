@@ -184,7 +184,7 @@ module W2Tags
         
         @ln_end = ""        #imediate ends tag
         @row.gsub!(/\\\\/,'')  #esc char \\
-        @row.gsub!('\}','')    #esc char \)
+        @row.gsub!('\}','')    #esc char \}
         @row.gsub!('\;','')    #esc char \;
         while (parse_all) do; end  
         @row.gsub!('','\\')
@@ -418,6 +418,9 @@ module W2Tags
           @new.gsub!(k,v)
         end
       end
+      prms.gsub!(/\\\\/,'')  #esc char \\
+      prms.gsub!('\}','')    #esc char \}
+      prms.gsub!('\;','')    #esc char \;
       prms = prms.split(';') #W2Tags::splitter(prms)
       new_prms = @new.scan(/\$[0-9]/).uniq
       new_alls = @new.scan(/\$\*/)        #;p 'rpl:',new_alls,new_prms,prms
@@ -447,11 +450,17 @@ module W2Tags
         clscnt = clsmlt.length
         clsmlt+= clscnt==1 ? clsmlt*prms.length : ['']*prms.length
         prms.each_with_index do |x,i|
-          line = rpt+x #tmp<< @new.gsub(new_prms[0],x) 
-          #implement multi class params ^.d;.g canggh;bow
-          line.gsub!(classs,clsmlt[i]) if classs
-          tmp<< line
-          tmp<< "\n#{@spc}" if i+1<prms.size
+          y = x.strip
+          if /^~[-%]/ =~ y
+             tmp<<  y[1,y.length-1]
+             tmp<< "\n#{@spc}" if i+1<prms.size
+          else
+             line = rpt+x #tmp<< @new.gsub(new_prms[0],x) 
+             #implement multi class params ^.d;.g canggh;bow
+             line.gsub!(classs,clsmlt[i]) if classs
+             tmp<< line
+             tmp<< "\n#{@spc}" if i+1<prms.size
+          end
         end
         @new = tmp
       else
