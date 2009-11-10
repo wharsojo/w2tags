@@ -1,4 +1,5 @@
 <style>
+.h{display:none;}
 #content a{font-size:1em;
 }
 #tryit td{
@@ -22,20 +23,34 @@ textarea.in2{
   width:600px;
   height:535px;
 }
+td.i2{
+  border:2px inset;
+}
 
 </style>
+<img id="load" class="h" src="/img/loading.gif" style="position:absolute;top:15px;left:510px;">
 <div id="content">
 <a href="#" class="load2" loc="try.rb">try.rb</a> -
 <a href="#" class="load2" loc="rails">rails.hot</a> -
 <a href="#" class="load2" id="curr" loc="html">html.hot</a> -
 <a href="#" class="load2" loc="erb_base">erb_base.hot</a> -
-<a href="#" class="load2" loc="erb_rails">erb_rails.hot</a>
+<a href="#" class="load2" loc="erb_rails">erb_rails.hot</a><br/>
+<strong>
+  You like w2tags, please <a href="http://rubytrends.com/project/trends/w2tags-552">vote for it on RubyTrends</a>,
+  Available on <a href="http://gemcutter.org/gems/w2tags">gemcutter</a>    
+</strong>
 <table id="tryit">
 <tr>
 <td>
 <form id="try" method="post">
-<textarea wrap="off" name="input" id="code" rows="80" class="in1"><% if params[:input] %><%= params[:input] %><% else %>%xhtml
+<textarea wrap="off" name="input" id="code1" class="in1"><% if params[:input] %><%= params[:input] %><% else %>
+-# Left: Html Page code in w2tags
+-# Right: file (HOT.tag) from "html.hot"
+-# Pay attention on ">>xhtml", and Press
+-# "Render" to see the Html tag created.
+%xhtml
   %head
+    -utf-8
     %title Myspace
   %body
     %h1 I am the international space station
@@ -43,7 +58,7 @@ textarea.in2{
 <input type="submit" value="Render"/><a href="/">Home</a>
 </form>
 <table border=1><tr>
-<td><a href="#" class="load" loc="basic" >Simple Page</a><br/>
+<td><a href="#" class="load" loc="basic" title="Simple Page~No Fancy w2tags commands fgsdf fsdf sdfsdf sdfsdf dfsdf dsfsdf">Simple Page</a><br/>
     <a href="#" class="load" loc="basic1">Basic 1</a><br/>
     <a href="#" class="load" loc="basic2">Basic 2</a><br/>
     <a href="#" class="load" loc="basic3">Basic 3</a><br/>
@@ -69,32 +84,50 @@ textarea.in2{
 </tr>
 </table>
 </td>
-<td class="i2">
-<% if @result %>
-  <textarea wrap="off" class="ln- in2"><%= @result %></textarea>
-<% else %>
+<td class="i2 h">
+  <textarea wrap="off" id="code2" class="ln- in2"><%= @result %></textarea>
+</td>
+<td class="i3">
   <iframe frameborder="0" src="/w2/html.hot.html" id="ifr"></iframe>
-<% end %>
 </td>
 </tr>
 </table>
 </div>
 <script type="text/javascript">
-var editor = null;
+var editor1 = null;
+var editor2 = null;
 $(function(){
   $('a.load').live('click',function(){
     var loc= "/w2/"+$(this).attr('loc')+".w2erb";
     $.get(loc, function(data){
-      $('textarea.in1').html(data);
-    editor.setCode(data);
+      $('#code1').html(data);
+      editor1.setCode(data);
     });
   });
+  
   $('a.load2').live('click',function(){
-  	var ifr= '<iframe id="ifr" frameborder="0" src="/w2/'+$(this).attr('loc')+'.hot.html"></iframe>';
-    $('td.i2').html(ifr);
+    var src= '/w2/'+$(this).attr('loc')+'.hot.html'
+    $('#ifr').attr('src',src);
+    $('td.i2').hide();
+    $('td.i3').show();
   });
-  editor = CodeMirror.fromTextArea('code', {
-    parserfile: ["../js/tokenize.js", "../js/parsew2tags.js"],
+  
+  $('input[type=submit]').live('click',function(){
+    var ser= $('form#try').serialize();
+    $('#load').show();
+    $.get('/parse?'+ser, function(data){
+      editor2.setCode(data);
+      $('td.i3').hide();
+      $('td.i2').show();
+      $('#load').hide();
+    });
+    return false;
+  });
+  
+  $('a.load').cluetip({splitTitle: '~'});
+  
+  editor1 = CodeMirror.fromTextArea('code1', {
+    parserfile: ["tokenize.js", "parsew2tags.js"],
     stylesheet: "/css/rubycolors.css",
     path: "../js/",
     lineNumbers: false,
@@ -102,6 +135,18 @@ $(function(){
     indentUnit: 4,
     parserConfig: {},
     height: '400px'
+  });
+  
+  editor2 = CodeMirror.fromTextArea('code2', {
+    parserfile: ["parsexml.js", "parsecss.js", "tokenizejavascript.js", "parsejavascript.js", "parsehtmlmixed.js"],
+    stylesheet: ["css/xmlcolors.css", "css/jscolors.css", "css/csscolors.css"],
+    path: "../js/",
+    lineNumbers: false,
+    textWrapping: false,
+    indentUnit: 4,
+    parserConfig: {},
+    width:  '600px',
+    height: '535px'
   });
 });
 </script>

@@ -1,7 +1,7 @@
 .editbox {
   padding: .4em;
   margin: 0;
-  font-family: consolas, monospace;
+  font-family: inconsolata, consolas, monospace;
   font-size: 12pt;
   line-height: 1.1em;
   color: black;
@@ -57,7 +57,7 @@
   color:#65B042;
 }
 .editbox .rb-class, .editbox .rb-constant {
-  color:#9B859D;
+  color:#BB957D;
 }
 .editbox .rb-instance-var {
   color:#61B2DF;
@@ -75,7 +75,7 @@
 }
 
 .editbox .rb-regexp {
-  color:#DF5045;
+  color:RED;
 }
 .editbox .rb-method {
   color:#DAD085;

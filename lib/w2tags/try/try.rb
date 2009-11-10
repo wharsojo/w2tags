@@ -6,7 +6,8 @@ get '/' do
   erb :index
 end
 
-post '/' do
+get '/parse' do
   @result= W2.parse_line("%initialize\n"<<params[:input]).join('')
-  erb :index
+  erb :parse, :layout => false
 end
+

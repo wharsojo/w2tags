@@ -7,10 +7,10 @@
     %ul
       %li Rock Star
       %li Rock Star at Sky8
-      %li Rock Start Developer
+      %li Rock Star Developer
     %ul
       ^ Rock Star
       ^ Rock Star at Sky8
-      ^ Rock Start Developer
+      ^ Rock Star Developer
     %ul
-      ^ Rock Star;Rock Star at Sky8; Rock Start Developer
+      ^ Rock Star;Rock Star at Sky8; Rock Star Developer
