@@ -1,8 +1,0 @@
->>_hdr
- %tr
-   ^ $*
-
->>_dtl
- -each @recs;r
-  %tr
-    ^= $*

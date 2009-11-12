@@ -1,0 +1,30 @@
+>>_nav
+ %ul$#
+   -itm$. $*
+
+>>_itm
+%li$. <a href="#">$0</a>
+ 
+>>_hdr
+%tr
+  ^ $*
+
+>>_dtl
+-each @recs;r
+  %tr
+    ^= $*
+    
+>>_select
+%select$$
+  -each @*.;r
+    ^{value="=$1"}= $2
+
+>>_check
+%label{for="*#"}
+  %input$#{type="checkbox"}
+  $0
+
+>>_area
+%label{for="*#"} $0<
+  %textarea$$
+
