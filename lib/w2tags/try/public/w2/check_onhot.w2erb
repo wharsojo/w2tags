@@ -1,0 +1,10 @@
+!hot!demo
+%fieldset
+  %legend Which of the following sports do you enjoy?
+  -check#football   Football
+  -check#golf       Golf
+  -check#rugby      Rugby
+  -check#tennis     Tennis
+  -check#basketball Basketball
+  -check#boxing     Boxing
+  -area#comments{rows="7" cols="25"} Comments

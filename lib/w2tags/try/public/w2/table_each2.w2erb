@@ -1,0 +1,12 @@
+%table
+  %tr
+    ^ No;\
+      Name;\
+      Address;\
+      Phone
+ -each2 @recs;r,i
+  %tr
+    ^= i+1;\
+       r[:name];\
+       r[:address];\
+       r[:phone]

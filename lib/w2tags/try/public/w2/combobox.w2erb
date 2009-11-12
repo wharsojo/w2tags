@@ -1,11 +1,3 @@
-!H!_td_cmbx
- %td
-  %select$$
-    %option{value=""} --Please select--
-    -each @$0;r
-      %option{value="<%=r[:$1] %>"}= r[:$2]
-
-%table
-  %tr
-    -td_cmbx.count  country;ctr_id;ctr_name
-    -td_cmbx.cities city;cty_id;cty_name
+%select.region
+  -each @region;r
+    ^{value="<%=r[:reg_id] %>"}= r[:reg_name]

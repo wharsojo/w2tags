@@ -1,4 +1,5 @@
 require 'sinatra'
+#require 'w2tags/sinatra_hook'
 
 W2 = W2Tags::Parser.new('rails')
 

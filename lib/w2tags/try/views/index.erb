@@ -1,48 +1,129 @@
 <style>
+td{padding:0;}
 .h{display:none;}
-#content a{font-size:1em;
-}
-#tryit td{
-  vertical-align:top;
-}
-textarea {
-  border:2px inset;
-  font-size:11px;
-  line-height:12px;
-}
-textarea.in1{
-  width:400px;
-  height:400px;
-}
-textarea.in2{
-  width:600px;
-  height:535px;
-  background-color:#EEEEEE;
-}
-#ifr{
-  width:600px;
-  height:535px;
-}
-td.i2{
-  border:2px inset;
-}
+#content a{font-size:1em;}
 
+#tryit td{
+  vertical-align:top;}
+  
+textarea {
+  border:0;
+  font-size:11px;
+  line-height:12px;}
+  
+#link{
+  width:200px;}
+  
+textarea.in1{
+  width:400px;}
+  
+textarea.in2{
+  width:450px;
+  height:539px;
+  background-color:#EEEEEE;}
+  
+iframe{height:539px;}
+#ifr{
+  width:450px;}
+  
+td.i2{
+  border:2px inset;}
+  
+.CodeMirror-line-numbers div{
+  width:20px;
+  text-align:right;
+  padding-right:1px;
+  background:#EE00FF;}
 </style>
-<img id="load" class="h" src="/img/loading.gif" style="position:absolute;top:15px;left:510px;">
 <div id="content">
-<a href="#" class="load2" loc="try.rb">try.rb</a> -
-<a href="#" class="load2" loc="rails">rails.hot</a> -
-<a href="#" class="load2" id="curr" loc="html">html.hot</a> -
-<a href="#" class="load2" loc="erb_base">erb_base.hot</a> -
-<a href="#" class="load2" loc="erb_rails">erb_rails.hot</a><br/>
-<strong>
-  You like w2tags, please <a href="http://rubytrends.com/project/trends/w2tags-552">vote for it on RubyTrends</a>,
-  Available on <a href="http://gemcutter.org/gems/w2tags">gemcutter</a>    
-</strong>
 <table id="tryit">
 <tr>
+<td colspan=2>
+<strong>
+  You like w2tags, please <a href="http://rubytrends.com/project/trends/w2tags-552" target="_blank">vote for it on RubyTrends</a>,
+  Github:<a href="http://github.com/wharsojo/w2tags" target="_blank">w2tags</a>, 
+  Available on <a href="http://gemcutter.org/gems/w2tags" target="_blank">gemcutter</a>.
+  <!--Contact:<a href="mailto:fajar.budiprasetyo@skyeight.com">skyeight</a-->
+</strong>
+</td>
 <td>
-<form id="try" method="post">
+  <a href="http://en.wikipedia.org/wiki/Snippet_%28programming%29" target="_blank">http://en.wikipedia.org/wiki/Snippet_(programming)</a>
+  <img src="/skyeight.jpeg" style="float:right;height:20px;" title="skyeight-team"/>
+</td>
+</tr>
+<tr style="background-color:#DDDDFF;padding:0;">
+<td id="link">
+<div style="vertical-align:bottom;">
+  <input id="btnclick" type="button" value="Render"/>
+  <img id="load" class="h" src="/img/loading.gif" style="height:15px;"/>
+</div>
+<div id="wrapper">
+  <div class="accordionButton">
+   <a href="/">HOME</a>
+  </div>
+  <div class="accordionButton">HOTS!(Snippet)</div>
+  <div class="accordionContent">
+    <a href="#" class="load2" loc="try.rb">try.rb</a>
+    <a href="#" class="load2" loc="rails">rails.hot</a>
+    <a href="#" class="load2" id="curr" loc="html">html.hot</a>
+    <a href="#" class="load2" loc="erb_base">erb_base.hot</a>
+    <a href="#" class="load2" loc="erb_rails">erb_rails.hot</a>
+    <a href="#" class="load2" loc="demo">demo.hot</a>
+  </div>
+  <div class="accordionButton" >Demo Index Html</div>
+  <div class="accordionContent">
+     <div class="accordionButton" >Table</div>
+     <div class="accordionContent">
+        <a href="#" class="load" loc="table_simple" title="Easy Generate Table with w2tags">Simple table</a>
+        <a href="#" class="load" loc="table_onhot"  title="Using hot for snippet">Table using hot</a>
+        <a href="#" class="load" loc="table_each2"  title="Table each with index">Table each index</a>
+     </div>
+     <div class="accordionButton" >Layout</div>
+     <div class="accordionContent">
+        <a href="#" class="load" loc="layout">Layout:</a> 
+        <a href="#" class="load" loc="layout1">Table</a> 
+        <a href="#" class="load" loc="layout2">Div</a> 
+     </div>
+     <div class="accordionButton" >Navigation</div>
+     <div class="accordionContent">
+       <a href="#" class="load" loc="navigation">Navigation</a>
+     </div>
+  </div>
+  <div class="accordionButton" >Demo Form Component</div>
+  <div class="accordionContent">
+     <div class="accordionButton" >Checkbox</div>
+     <div class="accordionContent">
+        <a href="#" class="load" loc="checkbox">Checkbox ( verbose )</a>
+        <a href="#" class="load" loc="check_onhot">Checkbox ( D R Y )</a>
+     </div>
+     <div class="accordionButton" >Combo</div>
+     <div class="accordionContent">
+        <a href="#" class="load" loc="combobox">Combobox</a>
+        <a href="#" class="load" loc="combo_onhot">Combobox using hot</a>
+     </div>
+  </div>
+  <div class="accordionButton" >Demo Others</div>
+  <div class="accordionContent">
+     <div class="accordionButton" >Micro Format</div>
+     <div class="accordionContent">
+        <a href="#" class="load" loc="vcard">Micro format</a>
+     </div>
+  </div>
+</div>
+<a href="#" class="load" loc="basic" title="Simple Page~No Fancy w2tags cosmmands">Simple Page</a> 
+<a href="#" class="load" loc="basic1">Basic 1</a> 
+<a href="#" class="load" loc="basic2">Basic 2</a> 
+<a href="#" class="load" loc="basic3">Basic 3</a> 
+<a href="#" class="load" loc="basic4">Basic 4</a> 
+<a href="#" class="load" loc="if">Block:if</a> 
+<a href="#" class="load" loc="each">each</a> 
+<a href="#" class="load" loc="each2">each2</a> 
+<a href="#" class="load" loc="popup">Popup</a> 
+<a href="#" class="load" loc="popup2">Popup2</a>
+<a href="#" class="load" loc="params">Params</a>
+<a href="#" class="load" loc="upload">Upload</a>
+</td>
+<td>
 <textarea wrap="off" name="input" id="code1" class="in1"><% if params[:input] %><%= params[:input] %><% else %>
 -# Left: Html Page code in w2tags
 -# Right: file (HOT.tag) from "html.hot"
@@ -55,34 +136,7 @@ td.i2{
   %body
     %h1 I am the international space station
     %p  Sign my guestbook<% end %></textarea>
-<input type="submit" value="Render"/><a href="/">Home</a>
 </form>
-<table border=1><tr>
-<td><a href="#" class="load" loc="basic" title="Simple Page~No Fancy w2tags commands fgsdf fsdf sdfsdf sdfsdf dfsdf dsfsdf">Simple Page</a><br/>
-    <a href="#" class="load" loc="basic1">Basic 1</a><br/>
-    <a href="#" class="load" loc="basic2">Basic 2</a><br/>
-    <a href="#" class="load" loc="basic3">Basic 3</a><br/>
-    <a href="#" class="load" loc="basic4">Basic 4</a>
-</td>
-<td><a href="#" class="load" loc="layout">Layout:</a><br/>
-    <a href="#" class="load" loc="layout1">Table</a><br/>
-    <a href="#" class="load" loc="layout2">Div</a>
-</td>
-<td><a href="#" class="load" loc="if">Block:if</a><br/>
-    <a href="#" class="load" loc="each">each</a><br/>
-    <a href="#" class="load" loc="each2">each2</a><br/>
-</td>
-<td><a href="#" class="load" loc="popup">Popup</a><br/>
-    <a href="#" class="load" loc="popup2">Popup2</a>
-</td>
-<td><a href="#" class="load" loc="params">Params</a>
-</td>
-<td><a href="#" class="load" loc="combobox">Combo</a>
-</td>
-<td><a href="#" class="load" loc="upload">Upload</a>
-</td>
-</tr>
-</table>
 </td>
 <td class="i2 h">
   <textarea wrap="off" id="code2" class="ln- in2"><%= @result %></textarea>
@@ -97,10 +151,19 @@ td.i2{
 var editor1 = null;
 var editor2 = null;
 $(function(){
+  $('#btnclick').click(function(){
+    $('#load').show();
+    $.post('/parse',{input : editor1.getCode()},function(data){
+      editor2.setCode(data);
+      $('td.i3').hide();
+      $('td.i2').show();
+      $('#load').hide();
+    });
+  });
+  
   $('a.load').live('click',function(){
     var loc= "/w2/"+$(this).attr('loc')+".w2erb";
     $.get(loc, function(data){
-      //$('#code1').html(data);
       editor1.setCode(data);
     });
   });
@@ -112,29 +175,18 @@ $(function(){
     $('td.i3').show();
   });
   
-  $('input[type=submit]').live('click',function(){
-    //var ser= $('form#try').serialize();
-    $('#load').show();
-    $.post('/parse',{input : editor1.getCode()},function(data){
-      editor2.setCode(data);
-      $('td.i3').hide();
-      $('td.i2').show();
-      $('#load').hide();
-    });
-    return false;
-  });
-  
-  $('a.load').cluetip({splitTitle: '~'});
+  $('a.load').cluetip({showtitle : false});
   
   editor1 = CodeMirror.fromTextArea('code1', {
     parserfile: ["tokenize.js", "parsew2tags.js"],
     stylesheet: "/css/rubycolors.css",
     path: "../js/",
-    lineNumbers: false,
+    lineNumbers: true,
     textWrapping: false,
     indentUnit: 4,
     parserConfig: {},
-    height: '400px'
+    width:  '400px',
+    height: '539px'
   });
   
   editor2 = CodeMirror.fromTextArea('code2', {
@@ -145,7 +197,7 @@ $(function(){
     textWrapping: false,
     indentUnit: 4,
     parserConfig: {},
-    width:  '600px',
+    width:  '450px',
     height: '535px'
   });
 });
