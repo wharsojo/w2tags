@@ -1,18 +1,20 @@
 .editbox {
-  padding: .4em;
+/*padding: .4em;
+  line-height: 1.1em;*/
+  line-height:1.02em;
   margin: 0;
   font-family: inconsolata, consolas, monospace;
   font-size: 12pt;
-  line-height: 1.1em;
   color: black;
   background-color:#000000;
   color:#F8F8F8;
 }
 
 .editbox .rb-linenum {
+  line-height:1.02em;
   background-color:#EEEEEE;
   color:#888888;
-  padding:0.1em 1em 0.2em 0;
+/* padding:0.1em 1em 0.2em 0;*/
   width:75px;
 }
 .editbox .rb-pan {

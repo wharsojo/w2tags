@@ -67,3 +67,11 @@
 
 >>post
 %form$:$#.lelouch.*.{*@method="post"~action="$0"~}
+
+>>_ie
+<!--[if IE]>
+--if_end
+
+>>_ie_end
+<</
+<![endif]-->

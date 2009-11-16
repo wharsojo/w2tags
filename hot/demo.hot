@@ -1,6 +1,6 @@
 >>_nav
- %ul$#
-   -itm$. $*
+%ul$#
+  -itm$. $*
 
 >>_itm
 %li$. <a href="#">$0</a>
@@ -20,11 +20,25 @@
     ^{value="=$1"}= $2
 
 >>_check
-%label{for="*#"}
-  %input$#{type="checkbox"}
-  $0
+%input$#{type="checkbox"}
+%label{for="*#"} $0
 
 >>_area
-%label{for="*#"} $0<
-  %textarea$$
+%label{for="*#"} $0
+%textarea:*#$#$@
+  
+>>_input
+%label{for="*#"} $0
+:*#$#{type="text"}
+  
+>>_tarea_li
+%li
+  -area$$ $0
+  
+>>_input_li
+%li
+  -input$$ $0
 
+>>_submit_li
+%li$$
+  %button{type="submit"} $0

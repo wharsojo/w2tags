@@ -1,22 +1,16 @@
 %fieldset
   %legend Which of the following sports do you enjoy?
-  %label{for="football"}
-    %input#football{type="checkbox"}
-    Football
-  %label{for="golf"}
-    %input#golf{type="checkbox"}
-    Golf
-  %label{for="rugby"}
-    %input#rugby{type="checkbox"}
-    Rugby
-  %label{for="tennis"}
-    %input#tennis{type="checkbox"}
-    Tennis
-  %label{for="basketball"}
-    %input#basketball{type="checkbox"}
-    Basketball
-  %label{for="boxing"}
-    %input#boxing{type="checkbox"}
-    Boxing
-  %label{for="comments"} Comments<
-    %textarea#comments{rows="7" cols="25"}
+  %input#football{type="checkbox"}
+  %label{for="football"} Football
+  %input#golf{type="checkbox"}
+  %label{for="golf"} Golf
+  %input#rugby{type="checkbox"}
+  %label{for="rugby"} Rugby
+  %input#tennis{type="checkbox"}
+  %label{for="tennis"} Tennis
+  %input#basketball{type="checkbox"}
+  %label{for="basketball"} Basketball
+  %input#boxing{type="checkbox"}
+  %label{for="boxing"} Boxing
+  %label{for="comments"} Comments
+  %textarea#comments{rows="7" cols="25"}

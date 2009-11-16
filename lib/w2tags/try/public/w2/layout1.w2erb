@@ -1,20 +1,7 @@
-%style
-  table.layout{width="400px";}
-  td.header   {background-color:yellow;}
-  td.leftside {background-color:orange; width:100px;text-align:top;}
-  td.content  {background-color:#eeeeee;width:300px;height:200px;text-align:top;}
-  td.footer   {background-color:yellow;}
-%comment 
-%table.layout{border="0"}
-  %tr
-    %td.header{colspan="2"} Header
-  %tr
-    %td.leftside
-      %b Left menu
-      %ul.menu
-       ^ Item 1
-       ^ Item 2
-       ^ Item 3
-    %td.content= yield
-  %tr
-    %td.footer{colspan="2"} Footer
+%xhtml 1.1
+  %head
+    %title Todo
+    %link{rel='stylesheet' href='/stylesheets/style.css' type = "text/css"}       
+  %body
+    #banner My To Do List
+    = yield

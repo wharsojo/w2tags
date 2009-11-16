@@ -9,7 +9,7 @@ module W2Tags
       
       def bhot_skip
         @rgx = nil
-        if(/(^[\t ]*)(!H!) *(\w+)\n/ =~ @row;@rgx = $~)
+        if(/(^[\t ]*)(!H!) *(\w+) *\n/ =~ @row;@rgx = $~)
           @key_hot= $3.strip
           @doc_hot= [] #bhot buffer
           @bht = @spc.size

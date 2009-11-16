@@ -1,0 +1,10 @@
+-#http://webdesignernotebook.com/examples/style-form.html
+!hot!demo
+%form{action="/form"}
+  %p Send us your comments and feedback:
+  %ol
+    -input_li#name    Name
+    -input_li#email   Email
+    -input_li#website Website
+    -tarea_li#message Message
+    -submit_li#send   Send

@@ -30,10 +30,14 @@ td.i2{
   border:2px inset;}
   
 .CodeMirror-line-numbers div{
+  line-height:1.362em;
+  margin: 0;
   width:20px;
   text-align:right;
   padding-right:1px;
-  background:#EE00FF;}
+  background:#EE00FF;
+}
+
 </style>
 <div id="content">
 <table id="tryit">
@@ -70,6 +74,15 @@ td.i2{
     <a href="#" class="load2" loc="erb_rails">erb_rails.hot</a>
     <a href="#" class="load2" loc="demo">demo.hot</a>
   </div>
+  <div class="accordionButton" >Demo Layout</div>
+  <div class="accordionContent">
+     <div class="accordionButton" >Layout</div>
+     <div class="accordionContent">
+        <a href="#" class="load" loc="layout">Simple</a> 
+        <a href="#" class="load" loc="layout1">Table</a> 
+        <a href="#" class="load" loc="layout2">Div</a> 
+     </div>
+  </div>
   <div class="accordionButton" >Demo Index Html</div>
   <div class="accordionContent">
      <div class="accordionButton" >Table</div>
@@ -78,12 +91,6 @@ td.i2{
         <a href="#" class="load" loc="table_onhot"  title="Using hot for snippet">Table using hot</a>
         <a href="#" class="load" loc="table_each2"  title="Table each with index">Table each index</a>
      </div>
-     <div class="accordionButton" >Layout</div>
-     <div class="accordionContent">
-        <a href="#" class="load" loc="layout">Layout:</a> 
-        <a href="#" class="load" loc="layout1">Table</a> 
-        <a href="#" class="load" loc="layout2">Div</a> 
-     </div>
      <div class="accordionButton" >Navigation</div>
      <div class="accordionContent">
        <a href="#" class="load" loc="navigation">Navigation</a>
@@ -91,6 +98,11 @@ td.i2{
   </div>
   <div class="accordionButton" >Demo Form Component</div>
   <div class="accordionContent">
+     <div class="accordionButton" >Input</div>
+     <div class="accordionContent">
+        <a href="#" class="load" loc="input">Input ( verbose )</a>
+        <a href="#" class="load" loc="input_inhot">Input ( D R Y )</a>
+     </div>
      <div class="accordionButton" >Checkbox</div>
      <div class="accordionContent">
         <a href="#" class="load" loc="checkbox">Checkbox ( verbose )</a>
@@ -135,7 +147,8 @@ td.i2{
     %title Myspace
   %body
     %h1 I am the international space station
-    %p  Sign my guestbook<% end %></textarea>
+    %p  Sign my guestbook<% end %>
+</textarea>
 </form>
 </td>
 <td class="i2 h">
@@ -178,7 +191,7 @@ $(function(){
   $('a.load').cluetip({showtitle : false});
   
   editor1 = CodeMirror.fromTextArea('code1', {
-    parserfile: ["tokenize.js", "parsew2tags.js"],
+    parserfile: ["parsew2tags.js"],
     stylesheet: "/css/rubycolors.css",
     path: "../js/",
     lineNumbers: true,

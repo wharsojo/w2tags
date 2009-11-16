@@ -10,7 +10,7 @@ module W2Tags
       
       def sass_skip
         @rgx = nil
-        if(/(^[\t ]*)(~~~)\n/ =~ @row;@rgx = $~)
+        if(/(^[\t ]*)(~~~) *\n/ =~ @row;@rgx = $~)
           @row = ''
           @sas = @spc.size
           @doc_sas = [[' '*@sas,"<style>\n"].join]
