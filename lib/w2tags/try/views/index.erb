@@ -175,13 +175,16 @@ $(function(){
   });
   
   $('a.load').live('click',function(){
+    $('#load').show();
     var loc= "/w2/"+$(this).attr('loc')+".w2erb";
     $.get(loc, function(data){
       editor1.setCode(data);
+      $('#load').hide();
     });
   });
   
   $('a.load2').live('click',function(){
+    $('#load').show();
     var src= '/w2/'+$(this).attr('loc')+'.hot.html'
     $('#ifr').attr('src',src);
     $('td.i2').hide();
