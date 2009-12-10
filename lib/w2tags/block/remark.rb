@@ -26,7 +26,7 @@ module W2Tags
         if(/(^[\t ]*)(-#)([^\n]*)\n/ =~ @row;@rgx = $~)
           @rmk = @spc.size #@plt = 99
         elsif @rmk !=99
-          @rmk = 99 if @spc.size <= @rmk  
+          @rmk = 99 if @spc.size <= @rmk && @ron!=0
           #p "remrk> #{@rgx[3].strip}" if @dbg[:parse]
         end
         @row = '' if @rmk!=99

@@ -17,7 +17,7 @@ module W2Tags
           @key_sas = [] #sass indentation
           @nms_sas = [0,""]
         elsif @sas!= 99 
-          if @spc.size<= @sas
+          if @spc.size<= @sas && @ron!=0
             @doc_sas<< "#{' '*@key_sas[-1][0]}}\n"
             @doc_sas<< @doc_sas[0].gsub("<style>","</style>")
             @doc_out = @doc_out + @doc_sas
@@ -33,11 +33,11 @@ module W2Tags
       
       def sass_parser
         spc= @spc.size
-        if(/(^[\t ]*)(:[\w\-]+) *\n/ =~ @row;@rgx = $~)
-          @nms_sas= [spc,[$1,$2[1,99],"-"].join] 
-        elsif(/(^[\t ]*)(:[\w\-]+) +([^\n]+)\n/ =~ @row;@rgx = $~)
+        if(/(^[\t ]*)([\w\-]+)\: *\n/ =~ @row;@rgx = $~)
+          @nms_sas= [spc,[$1,$2,"-"].join] 
+        elsif(/(^[\t ]*)([\w\-]+\:) +([^\n]+)\n/ =~ @row;@rgx = $~)
           nms= @nms_sas[0]!=0 && @nms_sas[0]<spc ? @nms_sas[1] : $1
-          @doc_sas << [nms,$2[1,99],":",$3,";\n"].join
+          @doc_sas << [nms,$2,$3,";\n"].join
         else
           old_spc= nil
           if @key_sas!=[]

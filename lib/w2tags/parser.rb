@@ -35,7 +35,8 @@ module W2Tags
       @hot    = 'hot'  #source of file hot
       @src_path= ''    #path for source file
       @silent = false  #for test
-      
+
+      @ron    = 0      #strip current source line if size it empty or not
       @spc    = ''     #current begining space of current source line
       @ind    = '  '   #indentation size
       @row    = 'row'  #current source line
@@ -371,6 +372,7 @@ module W2Tags
     #must continue with current column (indent). 
     def parse_spc
       @spc = @row[/(^[ \t]+)/,1].to_s       #sometime result is nil
+      @ron = @row.strip.size
     end
     
     #do the translation from the params inside function like:
@@ -801,6 +803,7 @@ module W2Tags
     #it try to check the indentation to auto_close the line.
     def parse_all
       #check for skipping the block using add on module...
+      parse_spc
       if @skiper.select{|f|send(f)}.length>0
         p "skip > #{@row}" if @dbg[:parse]
       else

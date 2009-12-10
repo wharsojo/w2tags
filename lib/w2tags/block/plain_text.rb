@@ -32,7 +32,7 @@ module W2Tags
             end
           end
         elsif @plt != 99 
-          if @spc.size<= @plt 
+          if @spc.size<= @plt && @ron!=0
             @doc_out   = @doc_out + @doc_plt
             @plt = 99
           else
