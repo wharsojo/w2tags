@@ -11,11 +11,12 @@ module W2Tags
       def sass_skip
         @rgx = nil
         if(/(^[\t ]*)(~~~) *\n/ =~ @row;@rgx = $~)
-          @row = ''
           @sas = @spc.size
           @doc_sas = [[' '*@sas,"<style>\n"].join]
           @key_sas = [] #sass indentation
           @nms_sas = [0,""]
+          @row = ''
+          auto_close
         elsif @sas!= 99 
           if @spc.size<= @sas && @ron!=0
             @doc_sas<< "#{' '*@key_sas[-1][0]}}\n"
