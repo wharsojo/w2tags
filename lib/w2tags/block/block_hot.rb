@@ -2,7 +2,8 @@ module W2Tags
   module Block
     module BlockHot
       def bhot_skip_initialize
-        @key_hot= '' #key for hot 
+        @end_hot= nil
+        @key_hot= '' #key for hot
         @doc_hot= [] #bhot buffer
         @bht    = 99 #hot indentation block
       end
@@ -15,6 +16,7 @@ module W2Tags
           if @bht != 99
              make_hot
           end
+          @end_hot= nil
           @key_hot= $3.strip
           @doc_hot= [] #bhot buffer
           @bht = @spc.size
@@ -23,7 +25,11 @@ module W2Tags
              make_hot
              @bht = 99
           elsif @row.strip!=''
-             @doc_hot<< @row
+             if /(\<\<\/)(.+)/ =~ @row
+               @end_hot= $2
+             else
+               @doc_hot<< @row
+             end
           end
         end
         @row = '' if @bht!=99
@@ -41,7 +47,7 @@ module W2Tags
           end
         end
         ref  =@doc_hot.collect{|l|l[les,999]}.join
-        @tg_hot[@key_hot]= [proc {|this|ref}, nil]
+        @tg_hot[@key_hot]= [proc {|this|ref}, [@end_hot]]
       end
     end
   end
