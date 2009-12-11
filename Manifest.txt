@@ -71,6 +71,7 @@ lib\w2tags\try\public\w2\checkbox.w2erb
 lib\w2tags\try\public\w2\check_onhot.w2erb
 lib\w2tags\try\public\w2\combobox.w2erb
 lib\w2tags\try\public\w2\combo_onhot.w2erb
+lib\w2tags\try\public\w2\css01.w2erb
 lib\w2tags\try\public\w2\demo.hot.html
 lib\w2tags\try\public\w2\diet.w2erb
 lib\w2tags\try\public\w2\diet1.w2erb
