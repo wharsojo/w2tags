@@ -2,6 +2,49 @@
 
 Below is a complete listing of changes for each revision of W2TAGS.
 
+== 0.9.61
+
+=== Parser
+
+==== Parsing "Key-Attribute" change the sequence parsing from left to right
+from attribute "name(:)","id(#)","class(.)","constanta(&)". After parsing 
+we have a list of Var-Constanta in HOT with value
+
+  Example:
+
+  %div&joel:name#id.class&constanta{op="atribute"}== info
+
+  $$     => All Key-Attribute before Custome-Attribute ( :name#id.class&constanta )
+  $@     => All Key-Attribute from   Custome-Attribute ( {op="atribute"}==  )
+  $:     => name-Variable      ( :name  )
+  $#     => id-Variable        ( #id    )
+  $.     => class-Variable     ( .class )
+  $&     => Constanta-Variable ( &joel  )
+  *:     => name-Value         ( name   )
+  *#     => id-Value           ( id     )
+  *.     => class-Value        ( class  )
+  *&     => constanta-Value    ( joel   )
+  *@     => attribute          ( op="atribute" )
+  *name* => name-attribute     ( name="name"   )
+  *id*   => id-attribute       ( id="id"       )
+  *class*=> class-attribute    ( class="class" )
+  *att*  => attribute          ( op="atribute" )
+  *all*  => all-attribute      ( name="name" id="id" class="class" op="atribute" )
+
+to passing All Key-Attribute like example
+
+  OLD:
+  ~~~~
+  %div$$
+
+  NEW:
+  ~~~~
+  %div$$$@
+  
+and we will have a nice interpolation like code below:
+
+  %div$$&rec$@
+  
 == 0.9.52
 
 === Parser
