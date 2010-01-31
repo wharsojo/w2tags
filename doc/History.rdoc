@@ -2,6 +2,11 @@
 
 Below is a complete listing of changes for each revision of W2TAGS.
 
+== 0.9.62
+
+=== Parser
+  clean-up result if hot contains multiple linefeed "\n\n"
+
 == 0.9.61
 
 === Parser

@@ -790,7 +790,7 @@ module W2Tags
         if @spc.size <= sz
            ed = multi_end(nil).rstrip
            p "AutE:#{ed}#{@row}" if @dbg[:parse]
-           @doc_out += [ed,"\n",@row]
+           @doc_out += [ed,(@doc_out[-1][-1,1]=="\n" ? '' : "\n"),@row]
            @row = ''
           true
         end
