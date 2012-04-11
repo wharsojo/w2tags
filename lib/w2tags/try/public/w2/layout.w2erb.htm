@@ -1,0 +1,9 @@
+%xhtml 1.1
+  %head
+    %title= @title
+    -css application;layout
+    -js jquery;jquery.popup
+  %body
+    -if @content_for_nav
+      .navigation= yield :nav
+    .content= yield

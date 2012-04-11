@@ -75,3 +75,9 @@
 >>_ie_end
 <</
 <![endif]-->
+
+>>_a
+%a$${href="$0:1" *@}$= $0:0 
+
+>>_ax
+%a$${href="$0.split(':')[1].to_s.strip~" *@}$= $0.split(':')[0].to_s.strip~ 

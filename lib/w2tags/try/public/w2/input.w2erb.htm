@@ -1,0 +1,18 @@
+-#http://webdesignernotebook.com/examples/style-form.html
+%form{action="/form"}
+  %p Send us your comments and feedback:
+  %ol
+    %li
+      %label{for="name"} Name
+      :name#name{type="text"}
+    %li
+      %label{for="email"} Email
+      :email#email{type="text"}
+    %li
+      %label{for="website"} Website
+      :website#website{type="text"}
+    %li
+      %label{for="message"} Message
+      %textarea:message#message
+    %li#send
+      %button{type="submit"} Send

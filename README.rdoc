@@ -1,10 +1,10 @@
 = W2TAGS
 === Run on MRI Ruby : 1.8.6 / 1.9.x
 
-  me@ubuntu:~$ sudo gem install wharsojo-w2tags
+  gem install w2tags
   
-  me@ubuntu:~$ w2tags -irb
-  ARGV  : -irb
+  w2tags -irb
+  ARGV : -irb
 
   Your W2Tags instance object stored in WH...
   Ex: puts WH.parse_line("#content\n  %span Hello")
@@ -13,15 +13,15 @@
   irb(main):001:0> wh <<END
   irb(main):002:0" #wow
   irb(main):003:0"   #kereen
-  irb(main):004:0"     . Hello World
+  irb(main):004:0"     .greeting Hello World
   irb(main):005:0" END
-  =>/usr/lib/ruby/gems/1.8/gems/wharsojo-w2tags-0.9.49/hot/erb.hot
+  =>/usr/lib/ruby/gems/1.8/gems/w2tags-0.9.67/hot/erb.hot
   <div id="wow">
     <div id="kereen">
-      <div>Hello World</div>
+      <div class="greeting">Hello World</div>
     </div>
   </div>
-  => nil
+  => ["<div id="wow">\n", "  <div id="kereen">\n", "    <div class="greeting">Hello World</div>\n", "  </div>\n", "</div>\n"]
   irb(main):006:0>
 
 == DESCRIPTION:
@@ -36,15 +36,16 @@ some popular patern in view engine, so I change the patern. Now syntax mimics HA
 to easy transisition, and proven to be useable and best.
 
 Extended Syntax are the remain patern before I choose HAML-like syntax like
-"^" - NextTag (next tag will be use after using a tag like "ul" next tag "li"), 
+"^" or "*" - NextTag (next tag will be use after using a tag like "ul" next tag "li"), 
 Redefinition NextTag command using "~^", define variable "&var=", 
 define uniq variable "@var=", Key-Variable 
 
   "$:","*:" for attribute NAME, 
   "$#","*#" for attribute ID, 
   "$.","*." for attribute CLASS, 
+  "$$" for all Key-Variable, 
   "$@","*@" for custome attribute,
-  "$$" for all Key-Variable. 
+  "$=" for ruby code ("=" or "==" last Key-Variable).
   
 This Constanta will be ready every time it parse the W2TAGS HOT (% / -).
 
@@ -244,8 +245,13 @@ get it from commandline "w2tags"
 
 add inside file "config/environment.rb" in the bottom:
 
+  # if using rails 2.x
   require 'w2tags'
-  require 'w2tags/rails_hook'
+  require 'w2tags/rails_hook-2.x' 
+
+  # if using rails 3.x
+  require 'w2tags'
+  require 'w2tags/rails_hook-3.x' 
   
 You can automatically add by using commandline "w2tags -rails"
 

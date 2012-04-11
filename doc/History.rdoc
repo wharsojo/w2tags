@@ -1,7 +1,162 @@
 = Change Log
 
-Below is a complete listing of changes for each revision of W2TAGS.
+Below is a complete list of changes for each revision of W2TAGS.
 
+== 0.9.68
+
+=== Command line
+  * refactor the command paramters
+  * shortcut change from WH => W2
+  * shortcut change from w2 => w2
+  * shortcut w2 return nil
+
+== 0.9.67
+  
+=== Parser
+  * New Var-Constanta in HOT - "$=" 
+  * Splitter ':' in hot params
+
+==== New Var-Constanta in HOT - "$=", this var fix the need of reconstruct Key-attributes to the tag
+with costume attribute 
+
+  -# Example
+  
+  >>_menu
+  %div$${editor="eclipse" *@}$= $0
+
+  >>>W2TAGS>>>
+  -menu.dor{style="font:bold;"}== 0
+  
+  <div class="dor" editor="eclipse" style="font:bold;"><%= "0" %></div>
+
+==== Parameter in hot support splitter ':' to enhance the parameter manipulation
+ 
+  -# Example:
+
+  >>_a
+  %a$${href="$0.split(':')[1].to_s.strip~" *@}$= $0.split(':')[0].to_s.strip~ 
+
+  %a$${href="$0:1" *@}$= $0:0 
+
+Two command above will produce the same result
+
+  -a.dodol.garut{style="blue"}= \
+    Wow  : #     ;\
+    Home : /     ;\
+    Next : /next
+  
+  -a.dodol.garut{style="background:blue;"}= \
+  Wow  : #     ;\    Home : /     ;\
+  Next : /next
+
+  <a class="dodol garut" href="#" style="background:blue;"><%= Wow %></a>
+  <a class="dodol garut" href="/" style="background:blue;"><%= Home %></a>
+  <a class="dodol garut" href="/next" style="background:blue;"><%= Next %></a>
+
+== 0.9.66
+
+=== Parser
+  * Auto closing tag in HOT now properly indented
+
+==== Auto closing tag in HOT now properly indented
+this example show how we redefine the tag %script to automatically 
+generate <script *all**@type="text/javascript" charset="utf-8">, with
+xhtml comment and line below this tag must not be parse
+
+  -# Example:
+  >>script
+  <script *all**@type="text/javascript" charset="utf-8">
+  %script_end
+  -!
+
+  >>script_end
+  <</
+  </script>
+
+  >>_script_tag
+  %script
+    //<![CDATA[
+    ==$0;
+    //]]>
+
+  >>>W2TAGS>>>
+  -script_tag var instant= '#{@line}'
+
+Result of w2tags command above will be xhtml tag below with proper indentation 
+
+  <script type="text/javascript" charset="utf-8">
+    //<![CDATA[
+    <%= "var instant= '#{@line}'" %>;
+    //]]>
+  </script>
+
+== 0.9.65
+
+=== Parser
+  * small refactor parser including regexp
+  * source code w2tags now can embed hot file
+  * nexttag '^' now implement '*' but for reassign still using '~^'
+  * nexttag now can redefine/create new global nexttag
+    
+==== embed hot file in w2tags code
+
+  -# Example:
+  >>_cok
+   %cooook$$ $0
+  >>>W2TAGS>>>
+  %tr
+    ^.c1 column1
+    *.c2 column2
+
+  <tr>
+    <th class="c1">column1</th>
+    <th class="c2">column2</th>
+  </tr>
+
+==== Redefine/create new global nexttag
+  
+  -# Example:
+  ~^%tr%td.wheel $0
+  %tr
+    * roda1
+    * roda2
+    
+  <tr>
+    <td class="wheel">roda1</td>
+    <td class="wheel">roda2</td>
+  </tr>
+    
+==== Parsing nexttag '^' now support w/o params
+
+  -# Example:
+  %table
+    %tr
+      ^.c1 column1
+      ^.c2
+        .last
+          %b goood
+
+  <table>
+    <tr>
+      <th class="c1">column1</th>
+      <th class="c2">
+        <div class="last">
+          <b>goood</b>
+        </div>
+      </th>
+    </tr>
+  </table>
+
+== 0.9.64
+
+=== Parser
+  fix loading hot file 
+
+== 0.9.63
+
+=== Parser
+  fix bug for clean-up result if @doc_out is empty
+  
 == 0.9.62
 
 === Parser

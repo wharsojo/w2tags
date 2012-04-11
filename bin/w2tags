@@ -7,18 +7,18 @@
 #  OR
 #  w2tags [file1,file2,file3] [-b] [-d:*opt*]
 #
-#  example:
-#  1. w2tags -a             #=> translate all file with ext: w2erb
-#  2. w2tags *.w2erb -a     #=> translate all file with ext: w2erb
-#  3. w2tags file1.w2erb    #=> translate a file
-#  4. w2tags file1.w2erb -b #=> translate a file with no initialize/finalize
-#  5. w2tags file1.w2erb -d:parser #=> translate with debug parser
-#  6. w2tags file1.w2erb -d:constanta #=> translate with debug constanta
-#  7. w2tags file1.w2erb -d:stack #=> translate with debug stack indentation
-#  8. w2tags -try           #=> Test W2tags using Sinatra http://localhost:4567/
-#  9. w2tags -irb           #=> Start IRB with WH as instance object of W2Tags
-# 10. w2tags -rails         #=> Copy w2scaffold Rails and set environment.rb
-# 11.w2tags -tags2w         #=> Parsing erb to w2tags
+# example:
+# 1. w2tags -a                #=> translate all file with ext: w2erb
+# 2. w2tags *.w2erb -a        #=> translate all file with ext: w2erb
+# 3. w2tags fl.w2erb          #=> translate a file
+# 4. w2tags fl.w2erb -b       #=> translate a file with no initialize/finalize
+# 5. w2tags fl.w2erb -d:parse #=> translate with debug parser
+# 6. w2tags fl.w2erb -d:const #=> translate with debug constanta
+# 7. w2tags fl.w2erb -d:stack #=> translate with debug stack indentation
+# 8. w2tags -try              #=> Test W2tags using Sinatra http://localhost:4567/
+# 9. w2tags -irb              #=> Start IRB with   W2 as instance object of W2Tags
+# 10.w2tags -rails            #=> Copy w2scaffold Rails and set environment.rb
+# 11.w2tags -tags2w           #=> Parsing erb to w2tags
 #
 #  Enjoy... 
 
@@ -37,17 +37,17 @@ OR
 w2tags [file1,file2,file3] [-b] [-d:*opt*]
 
 example:
-1. w2tags -a             #=> translate all file with ext: w2erb
-2. w2tags *.w2erb -a     #=> translate all file with ext: w2erb
-3. w2tags file1.w2erb    #=> translate a file
-4. w2tags file1.w2erb -b #=> translate a file with no initialize/finalize
-5. w2tags file1.w2erb -d:parser #=> translate with debug parser
-6. w2tags file1.w2erb -d:constanta #=> translate with debug constanta
-7. w2tags file1.w2erb -d:stack #=> translate with debug stack indentation
-8. w2tags -try           #=> Test W2tags using Sinatra http://localhost:4567/
-9. w2tags -irb           #=> Start IRB with WH as instance object of W2Tags
-10. w2tags -rails        #=> Copy w2scaffold Rails and set environment.rb
-11.w2tags -tags2w        #=> Parsing erb to w2tags
+1. w2tags -a                #=> translate all file with ext: w2erb
+2. w2tags *.w2erb -a        #=> translate all file with ext: w2erb
+3. w2tags fl.w2erb          #=> translate a file
+4. w2tags fl.w2erb -b       #=> translate a file with no initialize/finalize
+5. w2tags fl.w2erb -d:parse #=> translate with debug parser
+6. w2tags fl.w2erb -d:const #=> translate with debug constanta
+7. w2tags fl.w2erb -d:stack #=> translate with debug stack indentation
+8. w2tags -try              #=> Test W2tags using Sinatra http://localhost:4567/
+9. w2tags -irb              #=> Start IRB with   W2 as instance object of W2Tags
+10.w2tags -rails            #=> Copy w2scaffold Rails and set environment.rb
+11.w2tags -tags2w           #=> Parsing erb to w2tags
 
 Enjoy... 
 END
@@ -57,18 +57,18 @@ end
 arg = ARGV 
 if arg.size>0
   arg = ['w2erb'] + arg if arg.size==1 && arg[0]=='-a'
-  puts 'ARGV  : '+arg.join(" ")
+  puts 'ARGV : '+arg.join(" ")
   puts arg[1]
   
-  WH = W2Tags::Parser.new
+    W2 = W2Tags::Parser.new
 
   x = arg.select {|s|s[0,3]=='-d:'}
-  #WH.dbg[:stack] = (x.size==0)  
+  #  W2.dbg[:stack] = (x.size==0)  
   x.each do |s|
-    WH.dbg[:parse]     = true if s=='-d:parser'
-    WH.dbg[:stack]     = true if s=='-d:stack'
-    WH.dbg[:constanta] = true if s=='-d:constanta'
-    WH.dbg[:show_hot]  = true if s=='-d:show_hot'
+      W2.dbg[:parse]    = true if s=='-d:parse'
+      W2.dbg[:stack]    = true if s=='-d:stack'
+      W2.dbg[:const]    = true if s=='-d:const'
+      W2.dbg[:show_hot] = true if s=='-d:show_hot'
   end
   
   if arg[0]=='-try'
@@ -79,17 +79,29 @@ if arg.size>0
     ARGV.shift
     
     class Object
-      def wh(str)
-        puts WH.parse_line(str)
+      def w2(str)
+        rtn =   W2.parse_line(str)
+        puts rtn
       end
     end
 
     require 'irb'
-    puts "Your W2Tags instance object stored in WH..."
-    puts 'Ex: puts WH.parse_line "#content\\n  %span Hello"'
-    puts 'Shortcut wh() => puts WH.parse_line()'
-    puts ''
-    
+
+    puts <<EOF
+Your W2Tags instance object stored in   W2
+Ex: puts   W2.parse_line "#content\\n  %span.say Hello"
+Shortcut w2, example:
+1.9.3p125 :001 > w2 <<EOF
+1.9.3p125 :002 > #content
+1.9.3p125 :003 >   %span.say Hello
+1.9.3p125 :004 > EOF
+=>/Users/wharsojo/.rvm/gems/ruby-1.9.3-p125@gems/gems/w2tags-0.9.68/hot/erb.hot
+<div id="content">
+  <span class="say">Hello</span>
+</div>
+=> nil 
+EOF
+
     IRB.start      
   elsif arg[0]=='-rails'
     if !File.exist?('vendor/plugins')
@@ -169,10 +181,10 @@ END
     when '-a' ;
        fls = Dir["./**/views/**/#{arg[0]}"]
        fls = Dir["./**/#{arg[0]}"] if fls==[]
-       #WH.parse_files(Dir["*.#{arg[0]}*"]) 
-       WH.parse_files(fls) 
-    when '-b' ;WH.parse_files(arg[0].split(','),false)
-    else      ;WH.parse_files(arg[0].split(','))
+       #  W2.parse_files(Dir["*.#{arg[0]}*"]) 
+         W2.parse_files(fls) 
+    when '-b' ;  W2.parse_files(arg[0].split(','),false)
+    else      ;  W2.parse_files(arg[0].split(','))
     end
   end
 else

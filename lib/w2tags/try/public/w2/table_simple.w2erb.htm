@@ -1,0 +1,9 @@
+%table
+  %tr
+    ^ Id;Name;Address;Phone
+ -each @recs;r
+  %tr
+    ^= r[:id];\
+       r[:name];\
+       r[:address];\
+       r[:phone]

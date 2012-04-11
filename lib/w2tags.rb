@@ -68,8 +68,12 @@ module W2Tags
   #   <div>Hello Tags</div>
   #  </body>
   def self.read_filehot(fhot)
+    parsing_hot(IO.read(fhot).delete("\r"))
+  end
+  
+  def self.parsing_hot(src)
     hot_new = {} 
-    hot = ("\n"+IO.read(fhot)).delete("\r").split(/\n\>\>/)
+    hot = ("\n"+src).split(/\n\>\>/)
     hot.shift
     hot.each do |item|
       item.gsub!(/\n([ \t]*)$/,'') #remove blank lines
@@ -95,6 +99,6 @@ module W2Tags
       hot_new[keys] = hot
     end
     hot_new
-  end  
+end  
 end
 require 'w2tags/parser'
