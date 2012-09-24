@@ -1,6 +1,6 @@
 module ActionView
-  if	Object::RAILS_ENV != "development"  
-    puts 'W2Tags Only RUN on (RAILS_ENV == "development")'
+  if	Object::Rails.env != "development"  
+    puts 'W2Tags Only RUN on (Rails.env == "development")'
   else
     puts 'W2Tags Hooked on Rails 3.x !'
     class PathResolver

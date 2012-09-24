@@ -102,3 +102,23 @@ module W2Tags
 end  
 end
 require 'w2tags/parser'
+
+if Object.const_defined?(:Rails) && 
+  Rails.version.match(/^3/) && 
+  Rails.env == "development" 
+  puts 'W2Tags Hooked on Rails 3.x !'
+
+  module ActionView
+    class PathResolver
+      alias :w2query :query
+      W2TAGS = W2Tags::Parser.new('rails')
+
+      def query(path, details, formats)
+        tpl = "app/views/#{path}.#{formats[0]}.w2erb"
+        W2TAGS.parse_file(tpl, true, true)
+        w2query(path, details, formats)
+      end
+    end
+  end
+  
+end
