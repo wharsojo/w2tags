@@ -929,7 +929,10 @@ module W2Tags
     #   ^ inside td
     #I think its Ok.
     def parse_get_mem
-      if(/([\^*])([^ ]*) *([^\n]*)(\n)/ =~ @row;@rgx = $~)
+      if(/^ *([\^*])([^ ]*) *([^\n]*)(\n)/ =~ @row;@rgx = $~)
+        # BUG!!!  %td{align="right"}=  row[:price] * wowow => %td{align="right"}=  row[:price] * wowow
+        # from  /([\^*])([^ ]*) *([^\n]*)(\n)/ 
+        # to /^ *([\^*])([^ ]*) *([^\n]*)(\n)/
         keys,tmp,prms,opt,ends= @rgx.captures
         if opt=='!'
           opt=''
